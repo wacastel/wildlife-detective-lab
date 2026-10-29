@@ -101,10 +101,30 @@ timeout. At most two inference requests per instance enter the model path;
 additional simultaneous inference requests receive a retry message. Each
 model retains its existing lock. These conservative settings need observation
 with the intended class size; they are not a performance guarantee or a hard
-billing cap. Create a project budget and alerts in Cloud Billing if desired.
+billing cap. A $20 monthly alerts-only budget, named **Wildlife Detective Lab
+monthly alerts**, now covers all services in `wildlife-lab-wc246`. It emails the
+billing account's administrators and users at $10, $16, and $20 of actual spend,
+and when the monthly forecast exceeds $20. This account currently has one billing
+administrator. The budget includes all credits and applies only to this project.
+It does not stop services or cap charges; billing data and alerts can be delayed.
 Request-based CPU allocation and zero minimum instances let the service scale
 down between visits, while image storage/builds/network traffic can still cost
 money. The first real model request after a cold start can take longer.
+
+Prices checked October 29, 2026: the current 2-vCPU/4-GiB service costs about
+$0.209 per active instance-hour before free allowances. Ten aggregate active
+instance-hours cost about $2.09, and 100 cost about $20.88, plus network delivery,
+requests, storage, and builds. Two active instances for one hour count as two
+instance-hours. If unused by other projects on the same billing account, the
+Cloud Run monthly CPU and memory free allowances cover about 25 instance-hours
+at this size. Startup CPU boost can add billable CPU beyond this simple estimate.
+
+For occasional classroom use, plan roughly $1–$5/month assuming fewer than 20
+active instance-hours and roughly 10 GiB or less delivered to students in North
+America. This is a planning estimate, not a spending guarantee. Internet delivery
+currently costs $0.12/GiB after the first 1 GiB free allowance. Current image
+storage is about $0.04–$0.09/month; the source archive is under $0.01/month before
+free allowances. New images and repeated builds can add to those costs.
 
 Use `recorded` instead of `live` for lessons and genuine saved experiments
 without new server-side inference. That profile omits model weights and CPU
@@ -118,4 +138,8 @@ until repaired. Inspect Cloud Run logs and metrics during the first class.
 Official references: [container runtime contract](https://docs.cloud.google.com/run/docs/container-contract),
 [Cloud Build service account](https://docs.cloud.google.com/build/docs/securing-builds/configure-user-specified-service-accounts),
 [public access](https://docs.cloud.google.com/run/docs/authenticating/public),
-[Cloud Run pricing](https://cloud.google.com/run/pricing).
+[Cloud Run pricing](https://cloud.google.com/run/pricing),
+[Artifact Registry pricing](https://cloud.google.com/artifact-registry/pricing),
+[Cloud Storage pricing](https://cloud.google.com/storage/pricing),
+[network pricing](https://cloud.google.com/vpc/network-pricing),
+[budget alerts](https://docs.cloud.google.com/billing/docs/how-to/budgets).
