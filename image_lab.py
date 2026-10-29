@@ -41,8 +41,11 @@ def clean_params(values: dict | None = None) -> dict:
 
 def load_photo(path_or_file) -> Image.Image:
     with Image.open(path_or_file) as im:
-        if im.format not in {"JPEG", "PNG", "WEBP"}:
+        if im.format not in {"JPEG", "MPO", "PNG", "WEBP"}:
             raise ValueError("Please choose a JPEG, PNG, or WebP photo")
+        # Some phone JPEGs include auxiliary frames and are identified as MPO.
+        # Analyze the primary photograph, with its normal EXIF orientation.
+        im.seek(0)
         im = ImageOps.exif_transpose(im).convert("RGB")
         im.thumbnail((1280, 1280), Image.Resampling.LANCZOS)
         return im.copy()

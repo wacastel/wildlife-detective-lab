@@ -1,5 +1,21 @@
 # Validation performed — expanded two-model edition
 
+## Phone JPEG uploads — October 29, 2026
+
+- Reproduced rejection of a valid iPhone JPEG that Pillow identifies as MPO
+  because it contains an auxiliary image. The rejection happened before
+  detector inference. The loader now accepts its primary photo and applies
+  EXIF orientation before the existing image processing.
+- Added generated-image regression tests for primary-frame selection, EXIF
+  orientation, ordinary JPEG/PNG/WebP decoding, and unsupported-format rejection.
+  Run them with `.venv/bin/python -m unittest discover -s tests -v`.
+- Browser-tested the original phone JPEG through live detection and a fresh
+  SpeciesNet crop classification. User uploads remain outside the repository.
+- Completed a full rebuild with the existing environment and models. All 129
+  saved input hashes, 137 crop hashes, detector boxes/scores, and genuine crop
+  classifications remained identical; generation timing/runtime metadata was
+  refreshed.
+
 ## Current three-category edition — macOS, October 29, 2026
 
 Used the existing Python 3.13.7 `.venv`, ONNX Runtime 1.31.1, and CPU
