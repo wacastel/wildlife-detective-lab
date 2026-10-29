@@ -12,11 +12,9 @@ import warnings
 
 from PIL import Image
 
-from image_lab import encode_input, load_photo
+from image_lab import MAX_PHOTO_BYTES, MAX_PHOTO_PIXELS, encode_input, load_photo
 
 PHOTO_DIR = Path(__file__).resolve().parent / "user_photos"
-MAX_PHOTO_BYTES = 8 * 1024 * 1024
-MAX_PHOTO_PIXELS = 24_000_000
 PHOTO_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp", ".mpo"}
 PHOTO_ID = re.compile(r"local_[0-9a-f]{64}\Z")
 
@@ -28,7 +26,7 @@ class PhotoError(ValueError):
 def decode_photo(raw: bytes) -> Image.Image:
     """Validate limits before decoding/resizing an allowed primary photograph."""
     if len(raw) > MAX_PHOTO_BYTES:
-        raise PhotoError("This photo is larger than 8 MiB. Export a smaller copy.")
+        raise PhotoError("This photo is larger than 20 MiB. Export a smaller copy.")
     try:
         with warnings.catch_warnings():
             warnings.simplefilter("ignore", Image.DecompressionBombWarning)
@@ -36,10 +34,10 @@ def decode_photo(raw: bytes) -> Image.Image:
                 if image.format not in {"JPEG", "MPO", "PNG", "WEBP"}:
                     raise PhotoError("Please choose a JPEG, PNG, or WebP photo.")
                 if image.width * image.height > MAX_PHOTO_PIXELS:
-                    raise PhotoError("This photo is larger than 24 megapixels. Export a smaller copy.")
+                    raise PhotoError("This photo is larger than 100 megapixels. Export a smaller copy.")
             return load_photo(io.BytesIO(raw))
     except Image.DecompressionBombError as exc:
-        raise PhotoError("This photo is larger than 24 megapixels. Export a smaller copy.") from exc
+        raise PhotoError("This photo is larger than 100 megapixels. Export a smaller copy.") from exc
     except PhotoError:
         raise
     except (OSError, SyntaxError, ValueError, TypeError) as exc:
@@ -69,10 +67,10 @@ def _read_file(folder: Path, filename: str, folder_fd: int | None) -> bytes:
             if not stat.S_ISREG(info.st_mode):
                 raise PhotoError("Only regular photo files are supported.")
             if info.st_size > MAX_PHOTO_BYTES:
-                raise PhotoError("This photo is larger than 8 MiB. Export a smaller copy.")
+                raise PhotoError("This photo is larger than 20 MiB. Export a smaller copy.")
             raw = stream.read(MAX_PHOTO_BYTES + 1)
         if len(raw) > MAX_PHOTO_BYTES:
-            raise PhotoError("This photo is larger than 8 MiB. Export a smaller copy.")
+            raise PhotoError("This photo is larger than 20 MiB. Export a smaller copy.")
         return raw
     except OSError as exc:
         raise PhotoError("This photo could not be opened. Check that it is a readable file in this folder.") from exc

@@ -17,11 +17,13 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import webbrowser
 from urllib.parse import urlsplit
 
+from image_lab import MAX_UPLOAD_BODY_BYTES
+
 ROOT = Path(__file__).resolve().parent
 MODEL_PATH = ROOT / "models" / "megadetector_v6.onnx"
 _detector = None
 _lock = threading.Lock()
-MAX_BODY = 12_000_000
+MAX_BODY = MAX_UPLOAD_BODY_BYTES
 SAVED_IMAGE_ID = re.compile(r"([0-9a-f]{64})\.jpg\Z")
 
 
@@ -238,7 +240,7 @@ class Handler(BaseHTTPRequestHandler):
         try:
             length = int(self.headers.get("Content-Length", "0"))
             if not 0 < length <= MAX_BODY:
-                raise ValueError("Choose a photo under 8 MB")
+                raise ValueError("Choose a photo up to 20 MiB")
             payload = json.loads(self.rfile.read(length))
             if not isinstance(payload, dict):
                 raise ValueError("Expected an object")

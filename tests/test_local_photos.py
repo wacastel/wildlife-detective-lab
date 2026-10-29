@@ -79,15 +79,25 @@ class LocalPhotoTests(unittest.TestCase):
         (self.folder / "broken.jpg").write_bytes(b"not an image")
         with (self.folder / "too-large.jpg").open("wb") as stream:
             stream.truncate(local_photos.MAX_PHOTO_BYTES + 1)
-        Image.new("1", (6001, 4000)).save(self.folder / "too-many-pixels.png")
         Image.new("RGB", (12, 8)).save(self.folder / "unsupported.gif")
         result = local_photos.catalog(self.folder)
         self.assertEqual(len(result["photos"]), 1)
         skipped = {entry["filename"]: entry["reason"] for entry in result["skipped"]}
         self.assertIn("could not be read", skipped["broken.jpg"])
-        self.assertIn("8 MiB", skipped["too-large.jpg"])
-        self.assertIn("24 megapixels", skipped["too-many-pixels.png"])
+        self.assertIn("20 MiB", skipped["too-large.jpg"])
         self.assertIn("Unsupported file type", skipped["unsupported.gif"])
+
+    def test_oversized_dimensions_are_reported_without_decoding_pixels(self):
+        self.write_photo()
+        header = mock.MagicMock()
+        header.__enter__.return_value = header
+        header.format = "JPEG"
+        header.width, header.height = 10001, 10000
+        with mock.patch("local_photos.Image.open", return_value=header):
+            result = local_photos.catalog(self.folder)
+        self.assertEqual(result["photos"], [])
+        self.assertIn("100 megapixels", result["skipped"][0]["reason"])
+        header.load.assert_not_called()
 
     def test_symlinks_and_path_ids_cannot_escape_the_photo_folder(self):
         outside = Path(self.temp.name) / "outside.jpg"

@@ -171,7 +171,7 @@ class CloudHandler(app.Handler):
                 raise ValueError("Expected one photo request length.")
             length = int(lengths[0])
             if not 0 < length <= app.MAX_BODY:
-                raise ValueError("Choose a photo under 8 MiB.")
+                raise ValueError("Choose a photo up to 20 MiB.")
             payload = json.loads(self.rfile.read(length))
             if not isinstance(payload, dict):
                 raise ValueError("Expected a photo request object.")
@@ -191,7 +191,7 @@ class CloudHandler(app.Handler):
                     raw = base64.b64decode(text.split(",", 1)[1], validate=True)
                 except (ValueError, IndexError) as exc:
                     raise ValueError("Invalid crop image data.") from exc
-                decode_photo(raw)  # Validate format/8 MiB/24 MP before worker decode.
+                decode_photo(raw)  # Validate the upload before worker decode.
                 if not cloud_status()["species_available"]:
                     return self.respond(503, {"error": "The classifier is unavailable; saved classifications remain available."})
                 result = classify_crop(text)
