@@ -23,12 +23,32 @@ from species_bridge import classify_crop, species_status
 ROOT = Path(__file__).resolve().parent
 
 
-def render_bundle(bundle):
+def load_template():
+    """Inline editable lesson sources so the exported activity stays offline."""
     template = (ROOT / "ui_template.html").read_text()
+    for marker, filename in {
+        "__LESSON_HTML__": "lesson_content.html",
+        "__LESSON_CSS__": "lesson_styles.css",
+        "__LESSON_JS__": "lesson_interactions.js",
+        "__LAB_JS__": "lab_interactions.js",
+        "__TABS_CSS__": "app_tabs.css",
+    }.items():
+        if template.count(marker) != 1:
+            raise RuntimeError(f"UI must contain exactly one {marker} placeholder")
+        template = template.replace(marker, (ROOT / filename).read_text())
+    return template
+
+
+def render_html(bundle):
+    template = load_template()
     encoded = json.dumps(bundle, ensure_ascii=True).replace("<", "\\u003c").replace(">", "\\u003e").replace("&", "\\u0026")
     if template.count("__BUNDLE_JSON__") != 1:
         raise RuntimeError("UI must contain exactly one bundle placeholder")
-    (ROOT/"offline_demo.html").write_text(template.replace("__BUNDLE_JSON__", encoded))
+    return template.replace("__BUNDLE_JSON__", encoded)
+
+
+def render_bundle(bundle):
+    (ROOT/"offline_demo.html").write_text(render_html(bundle))
 
 
 def render_only():

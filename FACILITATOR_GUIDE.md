@@ -1,25 +1,54 @@
 # Wildlife AI: can we fool the animal finder?
 
-**A 15–20 minute hands-on, two-model activity within a one-hour conversation.** Children predict what will happen, change one feature of a photograph, and inspect actual detector results. The goal is to investigate, not to make the AI win or lose.
+**A 15–20 minute hands-on, two-model activity within a one-hour conversation.** Children learn how weights change, predict what will happen to an image, and inspect actual detector and classifier results. The goal is to investigate, not to make the AI win or lose.
+
+## Use the three tabs
+
+1. **How computer vision works** opens first. Let children change pixels, move
+   a small filter, and train the toy neuron for one or twenty steps. The plots
+   calculate that tiny example's actual arithmetic. They are explicitly
+   teaching simulations, not MegaDetector or SpeciesNet outputs. Expand the
+   Python examples when useful for the audience; no custom wildlife model is
+   trained by the app.
+2. **Detective lab** begins with basic usage: choose a photo, inspect
+   MegaDetector's boxes, and identify an accepted animal crop with SpeciesNet.
+   Live lab is open below that workflow. The source-image quality experiments
+   come farther down, after children understand the two models' separate jobs.
+3. **Cory's team questions** follows the actual questions in the forwarded team
+   email. Open an answer, then use its investigation button to load the related
+   saved photo in the mini lab on the same tab. Change conditions and cutoffs,
+   inspect crops, and reveal genuine recorded classifications. The underwater
+   light calculation illustrates optics; it is not underwater model evidence.
 
 ## Before the visit
 
-- Open the demo and try its clear, darker, blurry, and low-resolution examples. Test with Wi-Fi switched off. Install any live-inference dependencies in advance; the recorded-results option should work without downloads.
-- Use the bundled images and keep their credits. A species that lives in northern Illinois may be illustrated by a photograph taken elsewhere. Do not describe sample photographs or their predictions as an Illinois research study.
+- Open all three tabs and try a basic crop identification, a quality experiment, and a question-linked investigation. Test with Wi-Fi switched off. Prepare any live-inference dependencies in advance; the recorded-results option works without downloads.
+- Use the bundled images and keep their credits. The 32-source collection includes 15 additional licensed camera-trap scenes: three each for deer, raccoons, coyotes, people, and vehicles. No added capture was verified as an Illinois photo. ENA24 wildlife sites are unspecified within Eastern North America; people scenes are from Seattle and vehicle scenes from the Southwestern United States. See `assets/CAMERA_TRAP_SOURCES.md` rather than guessing locations.
 - Keep recorded results paired with their exact input image and settings. Recorded genuine model output is useful evidence, but selecting it does not run a new prediction. Arbitrary edits require live inference; never reuse unrelated saved boxes.
 - Have paper available. Children can draw their own animal boxes before seeing the model's boxes.
+
+For personal examples, copy JPEG (`.jpg`/`.jpeg`), PNG, or WebP files directly
+into `user_photos/` and run `.venv/bin/python app.py`. Each file may be up to
+8 MiB and 24 megapixels; phone JPEGs with auxiliary MPO frames are supported.
+The local app adds them to the photo chooser, checking every 15 seconds while
+the Detective lab tab is visible and when the browser regains focus. Use
+**Refresh photos** for an immediate update without restarting. Selecting a
+local file shows an **unanalyzed preview**; click **Run detector on this
+photo**, then identify a real animal crop. These files are ignored by Git and
+excluded from the saved-results download. The standalone HTML cannot read the
+folder on its own.
 
 ## Run the experiment
 
 | Time | Action and question |
 |---|---|
-| 0–2 minutes | Show a source photo with boxes hidden. “Where is the animal? Draw a box. What kind is it?” Finding a location and naming a species are different tasks. |
-| 2–4 minutes | Reveal MegaDetector's real boxes and broad animal category. Check location and box extent, not just score. |
-| 4–8 minutes | Compare a clear source with a real night/hidden source, then change darkness, blur, or resolution on the same photo. Predict before revealing. |
-| 8–11 minutes | Adjust Minimum detection score. “At 0.30, which suggestions are hidden?” Try the empty control at 0.05; clarify false alarms versus missed animals. |
-| 11–15 minutes | Select an actual accepted animal crop and click Identify this crop. Read SpeciesNet's top labels and taxonomic rank; compare with the separate human label. Explain the two scores have different jobs. |
-| 15–18 minutes | Try original raccoon / Out of focus: detector animal score rises, while SpeciesNet's top label is blank. Try original coyote / Out of focus: a genus label is not a species identification. |
-| 18–20 minutes | Design a better test or camera setup: clearer view, representative training, different sensor, or independent validation. Ask how to know a change helped. |
+| 0–3 minutes | In How computer vision works, move the pixel filter and train the toy neuron. Ask which numbers changed and distinguish this tiny calculation from wildlife-model training. |
+| 3–5 minutes | Open Detective lab and hide the basic source photo's boxes. “Where is the animal? Draw a box. What kind is it?” Finding a location and naming a species are different tasks. |
+| 5–7 minutes | Reveal MegaDetector's genuine saved boxes, or explicitly run the local detector. Check the broad category, location, and box extent. |
+| 7–10 minutes | Select an accepted animal crop and click Identify this crop. Read SpeciesNet's labels and taxonomic rank; compare with the separate human label. Explain the two scores have different jobs. |
+| 10–14 minutes | Move down to the quality experiments. Compare a real night/hidden source, then change darkness, blur, or resolution on one photo. Predict before revealing; do not promise scores will decrease. |
+| 14–17 minutes | Adjust Minimum detection score. “At 0.30, which suggestions are hidden?” Try the empty control at 0.05; distinguish false alarms from missed animals. |
+| 17–20 minutes | Open Cory's team questions, load a related genuine example, and design a better camera setup or independent test. Ask what evidence would show that a change helped. |
 
 **Add a camera-trap visitor comparison.** Pick a human or vehicle source photo
 and hide the boxes. Ask which of MegaDetector's three categories should appear:
@@ -33,7 +62,13 @@ stage. A correctly detected visitor therefore does not need a species result.
 
 ## SpeciesNet and the cutoff
 
-The expanded page explains each model and contains all question answers at the bottom. **Minimum detection score** hides candidates below that number; it does not crop the photograph. Only accepted animal boxes are offered as crops. The SpeciesNet v4.0.3a classifier returns real labels, including higher taxa and blank; it does not force every crop into the three source species. Its score and the detector score are separate.
+The first tab explains model building, training, and inference; the third tab
+contains the team's answers and related investigations. **Minimum detection
+score** hides candidates below that number; it does not crop the photograph.
+Only accepted animal boxes are offered as crops. The SpeciesNet v4.0.3a
+classifier returns real labels, including higher taxa and blank; it does not
+force every crop into the three source species. Its score and the detector
+score are separate.
 
 **Explain the species list accurately.** Say: “A classifier chooses from the
 labels it learned during training. Our downloaded SpeciesNet already has a
@@ -50,13 +85,19 @@ researchers train the output layer for their chosen classes and may fine-tune
 more layers. Reserve separate camera sites for validation and a final test.
 Ask what a three-species classifier might say about a fox: a confident known
 label could be wrong. Keep human review and evaluate unfamiliar animals.
-The app's new expandable explanations and SPECIESNET_NOTES.md link Google's
+The app's expandable explanations and SPECIESNET_NOTES.md link Google's
 recommended DIY fine-tuning tutorial. This lab runs inference and does not
 train on the teaching photos.
 
 A useful cutoff is selected on independently labeled validation data using a stated precision/recall or mistake-cost goal, then checked on an untouched test set. The default 0.30 is a demo setting. See HOW_IT_WORKS_AND_QUESTIONS.md and README.md for the full method and optional evaluator.
 
-## Answers to the children's questions
+## Answers to Cory's team's questions
+
+The app presents these topics on its third tab with investigation buttons.
+Use the mini lab to inspect genuine saved examples where the question concerns
+visible image clues or model errors. Keep heat, infrared sensors, and underwater
+optics distinct from RGB image edits; an illustrative calculation cannot
+validate a sensor or a model on those image types.
 
 **What is AI, and how does it differ from ordinary programming?** AI is software designed to perform tasks such as recognizing patterns, making predictions, or generating material. A conventional instruction might say “multiply every pixel's brightness by this number.” A learned detector instead uses parameters adjusted from many labeled examples to find useful patterns. Programmers still write the training and inference software. Rule-based AI also exists; not every AI learns in the same way. Machine learning is one approach to AI, deep learning is one kind of machine learning, and this image detector is a computer-vision model. It is doing a recognition task, rather than generating a story like a chatbot.
 
@@ -94,9 +135,9 @@ Ask: **“If our camera missed more animals in thick grass than on an open path,
 
 | Minutes | Focus |
 |---|---|
-| 0–10 | Ask what children already think AI is; compare an exact programmed instruction with learning from examples. |
-| 10–30 | Run the two-model hands-on experiment above. |
-| 30–40 | Children choose camera or habitat challenges; use the question answers as conversation prompts. |
+| 0–10 | Use the first tab to ask what children think AI is, compare pixel arithmetic with learned weights, and inspect the training demonstration. |
+| 10–30 | Run the second tab's basic two-model workflow, then its quality experiments. |
+| 30–40 | Open Cory's team questions and let children choose linked camera or habitat investigations. |
 | 40–50 | Connect detection, species identification, human review, and a real conservation question. |
 | 50–60 | Let children design a fair test or sketch a better wildlife-camera setup; finish with their remaining questions. |
 

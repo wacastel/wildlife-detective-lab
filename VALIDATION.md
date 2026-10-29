@@ -1,5 +1,48 @@
 # Validation performed — expanded two-model edition
 
+## Three-tab learning edition — October 29, 2026
+
+- Added a default computer vision lesson tab, a detective lab tab ordered as
+  basic usage, expanded live uploads, then quality experiments, and a question
+  tab based on the actual questions in Cory's forwarded team email. Personal
+  email headers, addresses, and correspondence are not bundled.
+- The lesson's editable pixel filter and sigmoid-neuron training calculate
+  their displayed responses, gradients, parameter updates, and loss curves.
+  Browser checks changed a filter response from 576 to 544 and reduced the
+  toy training loss from 0.6931 to 0.4401 after 20 updates. Neither interactive
+  trains the wildlife models. The complete Python classifier example ran all
+  ten epochs on generated temporary fixtures; both Python examples compile.
+- Added 15 genuine, visually inspected camera-trap sources under the retained
+  CDLA-Permissive-1.0 license: three each for deer, raccoons, coyotes, people,
+  and vehicles. Source URLs, original and prepared hashes, camera context,
+  credits, preparation, and known source regions are preserved. No added
+  image is claimed as an Illinois capture. See assets/CAMERA_TRAP_SOURCES.md.
+- Rebuilt 249 detector inputs from 32 sources and 223 classified crop
+  references (212 unique crop hashes) with the existing environment and local
+  models. Verified exact source, input, crop, and classifier-input hashes.
+  The 17 previous source images and all 129 previous saved input hashes,
+  detector outputs, and crop hashes stayed unchanged.
+- Browser checks covered tab selection and arrow-key navigation, pixel/filter
+  editing, toy training, inference-stage explanations, the mixed person/dog
+  camera-trap example, saved species reveal, independent quality experiments,
+  question-linked genuine model errors, and the illustrative underwater light
+  calculation. All three tabs fit a 390-pixel viewport without horizontal
+  overflow. No duplicate IDs or browser errors were observed.
+- The user_photos catalog shows local files without inference. A temporary
+  included-photo copy was selected, detected, and classified through the
+  actual local models, then removed. Its previous live source image remained
+  paired with the result using a metadata-free snapshot. The original phone
+  JPEG from the upload report also passed detection and fresh classification.
+- Automated tests cover upload formats, primary-frame orientation, limits,
+  folder changes, ignored symlinks, cross-origin boundaries, exact source/input
+  hashes, local source snapshots, local Host validation, and safe saved-image
+  serving. Local HTML
+  loads verified images as needed; the standalone export embeds its images and
+  all lesson scripts/styles. No new packages or model downloads were required.
+- The standalone export was verified by exact embedding, script, and hash
+  checks. Interactive browser checks used the local app; direct opening of the
+  exported file in Safari was not verified in this run.
+
 ## Phone JPEG uploads — October 29, 2026
 
 - Reproduced rejection of a valid iPhone JPEG that Pillow identifies as MPO
@@ -16,7 +59,7 @@
   classifications remained identical; generation timing/runtime metadata was
   refreshed.
 
-## Current three-category edition — macOS, October 29, 2026
+## Earlier three-category edition — macOS, October 29, 2026
 
 Used the existing Python 3.13.7 `.venv`, ONNX Runtime 1.31.1, and CPU
 PyTorch 2.15.0 on the development Mac. No environment was recreated and

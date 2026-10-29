@@ -1,0 +1,189 @@
+<div class="vision-lesson">
+ <section class="vision-hero" aria-labelledby="visionTitle">
+  <div><div class="eyebrow">Start with the idea, then open the lab</div><h2 id="visionTitle">How can a computer find an animal?</h2><p>A photograph becomes numbers. A model combines those numbers using patterns learned from checked examples. Its answer is a prediction for a person to inspect.</p><p class="vision-note">The small interactives here calculate teaching examples in your browser. They do not train or run MegaDetector or SpeciesNet. The Detective Lab tab shows the genuine model results.</p></div>
+  <div class="vision-hero-art" aria-label="Illustration: pixels lead to learned patterns, a box, and a checked animal label"><span class="vision-pixel-icon" aria-hidden="true">▦</span><span aria-hidden="true">→</span><span class="vision-network-icon" aria-hidden="true">●<br>● ●<br>●</span><span aria-hidden="true">→</span><span class="vision-box-icon">animal?</span><small>Numbers → learned patterns → a prediction</small></div>
+ </section>
+
+ <section class="vision-section" aria-labelledby="visionTasksTitle">
+  <div class="eyebrow">01 · Decide what the model should do</div><h3 id="visionTasksTitle">Finding and naming need different training examples.</h3>
+  <div class="vision-three">
+   <article class="vision-card"><div class="vision-task-art vision-detection-art" aria-hidden="true"><span>animal</span><i></i></div><h4>Detection: where is it?</h4><p>A person draws a rectangle around each animal, person, or vehicle and checks its category. A detector learns <strong>locations and broad categories</strong>. One image can have several objects, or none.</p><p>Our detector is the pinned MegaDetector V6 YOLOv10 compact model. Its animal box does not identify a deer, raccoon, coyote, or dog.</p></article>
+   <article class="vision-card"><div class="vision-task-art vision-classification-art" aria-hidden="true"><span>animal crop</span><b>?</b></div><h4>Classification: what might it be?</h4><p>A person checks the label for each animal crop. A classifier learns which visual patterns go with those labels. The crop may contain too little evidence to distinguish species.</p><p>The bundled SpeciesNet crop classifier scores its <strong>fixed 2,498-label vocabulary</strong>, including broader taxa and non-animal labels. This lab applies no species shortlist or geographic filter.</p></article>
+   <article class="vision-card"><div class="vision-task-art vision-data-art" aria-hidden="true"><span>train</span><span>validate</span><span>test</span></div><h4>Good evidence comes first.</h4><p>Use licensed photographs with checked labels, varied species, sites, seasons, poses, and day/night conditions. Include empty scenes and difficult examples.</p><p>Split by independent encounters and camera sites <strong>before training</strong>. Neighboring frames from the same visit should stay together. Otherwise a familiar background can make testing look easier than a new field site.</p></article>
+  </div>
+  <p class="vision-reference">Model task references: <a href="https://github.com/microsoft/MegaDetector" target="_blank" rel="noopener noreferrer">MegaDetector project</a> · <a href="https://github.com/google/cameratrapai" target="_blank" rel="noopener noreferrer">Google SpeciesNet project</a></p>
+ </section>
+
+ <section class="vision-section" aria-labelledby="visionPixelsTitle">
+  <div class="eyebrow">02 · Turn a photograph into numbers</div><h3 id="visionPixelsTitle">A tiny moving window can respond to an edge.</h3>
+  <p>A color image usually has red, green, and blue values at every pixel. A convolution combines a small neighborhood with weights, adds a bias, and repeats the same operation across the image. Stacking learned operations lets later layers combine information from larger regions.</p>
+  <div class="vision-interactive-label">Interactive arithmetic · hand-chosen filter, not an animal detector</div>
+  <div class="vision-filter-layout">
+   <div><h4>1. Change the pixels</h4><p class="vision-small">Click or keyboard-activate a square to cycle its brightness. The outline marks the 3 × 3 window.</p><div id="visionPixelGrid" class="vision-pixel-grid" role="group" aria-label="Editable 7 by 7 grayscale pixel example"></div><button type="button" id="visionPixelReset">Reset the edge</button></div>
+   <div class="vision-filter-controls"><h4>2. Move a filter across them</h4><label for="visionKernel">Filter weights</label><select id="visionKernel"><option value="vertical">Vertical change</option><option value="horizontal">Horizontal change</option><option value="average">Local average</option></select><div id="visionKernelGrid" class="vision-kernel-grid" aria-label="The selected 3 by 3 filter weights"></div><label for="visionWindowRow">Window center row <output id="visionWindowRowValue">4</output></label><input id="visionWindowRow" type="range" min="2" max="6" step="1" value="4"><label for="visionWindowCol">Window center column <output id="visionWindowColValue">4</output></label><input id="visionWindowCol" type="range" min="2" max="6" step="1" value="4"></div>
+   <div><h4>3. Read the calculated response</h4><p class="vision-small">Multiply each pixel by its matching weight, then add the nine products. No bias is used in this example.</p><output id="visionFilterValue" class="vision-big-number" aria-live="polite">0</output><p id="visionFilterMeaning" class="vision-small"></p><div id="visionResponseGrid" class="vision-response-grid" role="img" aria-label="Calculated 5 by 5 filter response map"></div><p class="vision-small">The map calculates every valid window. The outlined square is the selected response. Negative values and positive values are different directions of change.</p></div>
+  </div>
+  <details class="vision-detail"><summary>How is this related to a real neural network?</summary><p>Here we choose a simple edge or averaging filter ourselves. In a trained convolutional network, many weights are adjusted from examples. A filter can combine several input channels, and its response can feed activations such as ReLU. Real features are distributed across many channels and layers; they are not a tidy list of rules such as “this neuron means ear.” Modern detectors combine feature maps at different scales and use additional prediction layers.</p><p>Resizing, normalization, channel order, and padding must match the trained model. This lab letterboxes MegaDetector inputs to 640 × 640. It separately prepares SpeciesNet crops for its pinned 480 × 480 input process. These are two different models with two different preprocessing contracts.</p></details>
+ </section>
+
+ <section class="vision-section" aria-labelledby="visionPythonTitle">
+  <div class="eyebrow">03 · Write the model in Python</div><h3 id="visionPythonTitle">The code builds a machine with adjustable numbers.</h3>
+  <p>A Python class defines the <strong>architecture</strong>: which operations happen and how data moves between them. Parameters such as convolution weights begin with initialized values. Writing the class creates the structure; it does not make those values good at recognizing wildlife.</p>
+  <div class="vision-architecture" aria-label="Illustrative classifier architecture"><div><strong>RGB crop</strong><span>3 × 96 × 96</span></div><b aria-hidden="true">→</b><div><strong>Convolution + ReLU</strong><span>learn local combinations</span></div><b aria-hidden="true">→</b><div><strong>More layers + pooling</strong><span>combine information</span></div><b aria-hidden="true">→</b><div><strong>Class scores</strong><span>one logit per class</span></div></div>
+  <p class="vision-note">The small CNN below is an original, runnable <strong>teaching classifier</strong> for a prepared image collection. It is not MegaDetector or SpeciesNet, and it predicts one label for an image rather than drawing animal boxes. No custom wildlife model has been trained by this app.</p>
+  <details class="vision-detail"><summary>Open the complete Python classifier example</summary>
+   <p>In a separate training project, prepare <code>my_training_data/train/CLASS_NAME/</code>, <code>val/CLASS_NAME/</code>, and <code>test/CLASS_NAME/</code> with the same class folders in all splits. Split the encounters and camera sites yourself first; these folders do not create an independent split automatically. Supply real checked photographs. The example uses the installed PyTorch and torchvision APIs; it downloads no data or weights.</p>
+   <pre><code class="language-python" id="visionClassifierCode">from copy import deepcopy
+from pathlib import Path
+import torch
+from torch import nn
+from torch.utils.data import DataLoader
+from torchvision import datasets, transforms
+
+torch.manual_seed(7)
+root = Path("my_training_data")
+train_transform = transforms.Compose([
+    transforms.Resize((96, 96)),
+    transforms.RandomHorizontalFlip(),
+    transforms.ToTensor(),  # RGB pixels: [0, 255] to [0, 1]
+])
+eval_transform = transforms.Compose([
+    transforms.Resize((96, 96)), transforms.ToTensor()
+])
+train_ds = datasets.ImageFolder(root / "train", train_transform)
+val_ds = datasets.ImageFolder(root / "val", eval_transform)
+test_ds = datasets.ImageFolder(root / "test", eval_transform)
+assert train_ds.class_to_idx == val_ds.class_to_idx == test_ds.class_to_idx
+train_loader = DataLoader(train_ds, batch_size=16, shuffle=True,
+                          num_workers=0)
+val_loader = DataLoader(val_ds, batch_size=16, num_workers=0)
+test_loader = DataLoader(test_ds, batch_size=16, num_workers=0)
+
+class TinyClassifier(nn.Module):
+    def __init__(self, number_of_classes):
+        super().__init__()
+        self.features = nn.Sequential(
+            nn.Conv2d(3, 16, kernel_size=3, padding=1), nn.ReLU(),
+            nn.MaxPool2d(2),
+            nn.Conv2d(16, 32, kernel_size=3, padding=1), nn.ReLU(),
+            nn.MaxPool2d(2),
+            nn.Conv2d(32, 64, kernel_size=3, padding=1), nn.ReLU(),
+            nn.AdaptiveAvgPool2d((1, 1)),
+        )
+        self.head = nn.Linear(64, number_of_classes)
+
+    def forward(self, images):
+        features = self.features(images)
+        return self.head(torch.flatten(features, 1))
+
+model = TinyClassifier(len(train_ds.classes))  # CPU example
+criterion = nn.CrossEntropyLoss()  # expects logits, not softmax
+optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+
+def accuracy(loader):
+    model.eval()
+    correct = total = 0
+    with torch.inference_mode():
+        for images, labels in loader:
+            predicted = model(images).argmax(dim=1)
+            correct += (predicted == labels).sum().item()
+            total += len(labels)
+    return correct / total
+
+best_score, best_state = -1.0, None
+for epoch in range(10):  # illustrative choice, tune on validation
+    model.train()
+    loss_sum = 0.0
+    for images, labels in train_loader:
+        optimizer.zero_grad()        # discard old batch gradients
+        logits = model(images)       # forward calculation
+        loss = criterion(logits, labels)  # compare with checked labels
+        loss.backward()              # derivatives for parameters
+        optimizer.step()             # update parameters
+        loss_sum += loss.item() * len(labels)
+    score = accuracy(val_loader)     # no weight updates here
+    print(epoch + 1, loss_sum / len(train_ds), score)
+    if score &gt; best_score:
+        best_score = score
+        best_state = deepcopy(model.state_dict())
+
+model.load_state_dict(best_state)
+print("Final held-out test accuracy:", accuracy(test_loader))
+torch.save({"state_dict": best_state, "classes": train_ds.classes,
+            "image_size": 96}, "my_classifier.pt")
+</code></pre>
+   <p><strong>What each part contributes:</strong> <code>Dataset</code> supplies pixels and checked labels; the loader makes mini-batches. <code>Conv2d</code> has adjustable filters; ReLU keeps positive responses; pooling changes spatial resolution. The final layer produces unnormalized <em>logits</em>. Cross-entropy compares them with class indices. It already handles the required log-softmax calculation, so the training code does not add softmax first.</p>
+   <p><strong>Keep the full recipe:</strong> save the class order, architecture, preprocessing, weights, data provenance, split definitions, and test results together. The example’s single test accuracy is only a start: inspect per-class errors, rare species, false detector crops, night images, and new sites. Never replace the lab’s released model files with this illustrative checkpoint.</p>
+   <p class="vision-reference"><a href="https://docs.pytorch.org/tutorials/beginner/basics/buildmodel_tutorial.html" target="_blank" rel="noopener noreferrer">PyTorch model building</a> · <a href="https://docs.pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html" target="_blank" rel="noopener noreferrer">Official classifier tutorial</a> · <a href="https://docs.pytorch.org/docs/stable/generated/torch.nn.CrossEntropyLoss.html" target="_blank" rel="noopener noreferrer">Cross-entropy API</a></p>
+  </details>
+ </section>
+
+ <section class="vision-section" aria-labelledby="visionTrainingTitle">
+  <div class="eyebrow">04 · What training actually changes</div><h3 id="visionTrainingTitle">Make a prediction, measure the error, adjust the weights.</h3>
+  <div class="vision-training-loop"><article><span>1</span><h4>Forward pass</h4><p>A mini-batch of images passes through the current network. Its weights produce scores and, for a detector, location predictions.</p></article><article><span>2</span><h4>Loss</h4><p>A loss function measures disagreement with checked answers. Detection training also penalizes localization errors and handles background examples.</p></article><article><span>3</span><h4>Backpropagation</h4><p>The chain rule calculates how the loss changes with each parameter. These derivatives are gradients, not new labels.</p></article><article><span>4</span><h4>Optimizer step</h4><p>The optimizer uses gradients and a learning rate to change weights. Repeat for many mini-batches; one pass through the training collection is an epoch.</p></article></div>
+  <p>Training can lower the loss by learning useful shapes, textures, and combinations—or misleading shortcuts such as a camera background. A validation collection helps choose settings and a checkpoint. An untouched test collection estimates performance after those choices are fixed. A low training loss alone does not establish field accuracy.</p>
+  <div class="vision-interactive-label">Interactive training · a real calculation for one toy neuron</div>
+  <div class="vision-training-layout">
+   <div class="vision-training-controls"><h4>Watch two parameters learn.</h4><p class="vision-small">The input <code>x</code> is one made-up brightness feature, not an animal photo. Four checked toy examples ask for output 0 at low values and 1 at high values. A sigmoid neuron predicts <code>p = sigmoid(w × x + b)</code>.</p><label for="visionLearningRate">Learning rate <output id="visionLearningRateValue">1.00</output></label><input id="visionLearningRate" type="range" min="0.05" max="8" step="0.05" value="1"><div class="vision-button-row"><button type="button" id="visionTrainOne" class="primary">Train 1 step</button><button type="button" id="visionTrainTwenty">Train 20 steps</button><button type="button" id="visionTrainReset">Reset</button></div><label class="vision-check"><input id="visionNoisyLabels" type="checkbox"> Deliberately give the brightest example a wrong label</label><div class="vision-metrics" aria-live="polite"><div><span>Steps</span><output id="visionTrainSteps">0</output></div><div><span>Mean loss</span><output id="visionTrainLoss">0.6931</output></div><div><span>Weight w</span><output id="visionTrainWeight">0.000</output></div><div><span>Bias b</span><output id="visionTrainBias">0.000</output></div></div><p id="visionTrainExplanation" class="vision-small"></p></div>
+   <div><h4>Current prediction curve</h4><svg id="visionTrainCurve" class="vision-chart" viewBox="0 0 620 250" role="img" aria-label="Toy neuron prediction curve and four labeled training examples"></svg><h4>Loss after each update</h4><svg id="visionTrainHistory" class="vision-chart" viewBox="0 0 620 230" role="img" aria-label="Calculated training loss history"></svg><p class="vision-small">Dots show checked toy labels; the curve shows the current neuron. The lower graph is calculated from these exact updates, not a recorded wildlife-model benchmark. At most the most recent 500 updates are plotted.</p></div>
+  </div>
+  <details class="vision-detail"><summary>Show the exact update and connect it to Python</summary><p>For each example, calculate <code>p = 1 / (1 + exp(-(w*x + b)))</code>. Binary cross-entropy is <code>-[y*log(p) + (1-y)*log(1-p)]</code>. The mean gradients are <code>dw = mean((p-y)*x)</code> and <code>db = mean(p-y)</code>. This demo performs <code>w -= learning_rate*dw</code> and <code>b -= learning_rate*db</code>. It uses all four examples for each update.</p><p>PyTorch’s <code>loss.backward()</code> performs automatic differentiation through a much larger graph. <code>optimizer.step()</code> applies the chosen update rule. Gradients accumulate unless cleared; that is why the example calls <code>optimizer.zero_grad()</code> for each batch. A tiny or very large learning rate can make optimization inefficient or unstable. Different optimizers, data, and networks behave differently.</p><p>The wrong-label toggle resets this toy model. Its contradictory examples cannot all be fit well by this single monotonic curve. Better labels and appropriate model capacity matter; extra training does not automatically repair the evidence.</p><p class="vision-reference"><a href="https://docs.pytorch.org/tutorials/beginner/basics/autogradqs_tutorial.html" target="_blank" rel="noopener noreferrer">Automatic differentiation</a> · <a href="https://docs.pytorch.org/tutorials/beginner/basics/optimization_tutorial.html" target="_blank" rel="noopener noreferrer">Loss and optimization</a></p></details>
+ </section>
+
+ <section class="vision-section" aria-labelledby="visionDetectorTitle">
+  <div class="eyebrow">05 · Teach locations as well as labels</div><h3 id="visionDetectorTitle">A detector learns from boxes that people checked.</h3>
+  <p>The classifier above gives one answer for a whole crop. For detection, a training record also needs one box per visible object: left, top, right, bottom, plus a category. Different detector families construct candidates differently, match them to human annotations during training, and optimize classification and location objectives. Empty frames help teach background behavior.</p>
+  <details class="vision-detail"><summary>Open a Python detector-training outline</summary><p>This outline uses <strong>torchvision Faster R-CNN</strong> to make a real detector training interface concrete. It is a different architecture from this lab’s YOLOv10 MegaDetector. You must supply a checked detection dataset and independent validation/test sets. The code assumes <code>train_loader</code> yields a list of RGB tensors and corresponding target dictionaries; it is an outline, not a complete data-labeling or evaluation program.</p>
+   <pre><code class="language-python" id="visionDetectorCode">import torch
+from torchvision.models.detection import fasterrcnn_resnet50_fpn
+
+# Explicitly disable both automatic weight downloads.
+# This creates an untrained illustrative detector with 4 classes:
+# 0 = background; 1 = animal; 2 = person; 3 = vehicle.
+detector = fasterrcnn_resnet50_fpn(
+    weights=None, weights_backbone=None, num_classes=4
+)
+# Fine-tuning would instead load a compatible, trusted local checkpoint.
+# No checkpoint is fetched or changed by this lesson.
+optimizer = torch.optim.SGD(detector.parameters(), lr=0.005,
+                            momentum=0.9, weight_decay=0.0005)
+
+# A dataset item has:
+# image: float32 tensor [3, H, W], values in [0, 1]
+# target = {
+#     "boxes": float32 tensor [N, 4] containing x1, y1, x2, y2,
+#     "labels": int64 tensor [N] containing category IDs 1..3,
+# }
+# Human boxes must be valid within that image's width and height.
+# An empty image uses boxes shaped [0, 4] and labels shaped [0].
+# For variable object counts, create your DataLoader with:
+# collate_fn=lambda batch: tuple(zip(*batch))
+
+for epoch in range(10):  # illustration, not a validated recipe
+    detector.train()
+    for images, targets in train_loader:
+        optimizer.zero_grad()
+        losses = detector(list(images), list(targets))
+        loss = sum(losses.values())
+        loss.backward()
+        optimizer.step()
+
+# After separately selecting/evaluating a checkpoint:
+detector.eval()
+with torch.inference_mode():
+    prediction = detector([image])[0]
+    # prediction contains boxes, labels, and scores.
+</code></pre>
+   <p><strong>What is being optimized?</strong> Faster R-CNN includes object/background and category losses plus box-regression losses. Other detector architectures use different heads and loss combinations. Box errors and category errors both matter: a high animal score with a badly placed box can make a poor species crop.</p><p><strong>Training from scratch versus fine-tuning:</strong> the outline starts with initialized weights and needs substantial suitable training data and compute. Fine-tuning starts with compatible pretrained visual features and adjusts some or all weights using the new checked collection. Choose the implementation and license deliberately. A checkpoint from one architecture is not interchangeable with another.</p><p>Evaluate localization with a stated overlap rule and one-to-one matching; inspect precision, recall, duplicates, misses, and performance by site and condition. Select a detection threshold using validation evidence, then freeze the decision before final testing. The lab’s 0.30 starting cutoff is a demonstration setting.</p><p class="vision-reference"><a href="https://docs.pytorch.org/tutorials/intermediate/torchvision_tutorial.html" target="_blank" rel="noopener noreferrer">Torchvision detection tutorial</a> · <a href="https://docs.pytorch.org/vision/stable/models/generated/torchvision.models.detection.fasterrcnn_resnet50_fpn.html" target="_blank" rel="noopener noreferrer">Faster R-CNN inputs and outputs</a> · <a href="https://github.com/microsoft/MegaDetector/blob/main/docs/training_guide.md" target="_blank" rel="noopener noreferrer">MegaDetector’s own training guide</a></p>
+  </details>
+ </section>
+
+ <section class="vision-section" aria-labelledby="visionInferenceTitle">
+  <div class="eyebrow">06 · Use the learned weights on a new photo</div><h3 id="visionInferenceTitle">Follow one photo through the actual lab pipeline.</h3>
+  <p>Inference uses the saved architecture and weights. It calculates outputs for new pixels; it does not compare your photo with a secret filename list, ask for its human source label, or update the weights. Select each stage to inspect what happens.</p>
+  <div class="vision-stage-rail" role="group" aria-label="Explore the inference stages"><button type="button" data-vision-stage="0" aria-pressed="true"><span>1</span>Pixels</button><button type="button" data-vision-stage="1" aria-pressed="false"><span>2</span>Features</button><button type="button" data-vision-stage="2" aria-pressed="false"><span>3</span>Boxes + scores</button><button type="button" data-vision-stage="3" aria-pressed="false"><span>4</span>Cutoff</button><button type="button" data-vision-stage="4" aria-pressed="false"><span>5</span>Species crop</button><button type="button" data-vision-stage="5" aria-pressed="false"><span>6</span>Human review</button></div>
+  <div class="vision-stage-detail" aria-live="polite"><div id="visionStageVisual" class="vision-stage-visual" aria-hidden="true">▦</div><div><h4 id="visionStageTitle">Prepare the exact pixels</h4><p id="visionStageText"></p><p id="visionStageCaution" class="vision-small"></p></div></div>
+  <details class="vision-detail"><summary>How can patterns turn into an animal box?</summary><p>During detector training, repeated examples connect patterns in many image regions with checked object categories and coordinates. Parameters that help reduce the training objective are updated. At inference, the feature extractor responds to the new scene, and prediction layers turn its feature maps into category scores and location values. Postprocessing expresses accepted candidates in the original image coordinates. The model can respond to learned combinations without a person writing an explicit rule for every fur color or pose.</p><p>A score and a rectangle are numerical predictions, not proof that the model understands the animal. New backgrounds, camouflage, motion blur, low detail, unfamiliar species, and unusual viewpoints can cause errors. Raising a cutoff hides weak candidates; it does not improve the pixels, retrain the model, or guarantee that the remaining boxes are correct.</p><p>For species classification, the lab takes only actual animal candidates that meet the cutoff, saves the exact crop bytes, and asks a separate trained network to rank its fixed labels. Detector and classifier scores answer different questions. Never multiply them into a claimed probability of a correct species identification.</p></details>
+  <div class="vision-finish"><strong>Ready to investigate?</strong><p>Open the Detective Lab tab. Start with a source photo, inspect its boxes, and identify an animal crop. Then change the image quality and compare the model’s actual responses.</p></div>
+ </section>
+</div>

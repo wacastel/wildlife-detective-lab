@@ -6,6 +6,10 @@ __pycache__/
 .pytest_cache/
 .DS_Store
 
+# Personal drop-in photos are local only; keep the folder instructions.
+user_photos/*
+!user_photos/README.md
+
 # Local settings and credentials are never part of the teaching kit.
 .env
 .env.*

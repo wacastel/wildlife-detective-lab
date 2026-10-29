@@ -1,9 +1,18 @@
-# Wildlife Detective Lab — expanded two-model edition
+# Wildlife Detective Lab — learn, detect, investigate
 
 **Find an animal, person, or vehicle. Crop an animal box. Ask a second AI which species it might be.**
 
-Explore real wildlife photographs, human and vehicle camera-trap examples,
-and a synthetic empty control. Each saved example includes genuine MegaDetector
+Use three tabs to learn how computer vision works, run the two-model detective
+lab, and investigate the questions in Cory's forwarded team email. The app
+opens on **How computer vision works**.
+
+Explore 32 bundled sources: wildlife photographs, human and vehicle camera-trap
+examples, and a synthetic empty control. The collection adds 15 licensed
+camera-trap scenes, with three more each for deer, raccoons, coyotes, people,
+and vehicles. None of the added captures is established as an Illinois photo;
+their actual source regions and rights are recorded in
+[assets/CAMERA_TRAP_SOURCES.md](assets/CAMERA_TRAP_SOURCES.md).
+Each saved example includes genuine MegaDetector
 results; animal crops have genuine SpeciesNet classifications. Identical crop
 bytes reuse the same genuine classification. No species result is invented or
 copied from the human-written source label. Source credits and model evidence
@@ -16,18 +25,24 @@ browser. All images, boxes, crops, classifier
 results, explanations, and student Q&A are embedded. No Python, account,
 network, API key, server, or model download is required for this mode.
 
-1. Choose a source photo. Compare wildlife with the person and vehicle examples;
-   MegaDetector predicts all three broad categories. Wildlife images include
-   clear daylight views, night trail-camera photos, soft focus, camouflage,
-   and small/hidden animals.
-2. Compare the source with a controlled edit: darkness, blur, fewer pixels,
-   smaller scene, obstruction, or grayscale. Predict the result before revealing.
-3. Adjust **Minimum detection score** to investigate weak candidates and mistakes.
-4. Select one of the accepted **animal crops**, then click **Identify this crop**.
-   Read SpeciesNet's top labels, scores, and taxonomic ranks. Compare with the
-   separate human source label; a model may suggest a genus or `blank`.
-5. Read the explanations of both models, species lists and training, choosing
-   a cutoff, and the complete team questions.
+1. **How computer vision works:** change a small pixel grid, move a 3 × 3
+   filter, and calculate a toy neuron's training steps. Read the Python model,
+   training, and inference examples. These clearly labeled teaching calculations
+   run in the browser; they do not train a custom wildlife model or change the
+   bundled MegaDetector or SpeciesNet weights.
+2. **Detective lab:** start with the basic two-model workflow. Choose a photo,
+   inspect its genuine saved MegaDetector boxes, select an accepted animal crop,
+   and click **Identify this crop** to reveal its saved SpeciesNet labels,
+   scores, and taxonomic ranks. Human reference labels remain separate. The
+   open **Live lab** section follows for new local runs. Farther down, the
+   quality experiments compare darkness, blur, fewer pixels, a smaller scene,
+   obstruction, and grayscale. Predict before revealing; adjust **Minimum
+   detection score** to investigate weak candidates and mistakes.
+3. **Cory's team questions:** open an answer and use its investigation button
+   to load a related genuine saved example in the question tab's mini lab.
+   Its condition chooser, detection cutoff, crop selection, and species reveal
+   work offline. The underwater light calculation is labeled illustrative;
+   these land-camera examples do not establish thermal or underwater performance.
 
 SpeciesNet is offered only for animal candidates. A person or vehicle box
 demonstrates detection without turning it into a wildlife species label.
@@ -122,11 +137,15 @@ py -3.12 -m venv .venv
 .venv\Scripts\python.exe app.py
 ```
 
-The app opens **http://127.0.0.1:8765**. Expand **Live lab**, select a bundled
-source or upload an allowed JPEG/PNG/WebP, adjust the image, and click **Run
-detector**. Select one of its actual animal crops, then **Identify this crop**
-to perform a fresh SpeciesNet classification. Stop with Ctrl+C. If the port is
-busy: `python app.py --port 8766`.
+The app opens **http://127.0.0.1:8765**. Select the **Detective lab** tab. In
+the basic workflow, choose a photo and click **Run detector on this photo**
+for a fresh local run. The **Live lab** section is expanded by default; choose
+an allowed JPEG/PNG/WebP or the selected source, optionally adjust the image,
+and click **Run detector**. Phone JPEGs that contain an auxiliary image (MPO)
+are supported using their primary photo. Results, boxes, crops, and species
+output appear in the section where you ran them. Select an actual animal crop,
+then **Identify this crop** to perform a fresh SpeciesNet classification.
+Stop with Ctrl+C. If the port is busy: `.venv/bin/python app.py --port 8766`.
 
 The detector can run with only `requirements.txt`; SpeciesNet needs its
 additional requirements. Both status messages are separate. Missing classifier
@@ -134,9 +153,15 @@ dependencies do not turn a saved classification into a live claim. The server
 listens only on the laptop loopback interface; images are not sent to an online
 AI service. Upload limit is 8 MiB and 24 megapixels.
 
-The original kit was generated on Linux/CPU with Python 3.12. This edition's
-detector runs were rebuilt on macOS with Python 3.13.7; existing exact crop
-classifications were reused and new crops were classified locally. Both live
+The local app loads saved images as needed from verified local files, keeping
+the initial page small. `offline_demo.html` remains the larger, fully embedded
+export for use without a server; both modes show the same saved predictions.
+
+The original kit was generated on Linux/CPU with Python 3.12. Earlier macOS
+detector runs used Python 3.13.7; the three-tab expansion was rebuilt using the
+existing Python 3.13.2 environment. Exact crop classifications retain their
+original runtime provenance; matching bytes were reused and new crops were
+classified locally. Both live
 stages and model hashes have been checked. Windows has not been execution-tested. If the
 pinned PyTorch pair has no wheel for your OS/Python combination, use a supported matching
 pair from the [official PyTorch selector](https://pytorch.org/get-started/locally/)
@@ -146,6 +171,30 @@ all installation issues. An existing separate environment can be selected with
 
 **Rehearsal:** turn off Wi-Fi; test the saved HTML, one live detector run, and
 one live SpeciesNet classification on the actual laptop you will bring.
+
+## Add your own photos to the chooser
+
+1. Put copies of JPEG (`.jpg` or `.jpeg`), PNG, or WebP photos directly in the
+   project's **user_photos/** folder. Phone JPEGs with auxiliary MPO frames
+   work too. Each file may be up to **8 MiB and 24 megapixels**. Subfolders
+   and symbolic links are not followed.
+2. Start the existing local app with `.venv/bin/python app.py` and open the
+   **Detective lab** tab. Your files appear under **Your photos · user_photos/**
+   alongside the bundled examples in the photo chooser. The list refreshes
+   every 15 seconds while that tab is visible and when you return to the
+   browser. Click **Refresh photos** for an immediate check; no server restart
+   is needed. Files that cannot be used are listed with a reason.
+3. Select a file to see its resized preview, labeled **not analyzed**. Click
+   **Run detector on this photo** to run MegaDetector, then select an actual
+   animal crop and identify it with SpeciesNet. Selecting a file alone does
+   not run either model. To experiment with its quality, use the Live lab's
+   controls and run the detector again.
+
+The standalone HTML cannot read this folder without the local Python app.
+Folder photos and uploads stay out of Git, the embedded saved example bundle,
+and **Download exact saved results**. The app serves a resized JPEG preview
+with photo metadata removed; inference starts from the original file's primary
+image. See [user_photos/README.md](user_photos/README.md).
 
 ## What is actually happening?
 
@@ -248,8 +297,15 @@ a perfectly descending score curve.
 
 ## Files and evidence
 
-- `offline_demo.html`, `ui_template.html`: self-contained activity and readable UI source.
-- `app.py`, `image_lab.py`, `detector.py`: server, controlled edits, real detector.
+- `offline_demo.html`: generated self-contained activity with all three tabs.
+- `ui_template.html`, `app_tabs.css`, `lab_interactions.js`: editable tab/lab
+  layout, styling, and interactions.
+- `lesson_content.html`, `lesson_styles.css`, `lesson_interactions.js`: editable
+  computer vision lesson and its browser-only teaching calculations. The
+  builder embeds these fragments, styles, and scripts into the standalone HTML.
+- `app.py`, `local_photos.py`, `image_lab.py`, `detector.py`: local server,
+  drop-in photo catalog, controlled edits, and real detector.
+- `user_photos/`: local drop-in photos; only its instructions belong in Git.
 - `crop_pipeline.py`: tight crops from actual boxes, with exact JPEG hashes.
 - `speciesnet_adapter.py`, `speciesnet_worker.py`, `species_bridge.py`: actual
   pinned SpeciesNet classifier and separate local process.
@@ -258,8 +314,8 @@ a perfectly descending score curve.
 - `setup_mac.sh`, `launch_lab.command`: macOS setup/check and local launcher.
 - `setup_models.py`, `setup_speciesnet.py`: explicit pinned model downloads;
   `--check` verifies existing files without downloading anything.
-- `assets/photos.json`: credits, source links, human labels/counts, quality notes,
-  original locations, preparation information.
+- `assets/photos.json`, `assets/CAMERA_TRAP_SOURCES.md`: credits, source links,
+  human labels/counts, quality notes, source regions, and preparation information.
 - `results/predictions.json`, `summary.csv`: actual inputs/settings/boxes/crop
   predictions. `results/crops/` stores the exact JPEG classifier inputs.
 - `results/species_cache.json`: genuine classifications keyed by exact crop hash.
@@ -271,8 +327,9 @@ a perfectly descending score curve.
 The builder saves/decodes each exact input JPEG before detection; it does the
 same for crop JPEGs before classification. Model hashes and runtime versions
 are recorded. Rebuild new predictions with both dependency sets installed:
-`python build_demo.py`. Re-render only the UI from verified saved image hashes:
-`python build_demo.py --render-only`. No new inference runs in render-only mode.
+`.venv/bin/python build_demo.py`. Re-render only the UI and its editable
+fragments from verified saved image hashes:
+`.venv/bin/python build_demo.py --render-only`. No new inference runs in render-only mode.
 An explicit `--detector-only` rebuild permits missing species classifications.
 For a fresh clone or if weights were removed, `python setup_models.py` and
 `python setup_speciesnet.py` explicitly restore their pinned models online.
@@ -289,10 +346,12 @@ local conservation context. This activity remains a separate practical lab.
 Felidae's March 2026 WildePod guide describes Bay Area image processing, not
 Illinois research findings. Its concepts transfer; its regional findings do not.
 
-Photo source pages designate the wildlife images Public Domain; the complete
-credits, source URLs, and any source-rights notes are in assets/photos.json.
-The additional human and vehicle camera-trap photographs come from the
-Seattle(ish) and Caltech Camera Traps datasets under CDLA-Permissive-1.0.
+The original public-domain wildlife photographs retain their source-page
+rights designations. The additional camera-trap photographs come from
+ENA24-detection, Seattle(ish), and Caltech Camera Traps under
+CDLA-Permissive-1.0. Complete credits, source URLs, source-rights notes, and
+known source regions are in `assets/photos.json` and
+`assets/CAMERA_TRAP_SOURCES.md`.
 The complete dataset license is in `assets/licenses/CDLA-Permissive-1.0.txt`;
 the metadata preserves their sources and describes resizing/re-encoding.
 The gray control is synthetic. Darkening, blur, downsampling, obstruction,
