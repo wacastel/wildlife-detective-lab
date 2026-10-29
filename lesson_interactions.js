@@ -2,6 +2,15 @@ function initVisionLesson() {
  const root = document.querySelector('.vision-lesson');
  if (!root || root.dataset.visionInitialized) return;
  root.dataset.visionInitialized = 'true';
+ for (const figure of root.querySelectorAll('[data-conservation-photo]')) {
+  const photo = BUNDLE.photos.find(item => item.id === figure.dataset.conservationPhoto);
+  const input = photo?.variants.find(item => item.id === 'clear');
+  if (!input) continue;
+  const image = figure.querySelector('img');
+  image.src = input.image; image.width = input.width; image.height = input.height;
+  figure.querySelector('[data-photo-credit]').textContent = `${photo.credit} · ${photo.license}`;
+  figure.querySelector('[data-photo-source]').href = photo.source_url;
+ }
  const node = id => document.getElementById(id);
  const svgNS = 'http://www.w3.org/2000/svg';
  const text = (parent, tag, value, attrs={}) => {

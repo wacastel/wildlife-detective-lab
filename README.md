@@ -27,6 +27,8 @@ network, API key, server, or model download is required for this mode.
 
 1. **How computer vision works:** start with wildlife conservation, how camera
    traps gather evidence, and how AI helps people review large photo collections.
+   Explore credited day, night, and winter camera-trap photos, then open the same
+   images in the detective lab to inspect genuine model results.
    Then change a small pixel grid, move a 3 × 3
    filter, and calculate a toy neuron's training steps. Read the Python model,
    training, and inference examples. These clearly labeled teaching calculations

@@ -233,7 +233,7 @@ function switchTab(name,focus=false){
 }
 const tabButtons=[...document.querySelectorAll('[role=tab]')];
 for(const button of tabButtons){button.addEventListener('click',()=>switchTab(button.dataset.tab));button.addEventListener('keydown',e=>{let index=tabButtons.indexOf(button);if(e.key==='ArrowRight')index=(index+1)%tabButtons.length;else if(e.key==='ArrowLeft')index=(index+tabButtons.length-1)%tabButtons.length;else if(e.key==='Home')index=0;else if(e.key==='End')index=tabButtons.length-1;else return;e.preventDefault();switchTab(tabButtons[index].dataset.tab,true);});}
-for(const button of document.querySelectorAll('[data-go-tab]'))button.addEventListener('click',()=>{switchTab(button.dataset.goTab,true);window.scrollTo({top:0,behavior:'smooth'});});
+for(const button of document.querySelectorAll('[data-go-tab]'))button.addEventListener('click',()=>{if(button.dataset.labPhoto)selectPhoto(button.dataset.labPhoto);switchTab(button.dataset.goTab,true);window.scrollTo({top:0,behavior:'smooth'});});
 
 const provenance=$('provenance');addText(provenance,'p',`Detector: ${BUNDLE.model.name}. ${BUNDLE.model.description||''}`);addText(provenance,'p',`Recorded runs: ${BUNDLE.generated_at}. Model input ${BUNDLE.model.input_size} × ${BUNDLE.model.input_size}. Stored candidate floor ${BUNDLE.model.score_floor}.`);
 addText(addText(provenance,'p','Detector SHA-256: '),'code',BUNDLE.model.sha256);
