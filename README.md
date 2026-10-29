@@ -25,7 +25,9 @@ browser. All images, boxes, crops, classifier
 results, explanations, and student Q&A are embedded. No Python, account,
 network, API key, server, or model download is required for this mode.
 
-1. **How computer vision works:** change a small pixel grid, move a 3 × 3
+1. **How computer vision works:** start with wildlife conservation, how camera
+   traps gather evidence, and how AI helps people review large photo collections.
+   Then change a small pixel grid, move a 3 × 3
    filter, and calculate a toy neuron's training steps. Read the Python model,
    training, and inference examples. These clearly labeled teaching calculations
    run in the browser; they do not train a custom wildlife model or change the

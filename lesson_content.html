@@ -1,6 +1,22 @@
 <div class="vision-lesson">
+ <section class="vision-section conservation-intro" aria-labelledby="conservationTitle">
+  <div class="eyebrow">Why this work matters</div><h2 id="conservationTitle">Protecting wildlife starts with knowing what is there.</h2>
+  <p><strong>Wildlife conservation means protecting wild animals, their habitats, and the relationships that keep ecosystems healthy.</strong> Animals disperse seeds, pollinate plants, and play different roles in food webs. Protecting the places they live helps preserve these connections and the forests, wetlands, and other natural spaces that people depend on, too.</p>
+  <p>To protect wildlife, researchers need evidence: Which species use a place? When are they active? Where might a road interrupt their movement? <strong>Camera traps</strong> automatically take photographs when their sensors are triggered, recording activity without a person standing nearby. They can reveal shy animals and nighttime visitors. Carefully planned surveys, repeated over time, help teams decide where to protect habitat, restore connections between habitats, or investigate a possible change.</p>
+  <h3>A camera can collect photographs much faster than a person can review them.</h3>
+  <p>Cameras can run for weeks or months across many sites. Large projects produce enormous collections, including empty frames, repeated visits, animals, people, and vehicles. Checking every photograph by hand can take longer than a conservation team has available. <strong>AI can greatly speed up that first pass</strong> by finding likely animals and people, helping sort likely empty scenes, and suggesting animal labels for people to check.</p>
+  <ol class="conservation-flow" aria-label="From camera-trap photographs to conservation decisions">
+   <li><span aria-hidden="true">1</span><h4>Record activity</h4><p>Camera traps collect photographs from the places being studied.</p></li>
+   <li><span aria-hidden="true">2</span><h4>Let AI help sort</h4><p>MegaDetector locates animals, people, and vehicles. SpeciesNet suggests labels for animal crops.</p></li>
+   <li><span aria-hidden="true">3</span><h4>Check the evidence</h4><p>People review predictions, check difficult cases, and build reliable wildlife records.</p></li>
+   <li><span aria-hidden="true">4</span><h4>Guide protection</h4><p>Researchers combine those records with survey design and field knowledge to inform conservation.</p></li>
+  </ol>
+  <p>AI makes mistakes, so human review remains part of the work. A person detection marks someone's presence and location; it does not establish their identity. Repeated photographs of one animal also do not tell us how many different animals live there.</p>
+  <p class="conservation-bridge"><strong>So how does a computer turn a photograph into an animal prediction?</strong> That is a computer vision problem. Next, explore the pixels, Python code, and training steps that make it possible.</p>
+ </section>
+
  <section class="vision-hero" aria-labelledby="visionTitle">
-  <div><div class="eyebrow">Start with the idea, then open the lab</div><h2 id="visionTitle">How can a computer find an animal?</h2><p>A photograph becomes numbers. A model combines those numbers using patterns learned from checked examples. Its answer is a prediction for a person to inspect.</p><p class="vision-note">The small interactives here calculate teaching examples in your browser. They do not train or run MegaDetector or SpeciesNet. The Detective Lab tab shows the genuine model results.</p></div>
+  <div><div class="eyebrow">From conservation to computer vision</div><h2 id="visionTitle">How can a computer find an animal?</h2><p>A photograph becomes numbers. A model combines those numbers using patterns learned from checked examples. Its answer is a prediction for a person to inspect.</p><p class="vision-note">The small interactives here calculate teaching examples in your browser. They do not train or run MegaDetector or SpeciesNet. The Detective Lab tab shows the genuine model results.</p></div>
   <div class="vision-hero-art" aria-label="Illustration: pixels lead to learned patterns, a box, and a checked animal label"><span class="vision-pixel-icon" aria-hidden="true">▦</span><span aria-hidden="true">→</span><span class="vision-network-icon" aria-hidden="true">●<br>● ●<br>●</span><span aria-hidden="true">→</span><span class="vision-box-icon">animal?</span><small>Numbers → learned patterns → a prediction</small></div>
  </section>
 
