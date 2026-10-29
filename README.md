@@ -19,6 +19,12 @@ app does not save their files. The private `user_photos/` folder belongs only
 to the local app. The small classroom training model still runs in each
 student's browser and leaves both pretrained wildlife models unchanged.
 
+Print the [one-page student handout](output/pdf/Wildlife_Detective_Lab_Student_Handout.pdf)
+for a US Letter guide with a QR code to the student website, an overview of the
+three tabs, and short detective challenges. The optional authoring script
+`build_student_handout.py` regenerates it with ReportLab; ReportLab is not needed
+to run the lab.
+
 Explore 32 bundled sources: wildlife photographs, human and vehicle camera-trap
 examples, and a synthetic empty control. The collection adds 15 licensed
 camera-trap scenes, with three more each for deer, raccoons, coyotes, people,
