@@ -1,5 +1,34 @@
 # Validation performed — expanded two-model edition
 
+## Public Google Cloud student edition — October 29, 2026
+
+- Deployed the live CPU edition in a new dedicated personal project,
+  `wildlife-lab-wc246`, region `us-central1`. Verified revision
+  `wildlife-detective-lab-00003-fpc` serves 100% of traffic. Its runtime service
+  account has no project roles. Service and revision scaling limits are both
+  two instances; each has two CPUs and 4 GiB RAM, with zero minimum instances.
+- Curated and checked 545 deployment files, including the existing pinned
+  model binaries and their notices. Personal photos, `.venv`, `.git`, credentials,
+  and machine download provenance were excluded. No local packages or model
+  files were reinstalled/downloaded for deployment.
+- Six cloud HTTP tests plus the existing 17 Python tests passed; six separate
+  Node gradient/training tests passed. The cloud tests cover host/origin checks,
+  absence of private folder routes, upload/crop bounds and delegation, bounded
+  inference slots, recorded mode, and chunked export streaming.
+- Before public sharing, an authenticated upload of a bundled deer photo ran
+  through both actual Linux CPU models. Its detector input and crop byte hashes
+  were checked. MegaDetector's animal score was 0.962498; SpeciesNet's genuine
+  top suggestion was white-tailed deer, 0.997096. The first classifier request
+  took 77.73 seconds including process/model startup. External `/healthz` was
+  intercepted with a Google 404; `/api/status` is the verified readiness route.
+- After publishing, unauthenticated status checks succeeded on both official
+  Google-provided service addresses. In the browser, a fresh file upload produced
+  an animal box and genuine SpeciesNet output inside Live lab. All three tabs,
+  the new real-photo training (20 steps, loss 0.3171), the saved-photo walkthrough,
+  a question-linked experiment, and 390 px layout were checked. No browser errors
+  or warnings were observed. The complete 64,318,630-byte offline export downloaded
+  successfully through the deployed streaming endpoint.
+
 ## Real-photo classroom training — October 29, 2026
 
 - Replaced the abstract brightness-neuron demonstration with a three-label

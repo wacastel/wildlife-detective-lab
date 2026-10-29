@@ -1,6 +1,8 @@
 'use strict';
 const $ = id => document.getElementById(id);
 const SVG = 'http://www.w3.org/2000/svg';
+const CLOUD_HOSTED = BUNDLE.hosting_mode === 'cloud';
+const hostingCopy = (local, cloud) => CLOUD_HOSTED ? cloud : local;
 const recordedView = {prefix:'', selectedCropKey:null, revealedCropKey:null};
 const basicView = {prefix:'basic', selectedCropKey:null, revealedCropKey:null};
 const liveView = {prefix:'live', selectedCropKey:null, revealedCropKey:null};
@@ -86,11 +88,11 @@ function renderSpecies(view){
  }
  const crop=selectedCrop(view),key=view.selectedCropKey,stored=speciesResults.get(key),cached=validPrediction(crop.prediction),known=validPrediction(stored);
  node('chosenCrop').src=crop.image;node('cropDescription').textContent=`Exact ${crop.width} × ${crop.height} px crop from box ${crop.detection_index+1}. Detector score ${input.detections[crop.detection_index].score.toFixed(3)}. Classifier scores answer a separate question.`;
- node('speciesMode').textContent=cached?'Recorded SpeciesNet run · works offline':known?'Local SpeciesNet result ready':speciesAvailable?'Local SpeciesNet ready':'No recorded classification for this crop';
- node('speciesInstruction').textContent=cached?'Make a guess, then reveal the genuine prediction saved for these exact crop pixels. This does not run new inference.':known?'Reveal the genuine local prediction already made for these exact crop pixels.':'Make a guess, then ask the local SpeciesNet classifier to examine this exact crop.';
+ node('speciesMode').textContent=cached?'Recorded SpeciesNet run · works offline':known?hostingCopy('Local SpeciesNet result ready','SpeciesNet result from Google Cloud ready'):speciesAvailable?hostingCopy('Local SpeciesNet ready','SpeciesNet ready on Google Cloud'):'No recorded classification for this crop';
+ node('speciesInstruction').textContent=cached?'Make a guess, then reveal the genuine prediction saved for these exact crop pixels. This does not run new inference.':known?hostingCopy('Reveal the genuine local prediction already made for these exact crop pixels.','Reveal the genuine prediction already calculated in Google Cloud for these exact crop pixels.'):hostingCopy('Make a guess, then ask the local SpeciesNet classifier to examine this exact crop.','Make a guess, then send this exact animal crop to SpeciesNet in Google Cloud.');
  const button=node('identifyCrop');button.textContent=speciesBusy?'SpeciesNet is working…':cached||known?'Identify this crop · reveal saved result':'Identify this crop · run SpeciesNet';button.disabled=speciesBusy||(!cached&&!known&&!speciesAvailable);
- if(!cached&&!known&&!speciesAvailable)node('speciesMessage').textContent=speciesReason||'New classifications need the local Python app and existing SpeciesNet model.';
- if(view.revealedCropKey===key){if(known)drawClassification(stored,'Genuine local SpeciesNet output',view);else if(cached)drawClassification(crop.prediction,'Genuine recorded SpeciesNet output',view);}
+ if(!cached&&!known&&!speciesAvailable)node('speciesMessage').textContent=speciesReason||hostingCopy('New classifications need the local Python app and existing SpeciesNet model.','New classifications need SpeciesNet to be available on the hosted service.');
+ if(view.revealedCropKey===key){if(known)drawClassification(stored,hostingCopy('Genuine local SpeciesNet output','Genuine SpeciesNet output · Google Cloud'),view);else if(cached)drawClassification(crop.prediction,'Genuine recorded SpeciesNet output',view);}
 }
 function renderAllSpecies(){for(const view of views)renderSpecies(view);}
 function renderWorkspace(view){
@@ -101,26 +103,27 @@ function renderWorkspace(view){
  node('thresholdValue').textContent=threshold(view).toFixed(2);const detections=current.detections||[],kept=detections.filter(d=>d.score>=threshold(view)).length;
  node('candidateCount').textContent=current.local_preview?'No model run yet.':`${kept} of ${detections.length} candidates kept for this input.`;
  node('experimentTitle').textContent=isBasic?'1. Find the visitor · 2. Inspect the animal crop':view===liveView?'Your live experiment':view===qaView?'Investigate the answer':`Source photo → ${current.label.toLowerCase()}`;
- node('experimentExplanation').textContent=isBasic?current.local_preview?'Your local photo is ready. Run the detector to get real boxes.':isLocalRun?'A fresh local detector run on the selected photo. Select an animal crop for SpeciesNet.':'Genuine saved results for the source photo. Inspect the boxes, then reveal the saved crop classification.':current.explanation||'A new local prediction on the exact input below.';
+ node('experimentExplanation').textContent=isBasic?current.local_preview?hostingCopy('Your local photo is ready. Run the detector to get real boxes.','Your photo is ready. Run the detector in Google Cloud to get real boxes.'):isLocalRun?hostingCopy('A fresh local detector run on the selected photo. Select an animal crop for SpeciesNet.','A fresh detector run in Google Cloud on the selected photo. Select an animal crop for SpeciesNet.'):'Genuine saved results for the source photo. Inspect the boxes, then reveal the saved crop classification.':isLocalRun&&CLOUD_HOSTED?'Google Cloud analyzed the exact input shown below. '+(current.explanation||'Select an animal crop to continue to SpeciesNet.'):(current.explanation||'A new local prediction on the exact input below.');
  node('originalTitle').textContent=sourceUnrun||'Source photo · recorded result';node('changedTitle').textContent=current.local_preview?'Awaiting detector run':isLocalRun?'Live detector input':isBasic?'MegaDetector · saved result':current.label;
- node('resultMode').textContent=current.local_preview?'Local photo · not analyzed':isLocalRun?'Genuine live model output':'Genuine recorded model output';
+ node('resultMode').textContent=current.local_preview?hostingCopy('Local photo · not analyzed','Photo · not analyzed'):isLocalRun?hostingCopy('Genuine live model output','Genuine live output · Google Cloud'):'Genuine recorded model output';
  showImage('original',original,upload?'Original uploaded photograph':`${sourcePhoto.title}, source photo`,sourceUnrun,view);
  showImage('changed',current,`${upload?'Uploaded':sourcePhoto.title}: ${current.label||'live input'}`,current.local_preview?'Run the detector to analyze this photo':false,view);
  node('speciesLabel').textContent=upload||sourcePhoto.local?'Your photo has no human reference label here. Check the actual boxes and any species prediction.':`Human photo label: ${sourcePhoto.human_label||sourcePhoto.human_source_label||sourcePhoto.species||'Not provided'}. This label is not a model prediction.`;
  const credit=node('photoCredit');credit.replaceChildren();
- if(upload)addText(credit,'p',`Your upload: ${upload.name}. Processed locally on this computer.`);
+ if(upload)addText(credit,'p',`Your upload: ${upload.name}. `+hostingCopy('Processed locally on this computer.','Processed in Google Cloud memory. This app does not save photo files.'));
  else if(sourcePhoto.local)addText(credit,'p',`Your photo: ${sourcePhoto.filename} · user_photos/ · local to this computer.`);
  else{addText(credit,'p',`${sourcePhoto.credit} · ${sourcePhoto.license||'See source for terms'} · ${sourcePhoto.location_note||''}`);if(sourcePhoto.source_url&&/^https?:\/\//.test(sourcePhoto.source_url)){const a=addText(addText(credit,'p',''),'a','Photo source & credit');a.href=sourcePhoto.source_url;a.target='_blank';a.rel='noopener noreferrer';}}
  addText(credit,'p','Scores are model scores, not calibrated probabilities. Teaching edits are not measurements of real camera performance.');
  node('guessButton').textContent=node('showBoxes').checked?'Hide boxes & guess':'Reveal detector boxes';renderSpecies(view);
 }
 function render(){
- $('cutoffInline').textContent=threshold().toFixed(2);$('photoNote').replaceChildren();addText($('photoNote'),'span',photo.location_note||'Your photo stays on this computer.');if(photo.quality_note)addText($('photoNote'),'span',photo.quality_note,'quality-note');
+ $('cutoffInline').textContent=threshold().toFixed(2);$('photoNote').replaceChildren();addText($('photoNote'),'span',photo.location_note||hostingCopy('Your photo stays on this computer.','New predictions run in Google Cloud.'));if(photo.quality_note)addText($('photoNote'),'span',photo.quality_note,'quality-note');
  for(const btn of $('conditions').querySelectorAll('button'))btn.setAttribute('aria-pressed',String(btn.dataset.id===currentInput().id));
  for(const view of views)renderWorkspace(view);$('liveResults').hidden=!liveResult;
  $('runBasic').disabled=!liveAvailable||$('runBasic').dataset.busy==='true';
  $('runLive').disabled=!liveAvailable||uploadReading||$('runLive').dataset.busy==='true';
- $('runBasic').textContent=liveAvailable?'Run detector on this photo':'Live detector needs the Python app';
+ $('upload').disabled=!liveAvailable;
+ $('runBasic').textContent=liveAvailable?hostingCopy('Run detector on this photo','Run detector in Google Cloud'):hostingCopy('Live detector needs the Python app','Hosted detector is unavailable');
 }
 function populatePhotoChoosers(){
  const cameraIds=new Set(['deer_4','raccoon_3','raccoon_4','coyote_2','coyote_3','person_1','person_2','vehicle_1','vehicle_2']);
@@ -137,14 +140,14 @@ function populatePhotoChoosers(){
 function selectPhoto(id){
  photo=[...BUNDLE.photos,...localPhotos].find(p=>p.id===id)||BUNDLE.photos[0];sourceRevision++;basicLiveResult=null;basicSourcePhoto=null;resetSpecies(recordedView);resetSpecies(basicView);variant=clearVariant(photo);
  for(const select of [$('photoSelect'),$('qualityPhotoSelect')])select.value=photo.id;
- $('basicRunMessage').textContent=photo.local?'Ready for a fresh local run. No saved model output exists for your photo.':'Bundled examples already contain genuine saved model results. You can also run the local detector again.';
+ $('basicRunMessage').textContent=photo.local?'Ready for a fresh local run. No saved model output exists for your photo.':hostingCopy('Bundled examples already contain genuine saved model results. You can also run the local detector again.','Bundled examples already contain genuine saved model results. You can also run a fresh prediction in Google Cloud.');
  $('conditions').replaceChildren();
  if(photo.local)addText($('conditions'),'p','Your photos have no recorded edits. Use the optional quality controls in Live lab, then run the detector on the selected source.','hint');
  else for(const v of photo.variants){const b=addText($('conditions'),'button','', 'condition');b.dataset.id=v.id;b.setAttribute('aria-pressed','false');b.title=v.explanation||v.label;addText(b,'span',v.label);addText(b,'span','↗','arrow').setAttribute('aria-hidden','true');b.addEventListener('click',()=>{variant=v;resetSpecies(recordedView);render();});}
  render();
 }
 async function refreshPhotos(force=false){
- if(!['http:','https:'].includes(location.protocol)||!['127.0.0.1','localhost','[::1]'].includes(location.hostname)||refreshBusy||!force&&Date.now()-lastRefresh<5000)return;
+ if(CLOUD_HOSTED||!['http:','https:'].includes(location.protocol)||!['127.0.0.1','localhost','[::1]'].includes(location.hostname)||refreshBusy||!force&&Date.now()-lastRefresh<5000)return;
  refreshBusy=true;
  try{
   const response=await fetch('/api/photos');if(!response.ok)throw new Error('The local photo folder is unavailable.');const data=await response.json();
@@ -162,7 +165,7 @@ for(const view of views){
  node('identifyCrop').addEventListener('click',async()=>{
   const crop=selectedCrop(view);if(!crop||speciesBusy)return;const key=view.selectedCropKey;
   if(validPrediction(speciesResults.get(key))||validPrediction(crop.prediction)){view.revealedCropKey=key;renderSpecies(view);return;}
-  if(!speciesAvailable)return;speciesBusy=true;renderAllSpecies();node('speciesMessage').textContent='SpeciesNet is examining this exact crop…';
+  if(!speciesAvailable)return;speciesBusy=true;renderAllSpecies();node('speciesMessage').textContent=hostingCopy('SpeciesNet is examining this exact crop…','SpeciesNet is examining this exact crop in Google Cloud…');
   try{
    const response=await fetch('/api/classify',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({image_data:crop.image})});const data=await response.json();
    if(!response.ok)throw new Error(data.error||`Classifier returned ${response.status}.`);if(!validPrediction(data))throw new Error('No valid classifier labels were returned.');speciesResults.set(key,data);if(view.selectedCropKey===key)view.revealedCropKey=key;
@@ -180,24 +183,24 @@ $('upload').addEventListener('change',async e=>{
  try{
   const data=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=reject;reader.readAsDataURL(file);});
   const dims=await new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>resolve({width:im.naturalWidth,height:im.naturalHeight});im.onerror=reject;im.src=data;});
-  if(thisUpload!==uploadRevision)return;if(dims.width*dims.height>24000000)throw new Error('Choose a photo with at most 24 megapixels.');uploaded={name:file.name,data,...dims};sourceRevision++;$('uploadName').textContent=`Selected: ${file.name}`;liveMessage('Upload selected. Run the detector to analyze it; the previous result keeps its original input.');
+  if(thisUpload!==uploadRevision)return;if(dims.width*dims.height>24000000)throw new Error('Choose a photo with at most 24 megapixels.');uploaded={name:file.name,data,...dims};sourceRevision++;$('uploadName').textContent=`Selected: ${file.name}`;liveMessage(hostingCopy('Upload selected. Run the detector to analyze it; the previous result keeps its original input.','Photo selected in your browser. Run detector sends it to Google Cloud for processing; this app does not save the photo file.'));
  }catch(e){if(thisUpload===uploadRevision){$('uploadName').textContent='Using selected source photo';liveMessage(e.message||'This browser could not read that image. Try JPEG, PNG, or WebP.',true);}}
  finally{if(thisUpload===uploadRevision){uploadReading=false;$('runLive').disabled=!liveAvailable||$('runLive').dataset.busy==='true';}}
 });
 $('useBuiltin').addEventListener('click',()=>{uploaded=null;uploadRevision++;sourceRevision++;uploadReading=false;$('upload').value='';$('uploadName').textContent=`Using selected source: ${photo.title}`;$('runLive').disabled=!liveAvailable||$('runLive').dataset.busy==='true';liveMessage('The selected source photo will be used next. The previous result stays paired with its analyzed input.');});
 async function runDetector(view){
  const isBasic=view===basicView;if(!liveAvailable||!isBasic&&uploadReading)return;const button=$(isBasic?'runBasic':'runLive'),message=(text,error=false)=>{if(isBasic){$('basicRunMessage').textContent=text;$('basicRunMessage').classList.toggle('error',error);}else liveMessage(text,error);};
- if(button.dataset.busy==='true')return;button.dataset.busy='true';button.disabled=true;message('MegaDetector is examining the image…');
+ if(button.dataset.busy==='true')return;button.dataset.busy='true';button.disabled=true;message(hostingCopy('MegaDetector is examining the image…','MegaDetector is examining the image in Google Cloud…'));
  const requestPhoto=photo,requestUpload=isBasic?null:uploaded,requestRevision=sourceRevision;
  const request={photo_id:requestPhoto.id,brightness:isBasic?1:Number($('brightness').value),blur:isBasic?0:Number($('blur').value),resolution:isBasic?1280:Number($('resolution').value),scale:1,occlusion:0,grayscale:false};if(requestUpload)request.image_data=requestUpload.data;
  try{
   const response=await fetch('/api/predict',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(request)});const data=await response.json();
   if(!response.ok)throw new Error(data.error||`Detector returned ${response.status}.`);if(!data.image||!Array.isArray(data.detections)||!data.width||!data.height)throw new Error('The detector result was incomplete.');
   if(requestRevision!==sourceRevision){message('The detector finished for an earlier selection. Run again for the newly selected input.');return;}
-  const output={...data,id:'live',label:isBasic?'Source photo · live run':'Live transformation',explanation:`Brightness ${request.brightness.toFixed(2)}× · blur ${request.blur} px · detail ${request.resolution} px. MegaDetector analyzed these exact edited pixels.`};
-  const sourceSnapshot=requestPhoto.local&&data.source_preview?{...requestPhoto,variants:[{...data.source_preview,id:'clear',label:'Local source snapshot',local_preview:true,detections:[],species_crops:[]}]}:requestPhoto;
+  const output={...data,id:'live',label:isBasic?'Source photo · live run':'Live transformation',explanation:`Brightness ${request.brightness.toFixed(2)}× · blur ${request.blur} px · detail ${request.resolution} px. MegaDetector analyzed these exact edited pixels${CLOUD_HOSTED?' in Google Cloud':''}.`};
+  const sourceSnapshot=requestPhoto.local&&data.source_preview?{...requestPhoto,variants:[{...data.source_preview,id:'clear',label:'Source snapshot',local_preview:true,detections:[],species_crops:[]}]}:requestPhoto;
   if(isBasic){basicLiveResult=output;basicSourcePhoto=sourceSnapshot;}else{liveSourceUpload=requestUpload;liveSourcePhoto=sourceSnapshot;liveResult=output;}
-  resetSpecies(view);render();message(`Finished${Number.isFinite(data.elapsed_seconds)?' in '+data.elapsed_seconds.toFixed(2)+' seconds':''}. Genuine local output appears here. Select an animal crop to continue to SpeciesNet.`);
+  resetSpecies(view);render();message(`Finished${Number.isFinite(data.elapsed_seconds)?' in '+data.elapsed_seconds.toFixed(2)+' seconds':''}. `+hostingCopy('Genuine local output appears here. Select an animal crop to continue to SpeciesNet.','Genuine Google Cloud output appears here. Select an animal crop to continue to SpeciesNet.'));
  }catch(e){message(`No new detector prediction was produced: ${e.message} The previous result keeps its analyzed input.`,true);}
  finally{button.dataset.busy='false';button.disabled=!liveAvailable||!isBasic&&uploadReading;}
 }
@@ -238,17 +241,28 @@ for(const button of document.querySelectorAll('[data-go-tab]'))button.addEventLi
 const provenance=$('provenance');addText(provenance,'p',`Detector: ${BUNDLE.model.name}. ${BUNDLE.model.description||''}`);addText(provenance,'p',`Recorded runs: ${BUNDLE.generated_at}. Model input ${BUNDLE.model.input_size} × ${BUNDLE.model.input_size}. Stored candidate floor ${BUNDLE.model.score_floor}.`);
 addText(addText(provenance,'p','Detector SHA-256: '),'code',BUNDLE.model.sha256);
 if(BUNDLE.species_model){for(const view of views)viewNode(view,'cropScopeNote').textContent=`Up to ${BUNDLE.species_model.max_crops_per_image||5} animal crops are prepared per input, with detector scores at least ${Number(BUNDLE.species_model.score_floor_for_crops||.05).toFixed(2)}. Only crops meeting this view’s detection minimum appear.`;addText(provenance,'p',`Classifier: ${BUNDLE.species_model.name}. ${BUNDLE.species_model.description}`);}
-addText(provenance,'p','Saved buttons reveal genuine recorded outputs; live buttons run local models. User-folder photos and uploads are not included in the recorded-results download.');
+addText(provenance,'p',hostingCopy('Saved buttons reveal genuine recorded outputs; live buttons run local models. User-folder photos and uploads are not included in the recorded-results download.','Saved buttons reveal genuine recorded outputs; live buttons run the models in Google Cloud. Uploaded photos and crops are processed in memory and are not included in the recorded-results download. This app does not save photo files.'));
 $('downloadResults').addEventListener('click',()=>{const data=JSON.stringify(BUNDLE,(key,value)=>key==='image'?'[exact image embedded in demo HTML]':value,2),url=URL.createObjectURL(new Blob([data],{type:'application/json'})),a=document.createElement('a');a.href=url;a.download='wildlife_recorded_results.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);});
 async function checkLive(){
- if(!['http:','https:'].includes(location.protocol)||!['127.0.0.1','localhost','[::1]'].includes(location.hostname))return;
+ const loopback=['127.0.0.1','localhost','[::1]'].includes(location.hostname);
+ if(!['http:','https:'].includes(location.protocol)||!loopback&&!(CLOUD_HOSTED&&location.protocol==='https:'))return;
  try{
   const response=await fetch('/api/status');if(!response.ok)return;const data=await response.json();liveAvailable=!!data.available;speciesAvailable=!!data.species_available;speciesReason=data.species_reason||'';
-  $('liveAvailable').hidden=!liveAvailable;$('liveBadge').textContent=liveAvailable?speciesAvailable?'Local detector + SpeciesNet ready':'Local detector ready':'Saved results ready';
-  $('liveStatus').textContent=liveAvailable?'Use the selected source or upload a photo. Both image processing and inference run on this computer. Your output stays inside this section.':data.reason||'The saved activity still works offline.';
+  $('liveAvailable').hidden=!liveAvailable;$('liveBadge').textContent=liveAvailable?speciesAvailable?hostingCopy('Local detector + SpeciesNet ready','Google Cloud detector + SpeciesNet ready'):hostingCopy('Local detector ready','Google Cloud detector ready'):'Saved results ready';
+  $('liveStatus').textContent=liveAvailable?hostingCopy('Use the selected source or upload a photo. Both image processing and inference run on this computer. Your output stays inside this section.','Use an included source or choose your own photo. New detector and SpeciesNet predictions run in Google Cloud, and results appear inside this section.'):data.reason||'The saved activity still works offline.';
+  if(CLOUD_HOSTED)$('modeText').textContent=liveAvailable?speciesAvailable?'Hosted lab · live AI':'Hosted lab · detector ready':'Hosted lab · saved examples';
   $('runLive').disabled=!liveAvailable;render();await refreshPhotos(true);
  }catch(e){/* Saved examples remain available without a local server. */}
 }
-populatePhotoChoosers();selectPhoto(photo.id);setQaDemo('code');initVisionLesson();switchTab(location.hash.slice(1)||'learn');checkLive();
+function applyHostingMode(){
+ if(!CLOUD_HOSTED)return;
+ for(const intake of document.querySelectorAll('.folder-intake'))intake.hidden=true;
+ $('sourcePhotoLabel').textContent='Included source examples';
+ $('photoPrivacy').textContent='Uploads and animal crops are processed in Google Cloud memory. This app does not save their files.';
+ $('livePrivacy').textContent='Hosted privacy: new predictions run in Google Cloud. Pressing Run with your own photo sends it there; running SpeciesNet sends the selected crop. Processing uses memory, and this app does not save photo files.';
+ $('liveStatus').textContent='Saved examples are ready. Checking whether the Google Cloud detector and classifier are available…';
+ $('liveBadge').textContent='Google Cloud models';$('modeText').textContent='Hosted lab · checking live AI';$('runLive').textContent='Run detector in Google Cloud';
+}
+applyHostingMode();populatePhotoChoosers();selectPhoto(photo.id);setQaDemo('code');initVisionLesson();switchTab(location.hash.slice(1)||'learn');checkLive();
 window.addEventListener('focus',()=>refreshPhotos());document.addEventListener('visibilitychange',()=>{if(!document.hidden)refreshPhotos();});
 setInterval(()=>{if(activeTab==='lab'&&!document.hidden)refreshPhotos();},15000);

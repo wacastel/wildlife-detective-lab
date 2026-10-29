@@ -6,6 +6,19 @@ Use three tabs to learn how computer vision works, run the two-model detective
 lab, and investigate common questions about wildlife AI. The app
 opens on **How computer vision works**.
 
+## Student website
+
+Open [the student website](https://wildlife-detective-lab-882550979615.us-central1.run.app/).
+The Google Cloud edition is hosted in the dedicated `wildlife-lab-wc246`
+project in `us-central1`. It includes the lessons, saved examples, and live
+MegaDetector/SpeciesNet analysis. See [GCP_DEPLOYMENT.md](GCP_DEPLOYMENT.md) for
+deployment, privacy, capacity settings, and rollback instructions.
+
+New uploads in the hosted edition are processed in Google Cloud memory; this
+app does not save their files. The private `user_photos/` folder belongs only
+to the local app. The small classroom training model still runs in each
+student's browser and leaves both pretrained wildlife models unchanged.
+
 Explore 32 bundled sources: wildlife photographs, human and vehicle camera-trap
 examples, and a synthetic empty control. The collection adds 15 licensed
 camera-trap scenes, with three more each for deer, raccoons, coyotes, people,
