@@ -52,38 +52,6 @@ function initVisionLesson() {
  for(const id of ['visionWindowRow','visionWindowCol','visionKernel'])node(id).addEventListener('input',drawPixels);
  node('visionPixelReset').addEventListener('click',()=>{pixels=edgePixels();drawPixels();});drawPixels();
 
- const featureValues=[.1,.3,.7,.9];
- const sigmoid=z=>z>=0?1/(1+Math.exp(-z)):Math.exp(z)/(1+Math.exp(z));
- let weight=0,bias=0,steps=0,history=[];
- const labels=()=>node('visionNoisyLabels').checked?[0,0,1,0]:[0,0,1,1];
- const loss=()=>featureValues.reduce((total,x,i)=>{const z=weight*x+bias;return total+Math.max(z,0)-z*labels()[i]+Math.log1p(Math.exp(-Math.abs(z)));},0)/featureValues.length;
- function axes(svg,width,height,yLabel,xLabel){
-  svg.replaceChildren();text(svg,'line',null,{x1:52,y1:20,x2:52,y2:height-39,stroke:'#a9b99c'});text(svg,'line',null,{x1:52,y1:height-39,x2:width-20,y2:height-39,stroke:'#a9b99c'});
-  text(svg,'text',yLabel,{x:10,y:16});text(svg,'text',xLabel,{x:width-20,y:height-10,'text-anchor':'end'});
- }
- function drawTraining(){
-  node('visionLearningRateValue').textContent=Number(node('visionLearningRate').value).toFixed(2);
-  node('visionTrainSteps').textContent=String(steps);node('visionTrainLoss').textContent=loss().toFixed(4);node('visionTrainWeight').textContent=weight.toFixed(3);node('visionTrainBias').textContent=bias.toFixed(3);
-  node('visionTrainExplanation').textContent=node('visionNoisyLabels').checked?'The brightest example has a deliberately wrong label. One monotonic sigmoid cannot satisfy these contradictory targets. This is a toy data-quality experiment.':'Training changes w and b; moving the learning-rate slider alone changes neither. The four examples are a tiny teaching task, not wildlife training or test data.';
-  const curve=node('visionTrainCurve'),cw=620,ch=250,left=52,top=25,plotW=548,plotH=186;axes(curve,cw,ch,'Output p','Input feature x');
-  for(const y of [0,.5,1]){const sy=top+(1-y)*plotH;text(curve,'line',null,{x1:left,y1:sy,x2:600,y2:sy,stroke:'#dce5cf','stroke-dasharray':'4 4'});text(curve,'text',String(y),{x:43,y:sy+4,'text-anchor':'end'});}
-  for(const x of [0,.5,1])text(curve,'text',String(x),{x:left+x*plotW,y:226,'text-anchor':'middle'});
-  const points=Array.from({length:101},(_,i)=>{const x=i/100;return `${left+x*plotW},${top+(1-sigmoid(weight*x+bias))*plotH}`;}).join(' ');text(curve,'polyline',null,{points,fill:'none',stroke:'#24664e','stroke-width':3});
-  featureValues.forEach((x,i)=>{const y=labels()[i];text(curve,'circle',null,{cx:left+x*plotW,cy:top+(1-y)*plotH,r:6,fill:node('visionNoisyLabels').checked&&i===3?'#b15d2a':'#18352b',stroke:'#fffef8','stroke-width':2});text(curve,'text',`${x} → ${y}`,{x:left+x*plotW,y:y===1?top+22:top+plotH-12,'text-anchor':'middle'});});
-  const chart=node('visionTrainHistory'),maxLoss=Math.max(.75,...history.map(item=>item.value))*1.08,minStep=history[0]?.step||0,maxStep=Math.max(minStep+1,steps);axes(chart,620,230,'Mean loss','Update step');
-  for(const fraction of [0,.5,1]){const y=20+(1-fraction)*171;text(chart,'line',null,{x1:52,y1:y,x2:600,y2:y,stroke:'#dce5cf','stroke-dasharray':'4 4'});text(chart,'text',(maxLoss*fraction).toFixed(2),{x:43,y:y+4,'text-anchor':'end'});}
-  const lossPoints=history.map(item=>`${52+(item.step-minStep)/(maxStep-minStep)*548},${20+(1-item.value/maxLoss)*171}`).join(' ');text(chart,'polyline',null,{points:lossPoints,fill:'none',stroke:'#24664e','stroke-width':3});
-  if(history.length===1)text(chart,'circle',null,{cx:52,cy:20+(1-history[0].value/maxLoss)*171,r:4,fill:'#24664e'});
-  text(chart,'text',String(minStep),{x:52,y:209,'text-anchor':'middle'});text(chart,'text',String(steps),{x:600,y:209,'text-anchor':'end'});
- }
- function train(count){
-  const rate=Number(node('visionLearningRate').value);
-  for(let n=0;n<count;n++){let dw=0,db=0;const target=labels();featureValues.forEach((x,i)=>{const error=sigmoid(weight*x+bias)-target[i];dw+=error*x/4;db+=error/4;});weight-=rate*dw;bias-=rate*db;steps++;history.push({step:steps,value:loss()});if(history.length>500)history.shift();}
-  drawTraining();
- }
- function resetTraining(){weight=0;bias=0;steps=0;history=[{step:0,value:loss()}];drawTraining();}
- node('visionTrainOne').addEventListener('click',()=>train(1));node('visionTrainTwenty').addEventListener('click',()=>train(20));node('visionTrainReset').addEventListener('click',resetTraining);node('visionLearningRate').addEventListener('input',drawTraining);node('visionNoisyLabels').addEventListener('change',resetTraining);resetTraining();
-
  const stages=[
   {title:'Prepare the photo for the detector',icon:'▦',body:'The saved source JPEG stays on the left. On the right, the same image is resized proportionally and padded with gray to 640 × 640, using this lab\'s actual Pillow preparation. The detector then converts RGB values into a float32 tensor shaped [1, 3, 640, 640] and divides them by 255.',caution:'The preview shows image preparation. It is not a new detector run, and the human photo label is not supplied to the model.'},
   {title:'Combine visual information into features',icon:'● → ●',body:'This calculated edge view responds to brightness changes in this real photo. It makes one simple feature operation visible. A trained detector instead combines many learned feature channels and layers before predicting boxes.',caution:'Teaching illustration: this edge map is not a MegaDetector activation or an explanation of which pixels caused its prediction.'},

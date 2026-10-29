@@ -38,6 +38,10 @@ def load_template():
         "__CAMERA_TRAP_CSS__": "camera_trap_styles.css",
         "__CAMERA_TRAP_JS__": "camera_trap_interactions.js",
         "__INFERENCE_CSS__": "inference_walkthrough.css",
+        "__PHOTO_TRAINING_HTML__": "photo_training_content.html",
+        "__PHOTO_TRAINING_CSS__": "photo_training_styles.css",
+        "__PHOTO_TRAINING_MATH__": "photo_training_math.js",
+        "__PHOTO_TRAINING_JS__": "photo_training_interactions.js",
     }.items():
         if template.count(marker) != 1:
             raise RuntimeError(f"UI must contain exactly one {marker} placeholder")

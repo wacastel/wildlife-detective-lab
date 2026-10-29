@@ -1,5 +1,27 @@
 # Validation performed — expanded two-model edition
 
+## Real-photo classroom training — October 29, 2026
+
+- Replaced the abstract brightness-neuron demonstration with a three-label
+  classroom classifier trained in the browser on six real animal photographs.
+  Three held-out photos are excluded from every gradient calculation. Features
+  are actual mean RGB pixel values within each of sixteen cells; the 48 fixed
+  features feed 144 learned weights and three biases. This calculation leaves
+  MegaDetector, SpeciesNet, and all recorded model results unchanged.
+- Six Node tests verify every analytical gradient against finite differences,
+  a known first update, repeated loss reduction, immutable evaluation/update
+  inputs, reset/determinism, extreme-logit stability, and invalid-input handling.
+  All 17 existing Python tests also passed.
+- Browser checks on the real images started with equal 33.3% output shares and
+  loss 1.0986. One update reduced mean training loss to 0.9703; after 21 updates
+  it was 0.3059 while held-out loss rose to 1.7230. After 121 updates training
+  loss was 0.0614 and held-out loss 2.5642. These are classroom calculations,
+  not wildlife accuracy measurements; the differing curves make overfitting
+  visible. Switching to a held-out photo changed no weights or step count.
+- Reset restored zero weights and loss 1.0986. Selecting a cell with the
+  keyboard preserved focus on the replacement button. Photo, cell, channel,
+  and learning-rate controls change the view/settings without training.
+
 ## Camera hardware and real-photo walkthrough — October 29, 2026
 
 - Added a genuine tree-mounted camera photograph with its original title,

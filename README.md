@@ -30,11 +30,12 @@ network, API key, server, or model download is required for this mode.
    Explore credited day, night, and winter camera-trap photos, then open the same
    images in the detective lab to inspect genuine model results.
    See a real tree-mounted camera and try its illustrated day/night trigger.
-   Then change a small pixel grid, move a 3 × 3
-   filter, and calculate a toy neuron's training steps. Read the Python model,
-   training, and inference examples. These clearly labeled teaching calculations
-   run in the browser; they do not train a custom wildlife model or change the
-   bundled MegaDetector or SpeciesNet weights.
+   Then change a small pixel grid, move a 3 × 3 filter, and train a small
+   classroom classifier on six real deer, raccoon, and coyote photographs.
+   Follow prediction bars, cross-entropy loss, color-cell weights, and their
+   numerical gradient updates. Three held-out photos supply no gradients.
+   This browser lesson leaves MegaDetector and SpeciesNet weights unchanged.
+   Read the separate Python model, training, and inference examples too.
    Section 06 follows a real deer, raccoon, or coyote photograph through exact
    detector resizing, a labeled edge illustration, genuine saved boxes, an
    adjustable cutoff, an exact animal crop, SpeciesNet labels, and human review.
@@ -317,6 +318,12 @@ a perfectly descending score curve.
 - `inference_walkthrough.css`: the real-photo walkthrough in Section 06. Its
   lossless 640 × 640 teaching previews are regenerated from hash-verified saved
   inputs during rendering; recorded inputs and model results remain unchanged.
+- `photo_training_content.html`, `photo_training_styles.css`,
+  `photo_training_interactions.js`, `photo_training_math.js`: Section 04's real
+  photo classroom classifier. It averages RGB pixels within a 4 × 4 grid and
+  trains 144 softmax weights plus three biases with six-photo batch gradients.
+  The model lives only in browser memory. Its outputs are separate from the
+  genuine saved MegaDetector and SpeciesNet outputs in the detective lab.
 - `assets/camera_trap_equipment.json`: credit, CC BY 2.0 license, source, and
   exact hash for the equipment photograph. It is a teaching asset, not another
   inference source.

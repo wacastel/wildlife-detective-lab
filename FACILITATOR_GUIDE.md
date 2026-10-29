@@ -7,12 +7,14 @@
 1. **How computer vision works** opens first. Start with conservation and the
    real tree-mounted camera photo. Toggle Day/Night and move the illustrated
    animal past the camera; distinguish sensing a change from lighting a photo.
-   Let children change pixels, move
-   a small filter, and train the toy neuron for one or twenty steps. The plots
-   calculate that tiny example's actual arithmetic. They are explicitly
-   teaching simulations, not MegaDetector or SpeciesNet outputs. Expand the
-   Python examples when useful for the audience; no custom wildlife model is
-   trained by the app. In Section 06, choose a real animal photo and step through
+   Let children change pixels, move a small filter, and train the classroom
+   photo classifier for one, twenty, or a hundred steps. Compare its prediction,
+   loss, and colored weight grid. The six training photos supply gradients;
+   three held-out photos are checks only. Inspect the exact update for one cell
+   and color channel. Changing the photo or learning rate alone changes no
+   weights. Reset returns all 147 parameters to zero. These are calculated
+   classroom outputs; MegaDetector and SpeciesNet keep their existing weights.
+   Expand the separate Python examples when useful. In Section 06, choose a real animal photo and step through
    the views. Compare the exact prepared RGB image with the separately labeled
    edge illustration, then inspect real boxes, the cutoff, crop, and saved label.
 2. **Detective lab** begins with basic usage: choose a photo, inspect
@@ -47,7 +49,7 @@ folder on its own.
 
 | Time | Action and question |
 |---|---|
-| 0–3 minutes | In How computer vision works, move the pixel filter and train the toy neuron. Ask which numbers changed and distinguish this tiny calculation from wildlife-model training. |
+| 0–3 minutes | In How computer vision works, follow a real photo through one classroom training update. Compare the prediction, error, and weight equation; repeat 20 steps and inspect a held-out photo. Ask whether a lower training loss guarantees a correct unfamiliar prediction. |
 | 3–5 minutes | Open Detective lab and hide the basic source photo's boxes. “Where is the animal? Draw a box. What kind is it?” Finding a location and naming a species are different tasks. |
 | 5–7 minutes | Reveal MegaDetector's genuine saved boxes, or explicitly run the local detector. Check the broad category, location, and box extent. |
 | 7–10 minutes | Select an accepted animal crop and click Identify this crop. Read SpeciesNet's labels and taxonomic rank; compare with the separate human label. Explain the two scores have different jobs. |
