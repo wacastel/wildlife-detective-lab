@@ -1,0 +1,8 @@
+{
+  "split": "validation",
+  "note": "SCHEMA EXAMPLE ONLY. No ground truth is supplied. Replace these entries with independently annotated validation encounters/sites; mark reviewed only after a person checked all real animals. Empty boxes with reviewed=true mean a verified empty image, not unannotated.",
+  "images": [
+    {"photo_id": "deer", "variant_id": "clear", "reviewed": false, "boxes": [], "notes": "Add checked normalized animal boxes [x,y,width,height]. Do not copy the detector boxes as ground truth."},
+    {"photo_id": "control", "variant_id": "clear", "reviewed": false, "boxes": [], "notes": "Synthetic empty control is not representative of real empty habitats."}
+  ]
+}

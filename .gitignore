@@ -1,0 +1,24 @@
+# Each computer keeps its own Python environment and caches.
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.DS_Store
+
+# Local settings and credentials are never part of the teaching kit.
+.env
+.env.*
+!.env.example
+
+# Obtain both models from their upstream hosts with the explicit setup scripts.
+# Local downloaded weights are preserved when working in this folder.
+models/megadetector_v6.onnx
+models/speciesnet/*.pt
+models/speciesnet/*.tar.gz
+
+# Generated temporary files, downloads, and optional exports.
+*.tmp
+*.log
+threshold_sweep.csv
+dist/

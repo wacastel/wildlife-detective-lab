@@ -1,0 +1,9 @@
+# Optional live species classification. The offline HTML needs none of these.
+# For a smaller CPU-only Linux/Windows install, install torch/torchvision
+# first using https://download.pytorch.org/whl/cpu, then install this file.
+torch==2.15.0
+torchvision==0.29.2
+onnx2torch==1.5.15
+onnx==1.23.2
+numpy==2.3.5
+Pillow==12.3.0

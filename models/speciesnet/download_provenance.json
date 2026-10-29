@@ -1,0 +1,17 @@
+{
+  "model": "SpeciesNet v4.0.3a crop classifier",
+  "source_url": "https://www.kaggle.com/api/v1/models/google/speciesnet/pyTorch/v4.0.3a/1/download",
+  "archive_sha256": "d15d070113a03d548ebd1531fd7ca88268bdb0ba00323cfa904902a2f167b6ae",
+  "files_sha256": {
+    "README.md": "5707c487b20aef8bb779d63c32d8ca11ee7d66c12e46ff4a366047622bf49811",
+    "always_crop_99710272_22x8_v12_epoch_00148.pt": "d099632044e92a0446869e06e5eb282e24706d5266b4acf5b42f5f23e2b50ade",
+    "taxonomy_release.20260609.txt": "4bd5d1a85a63857f557d487c5d86c0911173c59b34977ebc0ee909484ce277f2",
+    "info.json": "037133d121d48a5cd53884cdee01374564f32e2cc6f1375ffb39a9bc1cf6000a",
+    "geofence_release.20260609.json": "27a88e932e411f73a4937c935fe36cf61a9060a1c488f4c69ade3f19eb8507d1",
+    "LICENSE-Apache-2.0.txt": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "always_crop_99710272_22x8_v12_epoch_00148.labels.20260609.txt": "e0c41415d9b29dfd6d2e2494205d1197d28595cc6f69cb129495f9827155547e",
+    "classifier_reference.py": "a8c03919f662b4a03caef2d960721b1bbe2cf8fdcb32dd762cb183e05b288a26"
+  },
+  "geographic_filter_used": false,
+  "license": "Apache-2.0"
+}

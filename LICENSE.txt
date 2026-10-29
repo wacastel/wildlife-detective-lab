@@ -1,0 +1,30 @@
+MIT License
+
+Copyright (c) 2026 Wildlife Detective Lab contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+This license covers newly written demo code and teaching text only. Bundled
+model files and original model notices retain their upstream licenses. Source
+wildlife photographs are Public Domain as indicated in assets/photos.json.
+The added Seattle(ish) and Caltech camera-trap photographs use the Community
+Data License Agreement - Permissive - Version 1.0; its full text is retained
+in assets/licenses/CDLA-Permissive-1.0.txt. The synthetic gray control is
+dedicated to the public domain under CC0-1.0. Photo credits, original source
+links, and preparation notes are preserved in assets/photos.json.

@@ -1,0 +1,508 @@
+[
+  {
+    "id": "deer_2",
+    "filename": "deer_2.jpg",
+    "title": "Deer: open field",
+    "species": "White-tailed deer (Odocoileus virginianus)",
+    "species_label_source": "Human source-page species label; not detector output",
+    "credit": "Brett Billings/USFWS",
+    "license": "Public Domain",
+    "source_page": "https://www.fws.gov/media/white-tailed-deer-16",
+    "source_url": "https://www.fws.gov/media/white-tailed-deer-16",
+    "image_url": "https://www.fws.gov/sites/default/files/styles/max_1300x1300/public/images/2008-03/16836.jpg?itok=4N3Mofd2",
+    "license_evidence_url": "https://www.fws.gov/media/white-tailed-deer-16",
+    "location": "National Conservation Training Center, West Virginia; not Illinois.",
+    "location_note": "National Conservation Training Center, West Virginia; not Illinois.",
+    "quality_note": "Clear daylight side view in an open field. Brown coat and grass have similar colors, but the body outline is visible.",
+    "source_dimensions": [
+      1300,
+      864
+    ],
+    "source_sha256": "20902b095968b6a2f1b43e8687c464f88a3cdc6e82d38c724e1bc73673363f7c",
+    "preparation_note": "Downloaded source rendition 1300 x 864; prepared at 1280 x 851 and re-encoded JPEG quality 94. No artificial darkness, blur, pixelation, or obstruction added.",
+    "human_animal_count": 1,
+    "human_count_note": "Teaching annotation based on the source description and visual inspection; not detector output.",
+    "example_detections": [
+      {
+        "class_id": 0,
+        "category": "animal",
+        "score": 0.955527126789093,
+        "bbox": [
+          0.1755295515060425,
+          0.2538410598683245,
+          0.6028908967971802,
+          0.5685570945202465
+        ]
+      }
+    ],
+    "example_top_animal_score": 0.955527126789093,
+    "example_animal_boxes_at_0_30": 1
+  },
+  {
+    "id": "deer_3",
+    "filename": "deer_3.jpg",
+    "title": "Deer: grass and shadows",
+    "species": "White-tailed deer (Odocoileus virginianus)",
+    "species_label_source": "Human source-page species label; not detector output",
+    "credit": "Bill Thompson/USFWS",
+    "license": "Public Domain",
+    "source_page": "https://www.fws.gov/media/white-tailed-deer-12",
+    "source_url": "https://www.fws.gov/media/white-tailed-deer-12",
+    "image_url": "https://www.fws.gov/sites/default/files/images/2024-03-5/13211.jpg",
+    "license_evidence_url": "https://www.fws.gov/media/white-tailed-deer-12",
+    "location": "Quabbin Reservoir, South Athol, Massachusetts; not Illinois.",
+    "location_note": "Quabbin Reservoir, South Athol, Massachusetts; not Illinois.",
+    "quality_note": "Real daylight photograph with dark forest, bright grass, and parts of the animal hidden by vegetation.",
+    "source_dimensions": [
+      1200,
+      810
+    ],
+    "source_sha256": "ca11e49d705260b50405d541d67e9e033be5e02d8e5c11ea5a207cb6f9a4a1b9",
+    "preparation_note": "Downloaded source rendition 1200 x 810; prepared at 1200 x 810 and re-encoded JPEG quality 94. No artificial darkness, blur, pixelation, or obstruction added.",
+    "human_animal_count": 1,
+    "human_count_note": "Teaching annotation based on the source description and visual inspection; not detector output.",
+    "example_detections": [
+      {
+        "class_id": 0,
+        "category": "animal",
+        "score": 0.8738107681274414,
+        "bbox": [
+          0.26961550712585447,
+          0.022769927978515625,
+          0.46053380966186525,
+          0.9771868387858073
+        ]
+      },
+      {
+        "class_id": 0,
+        "category": "animal",
+        "score": 0.1334504783153534,
+        "bbox": [
+          0.4352079391479492,
+          0.021848678588867188,
+          0.29575424194335936,
+          0.8605950673421224
+        ]
+      },
+      {
+        "class_id": 0,
+        "category": "animal",
+        "score": 0.07806038856506348,
+        "bbox": [
+          0.270660924911499,
+          0.38766380592628763,
+          0.28154501914978025,
+          0.6104234766077112
+        ]
+      },
+      {
+        "class_id": 0,
+        "category": "animal",
+        "score": 0.04399678111076355,
+        "bbox": [
+          0.27159767150878905,
+          0.38920338948567706,
+          0.22187023162841796,
+          0.6105083889431424
+        ]
+      },
+      {
+        "class_id": 0,
+        "category": "animal",
+        "score": 0.04050847887992859,
+        "bbox": [
+          0.2706655263900757,
+          0.36366349679452403,
+          0.4571624994277954,
+          0.635697188200774
+        ]
+      },
+      {
+        "class_id": 0,
+        "category": "animal",
+        "score": 0.01647210121154785,
+        "bbox": [
+          0.7320040702819824,
+          0.3845693800184462,
+          0.2669350624084473,
+          0.31487740410698783
+        ]
+      }
+    ],
+    "example_top_animal_score": 0.8738107681274414,
+    "example_animal_boxes_at_0_30": 1
+  },
+  {
+    "id": "deer_4",
+    "filename": "deer_4.jpg",
+    "title": "Deer: woodland trail camera",
+    "species": "White-tailed deer (Odocoileus virginianus)",
+    "species_label_source": "Human source-page species label; not detector output",
+    "credit": "NPS Photo",
+    "license": "Public Domain",
+    "source_page": "https://npgallery.nps.gov/AssetDetail/575ca385-2770-4806-84ba-b7a12c918692",
+    "source_url": "https://npgallery.nps.gov/AssetDetail/575ca385-2770-4806-84ba-b7a12c918692",
+    "image_url": "https://npgallery.nps.gov/GetAsset/575ca385-2770-4806-84ba-b7a12c918692/proxymdres.jpg",
+    "license_evidence_url": "https://npgallery.nps.gov/AssetDetail/575ca385-2770-4806-84ba-b7a12c918692",
+    "location": "Big Thicket National Preserve, Texas; not Illinois.",
+    "location_note": "Big Thicket National Preserve, Texas; not Illinois.",
+    "quality_note": "Real trail-camera view of a buck in a cluttered woodland. Despite the vegetation and less vivid lighting, detection is strong in this example.",
+    "source_dimensions": [
+      1000,
+      750
+    ],
+    "source_sha256": "554a3ab7c89eb69a13dd229315ecdeb8e48477e56c62f23e9f206b54bd8846b5",
+    "preparation_note": "Downloaded source rendition 1000 x 750; prepared at 1000 x 750 and re-encoded JPEG quality 94. No artificial darkness, blur, pixelation, or obstruction added.",
+    "human_animal_count": 1,
+    "human_count_note": "Teaching annotation based on the source description and visual inspection; not detector output.",
+    "example_detections": [
+      {
+        "class_id": 0,
+        "category": "animal",
+        "score": 0.9624700546264648,
+        "bbox": [
+          0.274808406829834,
+          0.4015467325846354,
+          0.37621583938598635,
+          0.5744171142578125
+        ]
+      }
+    ],
+    "example_top_animal_score": 0.9624700546264648,
+    "example_animal_boxes_at_0_30": 1
+  },
+  {
+    "id": "raccoon_2",
+    "filename": "raccoon_2.jpg",
+    "title": "Raccoon: clear close view",
+    "species": "Raccoon (Procyon lotor)",
+    "species_label_source": "Human source-page species label; not detector output",
+    "credit": "Robert H. Burton/USFWS",
+    "license": "Public Domain",
+    "source_page": "https://www.fws.gov/media/raccoon-move",
+    "source_url": "https://www.fws.gov/media/raccoon-move",
+    "image_url": "https://www.fws.gov/sites/default/files/styles/max_1300x1300/public/images/2010-03/30292.jpg?itok=HoZiTLFO",
+    "license_evidence_url": "https://www.fws.gov/media/raccoon-move",
+    "location": "Aransas National Wildlife Refuge, Texas; not Illinois.",
+    "location_note": "Aransas National Wildlife Refuge, Texas; not Illinois.",
+    "quality_note": "Clear close view of a raccoon walking toward the camera; facial mask and body are visible.",
+    "source_dimensions": [
+      867,
+      1300
+    ],
+    "source_sha256": "71a811c7ec231db6c0319a1ea10faef3dddeabb339c9105b09681e3d7c9470e2",
+    "preparation_note": "Downloaded source rendition 867 x 1300; prepared at 854 x 1280 and re-encoded JPEG quality 94. No artificial darkness, blur, pixelation, or obstruction added.",
+    "human_animal_count": 1,
+    "human_count_note": "Teaching annotation based on the source description and visual inspection; not detector output.",
+    "example_detections": [
+      {
+        "class_id": 0,
+        "category": "animal",
+        "score": 0.943131685256958,
+        "bbox": [
+          0.0011790005328783666,
+          0.06976933479309082,
+          0.8462015192179266,
+          0.8804460048675538
+        ]
+      },
+      {
+        "class_id": 0,
+        "category": "animal",
+        "score": 0.010749638080596924,
+        "bbox": [
+          0.3005305341591042,
+          0.7097691535949707,
+          0.20929240957076992,
+          0.13368091583251954
+        ]
+      }
+    ],
+    "example_top_animal_score": 0.943131685256958,
+    "example_animal_boxes_at_0_30": 1
+  },
+  {
+    "id": "raccoon_3",
+    "filename": "raccoon_3.jpg",
+    "title": "Raccoons: night trail camera",
+    "species": "Raccoon (Procyon lotor)",
+    "species_label_source": "Human source-page species label; not detector output",
+    "credit": "NPS Photo",
+    "license": "Public Domain",
+    "source_page": "https://npgallery.nps.gov/AssetDetail/88ef1e6a-ca4d-49b3-af90-6d7c4561b61c",
+    "source_url": "https://npgallery.nps.gov/AssetDetail/88ef1e6a-ca4d-49b3-af90-6d7c4561b61c",
+    "image_url": "https://npgallery.nps.gov/GetAsset/88ef1e6a-ca4d-49b3-af90-6d7c4561b61c/proxymdres.jpg",
+    "license_evidence_url": "https://npgallery.nps.gov/AssetDetail/88ef1e6a-ca4d-49b3-af90-6d7c4561b61c",
+    "location": "Big Thicket National Preserve, Texas; not Illinois.",
+    "location_note": "Big Thicket National Preserve, Texas; not Illinois.",
+    "quality_note": "Real monochrome night trail-camera photograph with two raccoons described by NPS. A small animal climbs the tree; another is blurred in the foreground. At cutoff 0.30 this detector reports only one animal box.",
+    "source_dimensions": [
+      1000,
+      750
+    ],
+    "source_sha256": "92f0fa89472510e781a4bdde350c5945c9dd29ee0b1ee68bdbd2e871897416ec",
+    "preparation_note": "Downloaded source rendition 1000 x 750; prepared at 1000 x 750 and re-encoded JPEG quality 94. No artificial darkness, blur, pixelation, or obstruction added.",
+    "human_animal_count": 2,
+    "human_count_note": "Teaching annotation based on the source description and visual inspection; not detector output.",
+    "example_detections": [
+      {
+        "class_id": 0,
+        "category": "animal",
+        "score": 0.7251400351524353,
+        "bbox": [
+          0.7498427391052246,
+          0.6993127187093099,
+          0.1256683349609375,
+          0.1002511978149414
+        ]
+      },
+      {
+        "class_id": 0,
+        "category": "animal",
+        "score": 0.0800442099571228,
+        "bbox": [
+          0.6735419273376465,
+          0.6990652084350586,
+          0.2053253173828125,
+          0.10017922719319662
+        ]
+      },
+      {
+        "class_id": 0,
+        "category": "animal",
+        "score": 0.07512533664703369,
+        "bbox": [
+          0.6711034774780273,
+          0.695902951558431,
+          0.20442209243774415,
+          0.10441322326660156
+        ]
+      }
+    ],
+    "example_top_animal_score": 0.7251400351524353,
+    "example_animal_boxes_at_0_30": 1,
+    "license_note": "NPS asset Constraints Information explicitly says Public domain:Full Granting Rights; its separate Copyright field reads Copyright 2002 (retained here for source transparency)."
+  },
+  {
+    "id": "raccoon_4",
+    "filename": "raccoon_4.jpg",
+    "title": "Raccoon: hidden among trees",
+    "species": "Raccoon (Procyon lotor)",
+    "species_label_source": "Human source-page species label; not detector output",
+    "credit": "NPS Photo",
+    "license": "Public Domain",
+    "source_page": "https://npgallery.nps.gov/AssetDetail/8520034a-28a4-45e4-a751-d22d2c870ae4",
+    "source_url": "https://npgallery.nps.gov/AssetDetail/8520034a-28a4-45e4-a751-d22d2c870ae4",
+    "image_url": "https://npgallery.nps.gov/GetAsset/8520034a-28a4-45e4-a751-d22d2c870ae4/proxymdres.jpg",
+    "license_evidence_url": "https://npgallery.nps.gov/AssetDetail/8520034a-28a4-45e4-a751-d22d2c870ae4",
+    "location": "Big Thicket National Preserve, Texas; not Illinois.",
+    "location_note": "Big Thicket National Preserve, Texas; not Illinois.",
+    "quality_note": "A small raccoon rests between large tree trunks. This naturally difficult photo produces weak overlapping animal boxes and a false animal box on a patch of background.",
+    "source_dimensions": [
+      666,
+      999
+    ],
+    "source_sha256": "68fbbc3e3dfed269bd145b1c37baa0672df3cdfe06a9ac345b1bd28b668a9131",
+    "preparation_note": "Downloaded source rendition 666 x 999; prepared at 666 x 999 and re-encoded JPEG quality 94. No artificial darkness, blur, pixelation, or obstruction added.",
+    "human_animal_count": 1,
+    "human_count_note": "Teaching annotation based on the source description and visual inspection; not detector output.",
+    "example_detections": [
+      {
+        "class_id": 0,
+        "category": "animal",
+        "score": 0.4423902928829193,
+        "bbox": [
+          0.41136065802473654,
+          0.35721235275268554,
+          0.17007853666569087,
+          0.19220490455627443
+        ]
+      },
+      {
+        "class_id": 0,
+        "category": "animal",
+        "score": 0.4370213747024536,
+        "bbox": [
+          0.0018589457527535861,
+          0.6301194667816162,
+          0.16120344246857618,
+          0.3698010921478271
+        ]
+      },
+      {
+        "class_id": 0,
+        "category": "animal",
+        "score": 0.3719768226146698,
+        "bbox": [
+          0.41314682971677397,
+          0.35793166160583495,
+          0.16806616325289078,
+          0.15014657974243167
+        ]
+      },
+      {
+        "class_id": 0,
+        "category": "animal",
+        "score": 0.14236599206924438,
+        "bbox": [
+          0.413114668334675,
+          0.4610576629638672,
+          0.16028718256001176,
+          0.08740382194519047
+        ]
+      },
+      {
+        "class_id": 1,
+        "category": "person",
+        "score": 0.029330074787139893,
+        "bbox": [
+          0.0018589457527535861,
+          0.6301194667816162,
+          0.16120344246857618,
+          0.3698010921478271
+        ]
+      },
+      {
+        "class_id": 0,
+        "category": "animal",
+        "score": 0.014098405838012695,
+        "bbox": [
+          0.002302486946767052,
+          0.6249476909637451,
+          0.33840979904424945,
+          0.37505230903625486
+        ]
+      }
+    ],
+    "example_top_animal_score": 0.4423902928829193,
+    "example_animal_boxes_at_0_30": 3
+  },
+  {
+    "id": "coyote_2",
+    "filename": "coyote_2.jpg",
+    "title": "Coyote: trail camera",
+    "source_url": "https://www.fws.gov/media/coyote-caught-trail-camera-occoquan-bay-nwr",
+    "image_url": "https://www.fws.gov/sites/default/files/images/2025-04/coyote-trail-cam-occoquan-bay-national-wildlife-refuge.jpg",
+    "credit": "USFWS / Occoquan Bay National Wildlife Refuge (individual photographer not listed)",
+    "location_note": "Occoquan Bay National Wildlife Refuge, Virginia; not Illinois.",
+    "quality_note": "Real trail-camera photograph; animal and habitat context differ from the original close-up.",
+    "species": "Coyote (Canis latrans)",
+    "species_label_source": "Human source-page species title; not detector output",
+    "license": "Public Domain",
+    "source_page": "https://www.fws.gov/media/coyote-caught-trail-camera-occoquan-bay-nwr",
+    "location": "Occoquan Bay National Wildlife Refuge, Virginia; not Illinois.",
+    "preparation_note": "Original 2048\u00d71152; resized to 1280\u00d7720 and re-encoded JPEG quality 92. No darkness, blur, or obstruction was added.",
+    "source_sha256": "0c51aa0b872d2751120876c4ccc61959a7215c458548fb01cf6513eb2c86db3a",
+    "source_dimensions": [
+      2048,
+      1152
+    ],
+    "example_detections": [
+      {
+        "class_id": 0,
+        "category": "animal",
+        "score": 0.9573621153831482,
+        "bbox": [
+          0.3721025466918945,
+          0.4926233927408854,
+          0.29188976287841795,
+          0.5073766072591146
+        ]
+      }
+    ],
+    "example_top_animal_score": 0.9573621153831482,
+    "example_animal_boxes_at_0_30": 1,
+    "license_evidence_url": "https://www.fws.gov/media/coyote-caught-trail-camera-occoquan-bay-nwr",
+    "human_animal_count": 1,
+    "human_count_note": "Teaching annotation from source description and visual inspection; not detector output."
+  },
+  {
+    "id": "coyote_3",
+    "filename": "coyote_3.jpg",
+    "title": "Coyote: snowy trail camera",
+    "source_url": "https://www.usgs.gov/media/images/a-trail-camera-records-a-coyote-snow-covered-woods",
+    "image_url": "https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/media/images/GMN69_0525_2024-01-30_131256_44.JPG",
+    "credit": "Vermont Cooperative Fish and Wildlife Research Unit / USGS",
+    "location_note": "Published with Vermont Cooperative Fish and Wildlife Research Unit monitoring work; exact capture location not specified on page. Not established as Illinois.",
+    "quality_note": "Real color snowy woodland trail-camera image; smaller animal, clutter, and bright snow. No synthetic degradation.",
+    "species": "Coyote (Canis latrans)",
+    "species_label_source": "Human source-page species title; not detector output",
+    "license": "Public Domain",
+    "source_page": "https://www.usgs.gov/media/images/a-trail-camera-records-a-coyote-snow-covered-woods",
+    "location": "Published with Vermont Cooperative Fish and Wildlife Research Unit monitoring work; exact capture location not specified on page. Not established as Illinois.",
+    "preparation_note": "Original 3840\u00d72160; resized to 1280\u00d7720 and re-encoded JPEG quality 92. No darkness, blur, or obstruction was added.",
+    "source_sha256": "e417ffc41c78610e498e98b3d8e28e2db1f348b8868f8750a19f35320d40eba8",
+    "source_dimensions": [
+      3840,
+      2160
+    ],
+    "example_detections": [
+      {
+        "class_id": 0,
+        "category": "animal",
+        "score": 0.9422316551208496,
+        "bbox": [
+          0.2179734230041504,
+          0.568926747639974,
+          0.19467039108276368,
+          0.3109441969129774
+        ]
+      },
+      {
+        "class_id": 0,
+        "category": "animal",
+        "score": 0.021447986364364624,
+        "bbox": [
+          0.6481010913848877,
+          0.5856516520182292,
+          0.01577897071838379,
+          0.04082607693142361
+        ]
+      }
+    ],
+    "example_top_animal_score": 0.9422316551208496,
+    "example_animal_boxes_at_0_30": 1,
+    "license_evidence_url": "https://www.usgs.gov/media/images/a-trail-camera-records-a-coyote-snow-covered-woods",
+    "human_animal_count": 1,
+    "human_count_note": "Teaching annotation from source description and visual inspection; not detector output."
+  },
+  {
+    "id": "coyote_4",
+    "filename": "coyote_4.jpg",
+    "title": "Coyote: grassland profile",
+    "source_url": "https://npgallery.nps.gov/AssetDetail/aef98170-de35-45e5-ae12-aec238f2bfda",
+    "image_url": "https://npgallery.nps.gov/GetAsset/aef98170-de35-45e5-ae12-aec238f2bfda/proxyhires.jpg",
+    "credit": "NPS Photo",
+    "location_note": "Tallgrass Prairie National Preserve, Chase County, Kansas; not Illinois.",
+    "quality_note": "Naturally soft-focus daylight animal in grassland, with part of the body outside the frame. Despite those limitations, MegaDetector gives a high animal score here.",
+    "species": "Coyote (Canis latrans)",
+    "species_label_source": "Human source-page species title; not detector output",
+    "license": "Public Domain",
+    "source_page": "https://npgallery.nps.gov/AssetDetail/aef98170-de35-45e5-ae12-aec238f2bfda",
+    "location": "Tallgrass Prairie National Preserve, Chase County, Kansas; not Illinois.",
+    "preparation_note": "Original 1999\u00d71279; resized to 1280\u00d7819 and re-encoded JPEG quality 92. No darkness, blur, or obstruction was added.",
+    "source_sha256": "1831b36fae9d19eeb47fea9ac6c8c1f547cb372a3403c01b75c0e4b2abcd0682",
+    "source_dimensions": [
+      1999,
+      1279
+    ],
+    "example_detections": [
+      {
+        "class_id": 0,
+        "category": "animal",
+        "score": 0.9676659107208252,
+        "bbox": [
+          0.0007483720779418946,
+          0.29650730040015244,
+          0.6618347406387329,
+          0.6740865567835366
+        ]
+      }
+    ],
+    "example_top_animal_score": 0.9676659107208252,
+    "example_animal_boxes_at_0_30": 1,
+    "license_evidence_url": "https://npgallery.nps.gov/AssetDetail/aef98170-de35-45e5-ae12-aec238f2bfda",
+    "human_animal_count": 1,
+    "human_count_note": "Teaching annotation from source description and visual inspection; not detector output."
+  }
+]
