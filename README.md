@@ -3,7 +3,7 @@
 **Find an animal, person, or vehicle. Crop an animal box. Ask a second AI which species it might be.**
 
 Use three tabs to learn how computer vision works, run the two-model detective
-lab, and investigate the questions in Cory's forwarded team email. The app
+lab, and investigate common questions about wildlife AI. The app
 opens on **How computer vision works**.
 
 Explore 32 bundled sources: wildlife photographs, human and vehicle camera-trap
@@ -29,11 +29,15 @@ network, API key, server, or model download is required for this mode.
    traps gather evidence, and how AI helps people review large photo collections.
    Explore credited day, night, and winter camera-trap photos, then open the same
    images in the detective lab to inspect genuine model results.
+   See a real tree-mounted camera and try its illustrated day/night trigger.
    Then change a small pixel grid, move a 3 × 3
    filter, and calculate a toy neuron's training steps. Read the Python model,
    training, and inference examples. These clearly labeled teaching calculations
    run in the browser; they do not train a custom wildlife model or change the
    bundled MegaDetector or SpeciesNet weights.
+   Section 06 follows a real deer, raccoon, or coyote photograph through exact
+   detector resizing, a labeled edge illustration, genuine saved boxes, an
+   adjustable cutoff, an exact animal crop, SpeciesNet labels, and human review.
 2. **Detective lab:** start with the basic two-model workflow. Choose a photo,
    inspect its genuine saved MegaDetector boxes, select an accepted animal crop,
    and click **Identify this crop** to reveal its saved SpeciesNet labels,
@@ -42,7 +46,7 @@ network, API key, server, or model download is required for this mode.
    quality experiments compare darkness, blur, fewer pixels, a smaller scene,
    obstruction, and grayscale. Predict before revealing; adjust **Minimum
    detection score** to investigate weak candidates and mistakes.
-3. **Cory's team questions:** open an answer and use its investigation button
+3. **Questions & investigations:** open an answer and use its investigation button
    to load a related genuine saved example in the question tab's mini lab.
    Its condition chooser, detection cutoff, crop selection, and species reveal
    work offline. The underwater light calculation is labeled illustrative;
@@ -307,6 +311,15 @@ a perfectly descending score curve.
 - `lesson_content.html`, `lesson_styles.css`, `lesson_interactions.js`: editable
   computer vision lesson and its browser-only teaching calculations. The
   builder embeds these fragments, styles, and scripts into the standalone HTML.
+- `camera_trap_content.html`, `camera_trap_styles.css`,
+  `camera_trap_interactions.js`: the mounted-camera photograph and illustrated
+  PIR trigger, daylight, and infrared night-light lesson.
+- `inference_walkthrough.css`: the real-photo walkthrough in Section 06. Its
+  lossless 640 × 640 teaching previews are regenerated from hash-verified saved
+  inputs during rendering; recorded inputs and model results remain unchanged.
+- `assets/camera_trap_equipment.json`: credit, CC BY 2.0 license, source, and
+  exact hash for the equipment photograph. It is a teaching asset, not another
+  inference source.
 - `app.py`, `local_photos.py`, `image_lab.py`, `detector.py`: local server,
   drop-in photo catalog, controlled edits, and real detector.
 - `user_photos/`: local drop-in photos; only its instructions belong in Git.

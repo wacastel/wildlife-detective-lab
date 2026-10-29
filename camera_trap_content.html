@@ -1,0 +1,48 @@
+<section class="camera-trap-lesson" id="cameraTrapLesson" data-mode="day" data-triggered="false" aria-labelledby="cameraTrapTitle">
+ <div class="eyebrow">Meet the camera behind the photographs</div>
+ <h3 id="cameraTrapTitle">A camera trap can keep watch while people are away.</h3>
+ <p>A weather-resistant camera is fastened to a tree and aimed across a wildlife path. In a common design, a passive infrared sensor provides the trigger, and a separate lens and image sensor record the picture.</p>
+ <div class="camera-trap-layout">
+  <figure class="camera-trap-equipment">
+   <img src="__CAMERA_TRAP_PHOTO__" width="1024" height="683" decoding="async" alt="A real trail camera, with an infrared LED array, lens, and sensor window on its front, secured to a cottonwood tree.">
+   <figcaption><strong>A real camera trap on a tree</strong><span>Bosque del Apache National Wildlife Refuge, New Mexico.</span><small>“Camera on cottonwood tree” · J.N. Stuart, via U.S. Fish and Wildlife Service · <a href="https://creativecommons.org/licenses/by/2.0/" target="_blank" rel="noopener noreferrer">CC BY 2.0</a>. Unchanged photograph. <a href="https://www.flickr.com/photos/usfwshq/6659381551/" target="_blank" rel="noopener noreferrer">Original source</a> · <a href="https://commons.wikimedia.org/wiki/File:Camera_on_cottonwood_tree_(6659381551).jpg" target="_blank" rel="noopener noreferrer">File and license record</a>.</small></figcaption>
+  </figure>
+  <div class="camera-trap-interactive">
+   <div class="camera-trap-modes" role="group" aria-label="Choose the camera lighting condition"><button type="button" data-camera-trap-mode="day" aria-pressed="true">☀ Day</button><button type="button" data-camera-trap-mode="night" aria-pressed="false">☾ Night</button></div>
+   <svg class="camera-trap-scene" viewBox="0 0 720 320" role="img" aria-labelledby="cameraTrapSceneTitle cameraTrapSceneDescription">
+    <title id="cameraTrapSceneTitle">A moving animal can trigger a camera trap</title><desc id="cameraTrapSceneDescription">A tree-mounted camera watches an approximate sensing area. Use the controls to move a drawn deer into that area and compare day and night lighting. This is an illustration, not a sensor measurement.</desc>
+    <defs><marker id="cameraTrapArrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0L7 3.5L0 7Z" fill="#e1a83b"/></marker></defs>
+    <rect class="camera-trap-sky" x="0" y="0" width="720" height="320" rx="12"/>
+    <path class="camera-trap-ground" d="M0 252Q170 230 350 252T720 247V320H0Z"/>
+    <g class="camera-trap-sun"><circle cx="648" cy="46" r="23" fill="#efc562"/><path d="M648 9V1M648 91V83M612 46H604M692 46H684M622 20L616 14M680 78L674 72M622 72L616 78M680 14L674 20" stroke="#d49d35" stroke-width="3"/></g>
+    <g class="camera-trap-moon"><path d="M660 19A28 28 0 1 0 680 64A26 26 0 0 1 660 19Z" fill="#e7efd2"/><g fill="#e7efd2"><circle cx="563" cy="33" r="2"/><circle cx="595" cy="69" r="2"/><circle cx="508" cy="50" r="2"/></g></g>
+    <path d="M80 20L129 18L139 260L66 260Z" fill="#745b42"/><path d="M93 26L89 133M113 45L119 138M82 207L80 252" stroke="#a98c64" stroke-width="5"/>
+    <path class="camera-trap-zone" d="M176 170L555 90L555 253Z"/>
+    <text class="camera-trap-label" x="303" y="93">Approximate sensing area</text>
+    <rect x="110" y="130" width="66" height="91" rx="10" fill="#2e4738" stroke="#d4dfb7" stroke-width="2"/>
+    <rect x="124" y="142" width="39" height="17" rx="3" fill="#c0cfb0"/>
+    <g class="camera-trap-leds" fill="#f5e0a5"><circle cx="131" cy="147" r="2"/><circle cx="141" cy="147" r="2"/><circle cx="151" cy="147" r="2"/><circle cx="131" cy="154" r="2"/><circle cx="141" cy="154" r="2"/><circle cx="151" cy="154" r="2"/></g>
+    <circle cx="144" cy="178" r="10" fill="#0f2522" stroke="#839f8a" stroke-width="3"/><circle cx="144" cy="203" r="8" fill="#dbe4c5"/>
+    <text class="camera-trap-label" x="15" y="294">PIR sensor + camera + light</text>
+    <path class="camera-trap-night-light" d="M177 149Q330 109 432 190" fill="none" stroke="#e1a83b" stroke-width="4" stroke-dasharray="9 7" marker-end="url(#cameraTrapArrow)"/>
+    <text class="camera-trap-night-light camera-trap-label" x="266" y="133">IR LEDs illuminate the scene</text>
+    <g id="cameraTrapAnimal" transform="translate(630 216)" fill="#9c713f" stroke="#614b33" stroke-width="2">
+     <ellipse cx="0" cy="0" rx="37" ry="20"/><path d="M23 -9L35 -37L45 -31L39 10Z"/><ellipse cx="43" cy="-35" rx="15" ry="9"/><path d="M39 -43L34 -56L42 -52L47 -43M44 -43L49 -57L54 -48"/><path d="M-24 9L-28 44M-10 15L-9 44M20 9L24 43M29 7L35 40" fill="none" stroke-width="6"/><path d="M-32 -8L-48 -17L-44 -2Z"/><circle cx="50" cy="-36" r="2.5" fill="#182f27" stroke="none"/>
+    </g>
+    <text id="cameraTrapAnimalLabel" class="camera-trap-label" x="573" y="291">Outside the sensing area</text>
+    <g id="cameraTrapSavedMark" class="camera-trap-saved-mark"><rect x="236" y="203" width="144" height="35" rx="8" fill="#eaf0dd"/><text x="249" y="226" fill="#24664e" font-size="15" font-weight="800">✓ Picture recorded</text></g>
+   </svg>
+   <div class="camera-trap-actions"><button type="button" class="primary" id="cameraTrapCross">Move the animal past the camera →</button><button type="button" id="cameraTrapReset" disabled>Reset animal</button></div>
+   <p id="cameraTrapStatus" class="camera-trap-status" role="status">The camera is waiting. Move the animal into view to try the trigger.</p>
+   <p class="vision-small camera-trap-diagram-note">Illustration only. The shaded area is a simplified sensing area, not a beam emitted by the PIR sensor.</p>
+  </div>
+ </div>
+ <ol class="camera-trap-steps" aria-label="How this camera-trap example takes a picture">
+  <li id="cameraTrapSenseStep"><span>1 · Sense a change</span><p>A moving animal with a different surface temperature from the background changes the infrared radiation reaching the <strong>passive infrared (PIR) sensor</strong>. The sensor can trigger the camera. It does not identify the species.</p></li>
+  <li id="cameraTrapLightStep"><span id="cameraTrapLightTitle">2 · Use daylight</span><p id="cameraTrapLightText">In daylight, the camera uses available visible light to record a usually color photograph. The motion trigger can work in daylight or darkness.</p></li>
+  <li id="cameraTrapSaveStep"><span>3 · Save the photograph</span><p>The image sensor records the scene and the camera saves the file, often to a memory card. Later, people or AI can inspect the photograph.</p></li>
+ </ol>
+ <div id="cameraTrapExample" class="camera-trap-example" hidden><img id="cameraTrapResultPhoto" width="1000" height="750" alt=""><div><strong id="cameraTrapResultTitle">A saved camera-trap example</strong><p id="cameraTrapResultCaption"></p><small id="cameraTrapResultCredit"></small></div></div>
+ <p class="vision-small">This illustrates a common PIR camera with infrared LEDs. Other designs use white flash, an active beam, or timed photography. A weak temperature contrast, distance, speed, or camera settings can prevent a trigger. An infrared-lit night photograph records reflected light; a thermal camera instead maps emitted heat radiation.</p>
+ <p class="vision-reference">Explore the science: <a href="https://zslpublications.onlinelibrary.wiley.com/doi/full/10.1002/rse2.20" target="_blank" rel="noopener noreferrer">How PIR triggers work</a> · <a href="https://emammal.si.edu/faq" target="_blank" rel="noopener noreferrer">Smithsonian camera-trap FAQ</a> · <a href="https://ask.ifas.ufl.edu/en/publication/UW530" target="_blank" rel="noopener noreferrer">University of Florida camera-trapping guide</a>.</p>
+</section>

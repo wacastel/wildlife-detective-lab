@@ -1,0 +1,19 @@
+{
+  "id": "camera_trap_equipment",
+  "filename": "camera_trap_mounted.jpg",
+  "title": "Camera on cottonwood tree",
+  "credit": "J.N. Stuart, via U.S. Fish and Wildlife Service Headquarters",
+  "license": "CC BY 2.0",
+  "license_url": "https://creativecommons.org/licenses/by/2.0/",
+  "source_url": "https://www.flickr.com/photos/usfwshq/6659381551/",
+  "license_evidence_url": "https://commons.wikimedia.org/wiki/File:Camera_on_cottonwood_tree_(6659381551).jpg",
+  "original_image_url": "https://upload.wikimedia.org/wikipedia/commons/b/b1/Camera_on_cottonwood_tree_%286659381551%29.jpg",
+  "source_sha256": "2defa5fd1cbf2de71086111af7f60c350fd656d391ba92096217ccefc8b52235",
+  "prepared_sha256": "2defa5fd1cbf2de71086111af7f60c350fd656d391ba92096217ccefc8b52235",
+  "width": 1024,
+  "height": 683,
+  "location": "Bosque del Apache National Wildlife Refuge, New Mexico, United States",
+  "modifications": "None. Original JPEG bytes retained. Browser display scales the full photograph.",
+  "role": "Teaching equipment photograph; not an inference source or model prediction.",
+  "license_notes": "Wikimedia Commons records Flickr CC BY 2.0 with a 2014 license review, and also carries a USFWS public-domain tag. This project follows the explicit CC BY 2.0 attribution and license terms. The original Flickr description credits J.N. Stuart."
+}

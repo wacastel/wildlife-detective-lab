@@ -3,9 +3,11 @@
 from __future__ import annotations
 
 import argparse
+import base64
 import csv
 from datetime import datetime, timezone
 import hashlib
+import io
 import json
 from pathlib import Path
 import platform
@@ -13,7 +15,7 @@ import time
 
 import numpy as np
 import PIL
-from PIL import Image
+from PIL import Image, ImageOps
 
 from detector import AnimalDetector, INPUT_SIZE, MODEL_ID
 from image_lab import PRESETS, data_url, encode_input, load_photo, transform
@@ -32,16 +34,66 @@ def load_template():
         "__LESSON_JS__": "lesson_interactions.js",
         "__LAB_JS__": "lab_interactions.js",
         "__TABS_CSS__": "app_tabs.css",
+        "__CAMERA_TRAP_HTML__": "camera_trap_content.html",
+        "__CAMERA_TRAP_CSS__": "camera_trap_styles.css",
+        "__CAMERA_TRAP_JS__": "camera_trap_interactions.js",
+        "__INFERENCE_CSS__": "inference_walkthrough.css",
     }.items():
         if template.count(marker) != 1:
             raise RuntimeError(f"UI must contain exactly one {marker} placeholder")
         template = template.replace(marker, (ROOT / filename).read_text())
+    equipment = json.loads((ROOT / "assets/camera_trap_equipment.json").read_text())
+    photo = (ROOT / "assets/camera_trap_mounted.jpg").read_bytes()
+    if hashlib.sha256(photo).hexdigest() != equipment["prepared_sha256"]:
+        raise ValueError("Camera-trap equipment photo no longer matches its credit record")
+    if template.count("__CAMERA_TRAP_PHOTO__") != 1:
+        raise RuntimeError("Equipment lesson must contain exactly one photo placeholder")
+    template = template.replace("__CAMERA_TRAP_PHOTO__", data_url(photo))
     return template
+
+
+def lesson_letterbox(variant):
+    """Show the adapter's exact RGB resize/padding as a lossless teaching preview."""
+    relative = Path(variant["input_file"])
+    if relative.is_absolute() or ".." in relative.parts or relative.parts[:1] != ("results",):
+        raise ValueError("Lesson preview must use a saved results image")
+    path = (ROOT / relative).resolve()
+    if not path.is_relative_to((ROOT / "results").resolve()):
+        raise ValueError("Lesson preview is outside the results folder")
+    raw = path.read_bytes()
+    if hashlib.sha256(raw).hexdigest() != variant["input_sha256"]:
+        raise ValueError("Lesson source no longer matches its recorded prediction")
+    with Image.open(io.BytesIO(raw)) as opened:
+        image = ImageOps.exif_transpose(opened).convert("RGB")
+    scale = min(INPUT_SIZE / image.width, INPUT_SIZE / image.height)
+    width, height = max(1, round(image.width * scale)), max(1, round(image.height * scale))
+    canvas = Image.new("RGB", (INPUT_SIZE, INPUT_SIZE), (114, 114, 114))
+    canvas.paste(image.resize((width, height), Image.Resampling.BILINEAR),
+                 ((INPUT_SIZE - width) // 2, (INPUT_SIZE - height) // 2))
+    encoded = io.BytesIO()
+    canvas.save(encoded, format="PNG")
+    return {"lesson_letterbox": "data:image/png;base64," + base64.b64encode(encoded.getvalue()).decode(),
+            "lesson_letterbox_sha256": hashlib.sha256(canvas.tobytes()).hexdigest()}
+
+
+def with_lesson_previews(bundle):
+    prepared = dict(bundle)
+    if "photos" not in bundle:
+        return prepared
+    prepared["photos"] = []
+    for photo in bundle["photos"]:
+        if photo.get("id") not in {"deer_4", "raccoon_trap_1", "coyote_3"}:
+            prepared["photos"].append(photo)
+            continue
+        prepared["photos"].append({**photo, "variants": [
+            {**variant, **lesson_letterbox(variant)} if variant.get("id") == "clear" else variant
+            for variant in photo["variants"]]})
+    return prepared
 
 
 def render_html(bundle):
     template = load_template()
-    encoded = json.dumps(bundle, ensure_ascii=True).replace("<", "\\u003c").replace(">", "\\u003e").replace("&", "\\u0026")
+    encoded = json.dumps(with_lesson_previews(bundle), ensure_ascii=True).replace("<", "\\u003c").replace(">", "\\u003e").replace("&", "\\u0026")
     if template.count("__BUNDLE_JSON__") != 1:
         raise RuntimeError("UI must contain exactly one bundle placeholder")
     return template.replace("__BUNDLE_JSON__", encoded)

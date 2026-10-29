@@ -66,7 +66,7 @@ class SavedPageTests(unittest.TestCase):
     def write_metadata(self):
         (self.root / "results" / "predictions.json").write_text(json.dumps(self.metadata))
 
-    def test_local_root_has_metadata_and_urls_without_embedding_images_or_inference(self):
+    def test_local_root_uses_urls_for_saved_inputs_without_running_inference(self):
         with mock.patch.object(app, "predict", side_effect=AssertionError("Unexpected inference")):
             with urllib.request.urlopen(self.base + "/") as response:
                 html = response.read().decode()
@@ -77,7 +77,7 @@ class SavedPageTests(unittest.TestCase):
         first = rendered["photos"][0]["variants"][0]
         self.assertEqual(first["image"], f"/api/saved/{self.input_hash}.jpg")
         self.assertEqual(first["species_crops"][0]["image"], f"/api/saved/{self.crop_hash}.jpg")
-        self.assertNotIn("data:image/", html)
+        self.assertNotIn("data:image/", json.dumps(rendered))
         self.assertNotIn(str(self.root), html)
         with urllib.request.urlopen(self.base + "/offline_demo.html") as response:
             self.assertEqual(response.read(), self.offline)

@@ -10,13 +10,15 @@ class BundleRenderingTests(unittest.TestCase):
     def test_html_sensitive_metadata_round_trips_without_script_injection(self):
         bundle = {"title": "Deer & coyotes < together >",
                   "source": "</script><script>untrusted text</script>",
-                  "unicode": "Cory’s questions"}
+                  "unicode": "A student’s questions"}
         html = render_html(bundle)
         encoded = re.search(r"const BUNDLE = (.*?);\n", html).group(1)
         self.assertEqual(json.loads(encoded), bundle)
         self.assertNotIn("</script", encoded.lower())
         self.assertNotIn("__LESSON_", html)
         self.assertNotIn("__LAB_JS__", html)
+        self.assertNotIn("__CAMERA_TRAP_", html)
+        self.assertNotIn("__INFERENCE_CSS__", html)
 
 
 if __name__ == "__main__":

@@ -4,18 +4,23 @@
 
 ## Use the three tabs
 
-1. **How computer vision works** opens first. Let children change pixels, move
+1. **How computer vision works** opens first. Start with conservation and the
+   real tree-mounted camera photo. Toggle Day/Night and move the illustrated
+   animal past the camera; distinguish sensing a change from lighting a photo.
+   Let children change pixels, move
    a small filter, and train the toy neuron for one or twenty steps. The plots
    calculate that tiny example's actual arithmetic. They are explicitly
    teaching simulations, not MegaDetector or SpeciesNet outputs. Expand the
    Python examples when useful for the audience; no custom wildlife model is
-   trained by the app.
+   trained by the app. In Section 06, choose a real animal photo and step through
+   the views. Compare the exact prepared RGB image with the separately labeled
+   edge illustration, then inspect real boxes, the cutoff, crop, and saved label.
 2. **Detective lab** begins with basic usage: choose a photo, inspect
    MegaDetector's boxes, and identify an accepted animal crop with SpeciesNet.
    Live lab is open below that workflow. The source-image quality experiments
    come farther down, after children understand the two models' separate jobs.
-3. **Cory's team questions** follows the actual questions in the forwarded team
-   email. Open an answer, then use its investigation button to load the related
+3. **Questions & investigations** explores common questions about wildlife AI.
+   Open an answer, then use its investigation button to load the related
    saved photo in the mini lab on the same tab. Change conditions and cutoffs,
    inspect crops, and reveal genuine recorded classifications. The underwater
    light calculation illustrates optics; it is not underwater model evidence.
@@ -48,7 +53,7 @@ folder on its own.
 | 7–10 minutes | Select an accepted animal crop and click Identify this crop. Read SpeciesNet's labels and taxonomic rank; compare with the separate human label. Explain the two scores have different jobs. |
 | 10–14 minutes | Move down to the quality experiments. Compare a real night/hidden source, then change darkness, blur, or resolution on one photo. Predict before revealing; do not promise scores will decrease. |
 | 14–17 minutes | Adjust Minimum detection score. “At 0.30, which suggestions are hidden?” Try the empty control at 0.05; distinguish false alarms from missed animals. |
-| 17–20 minutes | Open Cory's team questions, load a related genuine example, and design a better camera setup or independent test. Ask what evidence would show that a change helped. |
+| 17–20 minutes | Open Questions & investigations, load a related genuine example, and design a better camera setup or independent test. Ask what evidence would show that a change helped. |
 
 **Add a camera-trap visitor comparison.** Pick a human or vehicle source photo
 and hide the boxes. Ask which of MegaDetector's three categories should appear:
@@ -91,7 +96,7 @@ train on the teaching photos.
 
 A useful cutoff is selected on independently labeled validation data using a stated precision/recall or mistake-cost goal, then checked on an untouched test set. The default 0.30 is a demo setting. See HOW_IT_WORKS_AND_QUESTIONS.md and README.md for the full method and optional evaluator.
 
-## Answers to Cory's team's questions
+## Questions and answers
 
 The app presents these topics on its third tab with investigation buttons.
 Use the mini lab to inspect genuine saved examples where the question concerns
@@ -137,7 +142,7 @@ Ask: **“If our camera missed more animals in thick grass than on an open path,
 |---|---|
 | 0–10 | Use the first tab to ask what children think AI is, compare pixel arithmetic with learned weights, and inspect the training demonstration. |
 | 10–30 | Run the second tab's basic two-model workflow, then its quality experiments. |
-| 30–40 | Open Cory's team questions and let children choose linked camera or habitat investigations. |
+| 30–40 | Open Questions & investigations and let children choose linked camera or habitat investigations. |
 | 40–50 | Connect detection, species identification, human review, and a real conservation question. |
 | 50–60 | Let children design a fair test or sketch a better wildlife-camera setup; finish with their remaining questions. |
 

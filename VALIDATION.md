@@ -1,11 +1,41 @@
 # Validation performed — expanded two-model edition
 
+## Camera hardware and real-photo walkthrough — October 29, 2026
+
+- Added a genuine tree-mounted camera photograph with its original title,
+  J.N. Stuart/USFWS credit, CC BY 2.0 link, source, and exact byte hash in
+  `assets/camera_trap_equipment.json`. It is a teaching asset, not an additional
+  model input. The day/night diagram distinguishes passive infrared sensing
+  from infrared illumination and thermal imaging. Its example photographs are
+  explicitly separate encounters. Browser checks exercised Day, Night, trigger,
+  and reset, including showing and hiding the saved example.
+- Replaced named-team wording with **Questions & investigations** across the
+  app and guides. Checked the rendered text and the third tab's heading.
+- Section 06 now follows three real saved camera-trap sources. Its lossless
+  640 × 640 previews match the detector adapter's actual RGB resize and padding;
+  a test compares the displayed PNG pixels against a captured adapter tensor.
+  Preview generation verifies source hashes and preserves the original bundle.
+  Existing saved source, detector, crop, and SpeciesNet files are unchanged.
+- Browser checks covered all six stages: preparation, explicitly illustrative
+  edge calculation, genuine saved boxes, cutoff, exact crop and SpeciesNet
+  suggestions, and human review. A cutoff of 1.00 hid both the box and crop
+  prediction; lowering it restored the matching crop without changing the
+  source. Switching to raccoon and coyote examples changed their saved labels
+  correctly and cleared the learning response. Step controls stay visible
+  while comparing images, and full frames/crops remain visible.
+- All 17 Python tests passed. The generated standalone script passes Node's
+  syntax check, all fragment placeholders resolve, and render-only verification
+  checks the saved detector/crop hashes. Both new sections fit a 390 px viewport
+  without horizontal scrolling; no browser errors or warnings were observed.
+  The standalone export is about 61.26 MiB, and the local initial page is about
+  3.76 MiB including the equipment photo and three lossless teaching previews.
+
 ## Three-tab learning edition — October 29, 2026
 
 - Added a default computer vision lesson tab, a detective lab tab ordered as
   basic usage, expanded live uploads, then quality experiments, and a question
-  tab based on the actual questions in Cory's forwarded team email. Personal
-  email headers, addresses, and correspondence are not bundled.
+  tab with questions and investigations about wildlife AI. Personal email
+  headers, addresses, and correspondence are not bundled.
 - The lesson's editable pixel filter and sigmoid-neuron training calculate
   their displayed responses, gradients, parameter updates, and loss curves.
   Browser checks changed a filter response from 576 to 544 and reduced the
