@@ -42,6 +42,10 @@ def load_template():
         "__PHOTO_TRAINING_CSS__": "photo_training_styles.css",
         "__PHOTO_TRAINING_MATH__": "photo_training_math.js",
         "__PHOTO_TRAINING_JS__": "photo_training_interactions.js",
+        "__ML_GUIDE_HTML__": "ml_guide_content.html",
+        "__ML_GUIDE_CSS__": "ml_guide_styles.css",
+        "__ML_GUIDE_JS__": "ml_guide_interactions.js",
+        "__ML_RESOURCES_HTML__": "ml_resources_content.html",
     }.items():
         if template.count(marker) != 1:
             raise RuntimeError(f"UI must contain exactly one {marker} placeholder")

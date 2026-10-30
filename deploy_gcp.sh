@@ -40,6 +40,8 @@ files=['.gcloudignore','.dockerignore','Dockerfile.cloud','cloudbuild.yaml','clo
        'lesson_interactions.js','lab_interactions.js','camera_trap_content.html',
        'camera_trap_styles.css','camera_trap_interactions.js','photo_training_content.html',
        'photo_training_styles.css','photo_training_math.js','photo_training_interactions.js',
+       'ml_guide_content.html','ml_guide_styles.css','ml_guide_interactions.js',
+       'ml_resources_content.html',
        'LICENSE.txt','SPECIESNET_NOTES.md','assets/photos.json','assets/CAMERA_TRAP_SOURCES.md',
        'assets/camera_trap_equipment.json','assets/camera_trap_mounted.jpg','results/predictions.json']
 for relative in files:copy(relative)

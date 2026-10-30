@@ -37,6 +37,16 @@
    saved photo in the mini lab on the same tab. Change conditions and cutoffs,
    inspect crops, and reveal genuine recorded classifications. The underwater
    light calculation illustrates optics; it is not underwater model evidence.
+   Continue to **Success & gotchas** for practical habits, failure modes,
+   limitations, and when a simpler method or better evidence is needed. The
+   **accuracy trap** uses chosen classroom counts, not measured lab performance:
+   compare 99% accuracy/0% recall, then the two presets with the same 10 animal
+   and 90 empty frames. Discuss false alarms, missed animals, and undefined
+   precision when nothing is flagged. Follow the seven learning resources and
+   five camera-trap collections for next projects. LILA links photos, human
+   annotations, and separate versioned MegaDetector JSON; begin with a few
+   licensed files, not a full archive. Many public collections overlap
+   MegaDetector training data and cannot serve as an unbiased benchmark.
 
 ## Before the visit
 

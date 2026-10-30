@@ -20,6 +20,8 @@ class BundleRenderingTests(unittest.TestCase):
         self.assertNotIn("__CAMERA_TRAP_", html)
         self.assertNotIn("__INFERENCE_CSS__", html)
         self.assertNotIn("__PHOTO_TRAINING_", html)
+        self.assertNotIn("__ML_GUIDE_", html)
+        self.assertNotIn("__ML_RESOURCES_", html)
 
 
 if __name__ == "__main__":

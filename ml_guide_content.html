@@ -1,0 +1,66 @@
+<section class="ml-guide" id="mlSuccessGuide" aria-labelledby="mlPracticeTitle">
+ <div class="eyebrow">Build carefully · test honestly · keep checking</div>
+ <h2 id="mlPracticeTitle">How to make machine learning useful</h2>
+ <p class="ml-guide-lead">A model is one part of a working system. Success depends on the question, photographs, checked answers, evaluation, and people using the result. A more complicated network cannot repair missing evidence or an unfair test.</p>
+
+ <ol class="ml-guide-steps" aria-label="Six habits for successful machine learning">
+  <li><span aria-hidden="true">1</span><div><h3>Define success before training</h3><p>Ask a specific question: find animal visits, identify a species, or locate an object? Compare with a simple rule or manual review. Decide which mistakes matter more: extra photographs to review or missed animals.</p></div></li>
+  <li><span aria-hidden="true">2</span><div><h3>Collect the evidence you will need</h3><p>Use permitted, representative images with checked labels. Include empty frames, rare species, day/night views, difficult poses, and expected cameras. Correct wrong labels; more copies of one easy encounter do not create diverse evidence.</p></div></li>
+  <li><span aria-hidden="true">3</span><div><h3>Split encounters before learning</h3><p>Keep neighboring frames, duplicates, and crops from one visit together. Hold out camera sites when testing a new location. Train on training data, choose settings on validation data, and use an untouched test set for the final check. <a href="https://developers.google.com/machine-learning/crash-course/overfitting/dividing-datasets" target="_blank" rel="noopener noreferrer">Why separate the sets?</a></p></div></li>
+  <li><span aria-hidden="true">4</span><div><h3>Change one thing, then measure</h3><p>Watch training and validation loss, inspect mistakes by species and condition, and record each experiment. Choose a checkpoint and cutoff using validation evidence. Repeatedly tuning against the test set makes it another validation set.</p><button type="button" data-ml-train>Return to the trainable CNN →</button></div></li>
+  <li><span aria-hidden="true">5</span><div><h3>Keep the whole recipe consistent</h3><p>Save the model version, class order, resize/padding, color channels, scaling, and thresholds. Preserve exact input and crop hashes. Different preprocessing or swapped class names can spoil otherwise good weights.</p></div></li>
+  <li><span aria-hidden="true">6</span><div><h3>Review, monitor, and retest</h3><p>Check uncertain results and a sample of apparently empty frames. Log corrections and watch new sites, seasons, and cameras for changes. Retest after changing the model or pipeline; a past score does not guarantee future performance.</p></div></li>
+ </ol>
+
+ <section class="ml-guide-metrics" id="mlMetricsLab" aria-labelledby="mlMetricsTitle">
+  <div class="eyebrow">Interactive reasoning · illustrative counts</div>
+  <h3 id="mlMetricsTitle">Can 99% accuracy still miss every animal?</h3>
+  <p>Yes. Imagine 100 checked photographs: 99 empty and one with an animal. Always saying “empty” is 99% accurate and finds none of the animals. Here we count <strong>whole-image animal presence</strong>; evaluating box locations also needs a stated overlap and matching rule.</p>
+  <p class="ml-guide-note">These counts are chosen classroom examples, not measured results from this lab and not a simulation of a real detection threshold. The two tradeoff presets use the same 10 animal / 90 empty photographs. The other presets change the class balance.</p>
+  <div class="ml-guide-presets" role="group" aria-label="Illustrative classification examples">
+   <button type="button" data-ml-preset="all-empty" aria-pressed="true">99% accurate, no animals found</button>
+   <button type="button" data-ml-preset="balanced" aria-pressed="false">A balanced collection</button>
+   <button type="button" data-ml-preset="rare-recall" aria-pressed="false">Find more animals</button>
+   <button type="button" data-ml-preset="stricter" aria-pressed="false">Fewer false alarms</button>
+  </div>
+  <div class="ml-guide-metrics-layout">
+   <div class="ml-guide-count-controls" aria-label="Change the illustrative checked counts">
+    <label for="mlCountTP">Animals correctly flagged · TP <output id="mlCountTPValue" for="mlCountTP">0</output></label><input id="mlCountTP" type="range" min="0" max="100" step="1" value="0">
+    <label for="mlCountFN">Animals missed · FN <output id="mlCountFNValue" for="mlCountFN">1</output></label><input id="mlCountFN" type="range" min="0" max="100" step="1" value="1">
+    <label for="mlCountFP">Empty frames wrongly flagged · FP <output id="mlCountFPValue" for="mlCountFP">0</output></label><input id="mlCountFP" type="range" min="0" max="100" step="1" value="0">
+    <label for="mlCountTN">Empty frames correctly rejected · TN <output id="mlCountTNValue" for="mlCountTN">99</output></label><input id="mlCountTN" type="range" min="0" max="100" step="1" value="99">
+   </div>
+   <div class="ml-guide-matrix-wrap"><table class="ml-guide-matrix"><caption>Compare predictions with checked answers</caption><thead><tr><th scope="col">Checked answer</th><th scope="col">Predict animal</th><th scope="col">Predict empty</th></tr></thead><tbody><tr><th scope="row">Animal present</th><td class="ml-guide-correct"><strong id="mlMatrixTP">0</strong><span>True positives</span></td><td class="ml-guide-missed"><strong id="mlMatrixFN">1</strong><span>False negatives</span></td></tr><tr><th scope="row">Empty frame</th><td class="ml-guide-false"><strong id="mlMatrixFP">0</strong><span>False positives</span></td><td class="ml-guide-correct"><strong id="mlMatrixTN">99</strong><span>True negatives</span></td></tr></tbody></table></div>
+  </div>
+  <div class="ml-guide-metric-values" aria-label="Calculated metrics from the illustrative counts"><div><span>Checked photographs</span><output id="mlMetricTotal">100</output></div><div><span>Accuracy</span><output id="mlMetricAccuracy">99%</output><small>(TP + TN) / total</small></div><div><span>Precision</span><output id="mlMetricPrecision">Not defined</output><small>TP / (TP + FP)</small></div><div><span>Recall</span><output id="mlMetricRecall">0%</output><small>TP / (TP + FN)</small></div><div><span>F1</span><output id="mlMetricF1">0%</output><small>2TP / (2TP + FP + FN)</small></div></div>
+  <p id="mlMetricsMeaning" class="ml-guide-metric-meaning" role="status">High accuracy can hide missed animals. Compare precision and recall, not just the percentage of all frames classified correctly.</p>
+  <p class="ml-guide-note">“Not defined” means the formula's denominator is zero, not that performance is perfect. Precision asks how many flagged frames actually contain animals; recall asks how many real animal frames were found. <a href="https://developers.google.com/machine-learning/crash-course/classification/accuracy-precision-recall" target="_blank" rel="noopener noreferrer">Metric definitions</a>.</p>
+ </section>
+
+ <section class="ml-guide-subsection" aria-labelledby="mlGotchasTitle">
+  <h3 id="mlGotchasTitle">Common gotchas: a symptom, a reason, a better check</h3>
+  <div class="ml-guide-gotchas">
+   <details><summary>“The test score is amazing, but a new camera fails.”</summary><p><strong>Possible reason:</strong> related frames leaked across splits, or the model learned backgrounds. <strong>Better check:</strong> separate encounters and hold out sites. Camera-trap research documents this new-location problem.</p><button type="button" class="question-demo" data-qa-demo="habitat">Inspect a difficult real camera scene →</button></details>
+   <details><summary>“Training improves while validation gets worse.”</summary><p><strong>Possible reason:</strong> overfitting. <strong>Better check:</strong> inspect both curves, simplify or regularize the model, improve representative data, and choose a checkpoint using validation evidence. More steps are not automatically better.</p><button type="button" data-ml-train>Compare the CNN's learning curves →</button></details>
+   <details><summary>“The crop classifier confidently names the wrong species.”</summary><p><strong>Possible reason:</strong> a poor detector box, a missing species, or a misleading crop. <strong>Better check:</strong> inspect the original, box, and exact crop. Check each pipeline stage; multiplying two model scores does not establish a correct-identification probability.</p><button type="button" class="question-demo" data-qa-demo="limits">Follow a genuine model mistake →</button></details>
+   <details><summary>“It works on clear photos, then misses night visitors.”</summary><p><strong>Possible reason:</strong> different lighting, blur, tiny subjects, or new camera imagery. <strong>Better check:</strong> evaluate real examples from those conditions. Artificial blur and grayscale teach useful questions but cannot establish infrared performance.</p><button type="button" class="question-demo" data-qa-demo="camera">Test pixels and blur on saved results →</button></details>
+  </div>
+ </section>
+
+ <section class="ml-guide-subsection" aria-labelledby="mlLimitsTitle">
+  <h3 id="mlLimitsTitle">What machine learning cannot promise</h3>
+  <div class="ml-guide-limits">
+   <article><h4>A confident answer can be wrong.</h4><p>A score is not proof. Check calibration before treating scores as reliable probabilities. The classroom CNN must choose among three labels; an unfamiliar fox can still receive a confident deer, raccoon, or coyote guess.</p></article>
+   <article><h4>Missing information stays missing.</h4><p>A model cannot reliably reconstruct hidden evidence. Boxes do not count unique individuals, establish population size, explain a cause, or demonstrate thermal/underwater ability. Each new task needs appropriate measurements and evaluation.</p></article>
+   <article><h4>People and context remain essential.</h4><p>A person box does not identify someone or establish their intentions. Respect image permissions and privacy. Conservation conclusions also need survey effort, camera placement, and ecological expertise.</p></article>
+  </div>
+ </section>
+
+ <section class="ml-guide-decision" aria-labelledby="mlNotUseTitle">
+  <h3 id="mlNotUseTitle">When should you choose another approach?</h3>
+  <ul><li><strong>A simpler method meets the need:</strong> a small collection may be faster to review manually; predictable rules may solve a well-defined task.</li><li><strong>You cannot assemble suitable evidence:</strong> pause if permission, representative labels, or an independent evaluation are missing.</li><li><strong>Mistakes cannot be safely checked:</strong> do not hand consequential decisions to an unvalidated model with no review or fallback.</li><li><strong>The task asks for information the system cannot provide:</strong> use better sensors, field observations, or a different research design.</li></ul>
+  <p>Useful automation has a way to say “uncertain,” ask a person, and recover from mistakes. <a href="https://developers.google.com/machine-learning/guides/rules-of-ml" target="_blank" rel="noopener noreferrer">Google's Rules of ML</a> recommends beginning with clear metrics and simple approaches.</p>
+ </section>
+
+ <details class="ml-guide-references"><summary>References behind this practical guide</summary><ul><li><a href="https://developers.google.com/machine-learning/crash-course/overfitting/dividing-datasets" target="_blank" rel="noopener noreferrer">Google: training, validation, and test sets</a></li><li><a href="https://developers.google.com/machine-learning/crash-course/classification/accuracy-precision-recall" target="_blank" rel="noopener noreferrer">Google: accuracy, precision, recall, and F1</a></li><li><a href="https://developers.google.com/machine-learning/guides/rules-of-ml" target="_blank" rel="noopener noreferrer">Google: Rules of Machine Learning</a></li><li><a href="https://arxiv.org/abs/1807.04975" target="_blank" rel="noopener noreferrer">Beery, Van Horn, and Perona: Recognition in Terra Incognita (ECCV 2018)</a></li><li><a href="https://scikit-learn.org/stable/modules/calibration.html" target="_blank" rel="noopener noreferrer">scikit-learn: probability calibration</a></li><li><a href="https://www.nist.gov/itl/ai-risk-management-framework" target="_blank" rel="noopener noreferrer">NIST: AI Risk Management Framework</a></li></ul></details>
+</section>

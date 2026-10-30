@@ -1,5 +1,29 @@
 # Validation performed — expanded two-model edition
 
+## Practical ML guide and public data resources - October 30, 2026
+
+- Added Tab 3's successful-training habits, gotchas, limitations, and cases
+  where ML should be replaced or deferred. Existing genuine investigations and
+  a direct jump to the browser CNN connect the guidance to working examples.
+- Added an explicitly illustrative frame-level confusion-matrix calculator.
+  Its 99%-accuracy preset finds zero animals and has undefined precision.
+  Two other presets retain the same 10 animal/90 empty balance while showing
+  different recall/false-alarm tradeoffs. No model performance is invented.
+- Five new math checks cover known metrics, class imbalance, comparable
+  populations, zero denominators, immutable inputs, and invalid counts. All
+  31 Python checks and 14 Node checks passed. The self-contained export and
+  approved 549-file deployment package preserve saved-input/crop hashes and
+  exclude personal photos, model-download provenance, and the local environment.
+- Verified seven primary learning resources and five LILA collections with
+  anonymous public MegaDetector ZIP downloads. The guide separates photos,
+  human labels, and AI predictions; it records model-version/RDE caveats,
+  training-data overlap, licenses, archive sizes, and a small-subset procedure.
+  No image collection or prediction archive was downloaded into the project.
+- Browser checks confirmed all metric presets and keyboard sliders, undefined
+  metrics with empty counts, genuine question-linked experiments, the direct
+  CNN jump, and accessible section navigation without disrupting the tab hash.
+  At 390 px there was no horizontal overflow; no console warnings/errors.
+
 ## Convolutional training and conservation lesson - October 30, 2026
 
 - Expanded the conservation introduction and added two existing licensed

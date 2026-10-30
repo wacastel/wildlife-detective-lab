@@ -80,6 +80,16 @@ network, API key, server, or model download is required for this mode.
 3. **Questions & investigations:** open an answer and use its investigation button
    to load a related genuine saved example in the question tab's mini lab.
    Its condition chooser, detection cutoff, crop selection, and species reveal
+   work alongside a practical guide to training, evaluation, common gotchas,
+   limitations, and when to choose another method. A clearly illustrative
+   confusion-matrix calculator shows why 99% accuracy can hide zero animal
+   recall, with precision/recall tradeoffs and honest undefined metrics.
+   Section buttons jump to the guide, seven primary learning resources,
+   and five public camera-trap collections with published MegaDetector JSON
+   downloads. Dataset instructions distinguish photographs, human annotations,
+   and model predictions, explain version/RDE/training-overlap caveats, and
+   start with small subsets. External references need internet access.
+   The original question-linked experiments
    work offline. The underwater light calculation is labeled illustrative;
    these land-camera examples do not establish thermal or underwater performance.
 
@@ -357,6 +367,11 @@ a perfectly descending score curve.
   only. Actual feature maps, gradients, parameter updates, and update history
   are inspectable. The model lives only in browser memory. Its outputs are
   separate from genuine saved MegaDetector and SpeciesNet output in the lab.
+- `ml_guide_content.html`, `ml_guide_styles.css`, `ml_guide_interactions.js`,
+  `ml_resources_content.html`: Tab 3's practical ML guide, illustrative metric
+  arithmetic, primary learning links, and verified camera-trap download guide.
+  The metrics do not claim to measure this lab's model accuracy. Public data
+  and prediction archives are linked, not automatically downloaded or imported.
 - `assets/camera_trap_equipment.json`: credit, CC BY 2.0 license, source, and
   exact hash for the equipment photograph. It is a teaching asset, not another
   inference source.
