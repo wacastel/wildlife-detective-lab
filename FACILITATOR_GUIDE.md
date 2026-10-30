@@ -4,16 +4,27 @@
 
 ## Use the three tabs
 
-1. **How computer vision works** opens first. Start with conservation and the
-   real tree-mounted camera photo. Toggle Day/Night and move the illustrated
+1. **How computer vision works** opens first. Start with biodiversity, food-web
+   connections, connected habitats, and why conservation decisions need evidence.
+   The expanded introduction has five real camera-trap photographs, including
+   two additional night frames. Explain how AI speeds up review while people
+   check difficult records and account for camera placement and survey effort.
+   At the real tree-mounted camera photo, toggle Day/Night and move the illustrated
    animal past the camera; distinguish sensing a change from lighting a photo.
-   Let children change pixels, move a small filter, and train the classroom
-   photo classifier for one, twenty, or a hundred steps. Compare its prediction,
-   loss, and colored weight grid. The six training photos supply gradients;
-   three held-out photos are checks only. Inspect the exact update for one cell
-   and color channel. Changing the photo or learning rate alone changes no
-   weights. Reset returns all 147 parameters to zero. These are calculated
-   classroom outputs; MegaDetector and SpeciesNet keep their existing weights.
+   Section 02 converts images to numeric inputs and demonstrates fixed-filter
+   arithmetic. This preparation and forward calculation belong to both training
+   and inference. Changing those pixels does not train a filter.
+   Next, train the real classroom CNN for one, ten, or fifty steps. Its 5,083
+   parameters include two convolutional layers (four and eight 3 × 3 filters),
+   ReLU, mean pooling, and dense layers with 16 hidden units and three outputs.
+   Compare predictions, loss, learned filters, and actual feature maps. Follow
+   the forward pass, error, backpropagation, and exact parameter update; use the
+   update-history slider to revisit a recorded step. Twelve training photos
+   supply gradients; nine validation photos are checks only. In this full-batch
+   lesson, one update is also one epoch. Changing the displayed photo or learning
+   rate alone changes no weights. Reset restores the same seeded random weights
+   and initial biases. These are calculated classroom outputs; MegaDetector and
+   SpeciesNet keep their existing pretrained weights.
    Expand the separate Python examples when useful. In Section 06, choose a real animal photo and step through
    the views. Compare the exact prepared RGB image with the separately labeled
    edge illustration, then inspect real boxes, the cutoff, crop, and saved label.
@@ -49,7 +60,7 @@ folder on its own.
 
 | Time | Action and question |
 |---|---|
-| 0–3 minutes | In How computer vision works, follow a real photo through one classroom training update. Compare the prediction, error, and weight equation; repeat 20 steps and inspect a held-out photo. Ask whether a lower training loss guarantees a correct unfamiliar prediction. |
+| 0–3 minutes | In How computer vision works, follow a real photo through one CNN training update. Compare the prepared input, feature maps, prediction, error, and parameter equation; repeat 10 steps and inspect a validation photo. Use update history to compare the network before and after learning. Ask whether lower training loss guarantees a correct unfamiliar prediction. |
 | 3–5 minutes | Open Detective lab and hide the basic source photo's boxes. “Where is the animal? Draw a box. What kind is it?” Finding a location and naming a species are different tasks. |
 | 5–7 minutes | Reveal MegaDetector's genuine saved boxes, or explicitly run the local detector. Check the broad category, location, and box extent. |
 | 7–10 minutes | Select an accepted animal crop and click Identify this crop. Read SpeciesNet's labels and taxonomic rank; compare with the separate human label. Explain the two scores have different jobs. |
@@ -93,8 +104,27 @@ more layers. Reserve separate camera sites for validation and a final test.
 Ask what a three-species classifier might say about a fox: a confident known
 label could be wrong. Keep human review and evaluate unfamiliar animals.
 The app's expandable explanations and SPECIESNET_NOTES.md link Google's
-recommended DIY fine-tuning tutorial. This lab runs inference and does not
-train on the teaching photos.
+recommended DIY fine-tuning tutorial. MegaDetector and SpeciesNet run inference
+with their existing pretrained weights. The separate browser CNN really trains
+on 12 teaching photos, while nine validation photos supply no gradients. It
+predicts one of three teaching labels for a whole image rather than drawing
+animal boxes or reproducing SpeciesNet's much larger vocabulary.
+
+**Use the training visuals as measurements.** Select a filter, input channel,
+and feature-map location to connect its weighted sum with the calculated response.
+The forward pass uses the current parameters. Cross-entropy compares its output
+with the checked label. Backpropagation uses the chain rule to calculate gradients,
+and the optimizer subtracts learning rate times gradient from each parameter.
+Let children train one step first, then a group of steps. Inspect an earlier
+recorded update to compare what changed. Reset restores a repeatable seeded
+initialization; an untrained network's outputs need not be equal.
+
+Compare training and validation curves without promising that both improve.
+This tiny collection can encourage background or lighting shortcuts, and the
+teaching split does not establish independent camera sites or field accuracy.
+Because the validation photos are repeatedly inspected, they are not an
+untouched final test set. A real conservation model still needs a much larger,
+representative collection and an independent final evaluation.
 
 A useful cutoff is selected on independently labeled validation data using a stated precision/recall or mistake-cost goal, then checked on an untouched test set. The default 0.30 is a demo setting. See HOW_IT_WORKS_AND_QUESTIONS.md and README.md for the full method and optional evaluator.
 

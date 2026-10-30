@@ -8,13 +8,21 @@ Google Cloud may keep ordinary request/access logs, which do not include image
 bodies. Students should upload only photographs they have permission to share.
 The local app and its private `user_photos/` folder keep their original behavior.
 
-## Deployed student edition — October 29, 2026
+## Deployed student edition — October 30, 2026
 
 - [Student website](https://wildlife-detective-lab-882550979615.us-central1.run.app/)
 - Project: `wildlife-lab-wc246`; region: `us-central1`.
-- Service: `wildlife-detective-lab`; verified revision: `wildlife-detective-lab-00003-fpc`.
-- Image digest: `sha256:e05f6a0de218e0dac35036838bf68163cc9559911bc9c0082982372a74302312`.
-- Build: `e63e73c6-b1fb-4713-ad70-19fa71a2be5a`.
+- Service: `wildlife-detective-lab`; verified revision: `wildlife-detective-lab-00006-cx5`.
+- Image digest: `sha256:6003513bb6c6badbf9e051f9defe7a9ca438f76a9e3936592c9968c930bbe071`.
+- Build: `7218493f-36ab-41b6-8bf0-152d688a48aa`.
+
+The October 30 update expands the conservation introduction, adds two more
+existing camera-trap photos to its gallery, clarifies pixel preparation during
+training and inference, and replaces the color-feature trainer with a genuine
+5,083-parameter CNN. Its 12 training and nine validation photos, activations,
+gradients, history, and weight updates are processed in the student's browser.
+This training exercise creates no server-side training job and leaves the two
+pretrained wildlife models unchanged.
 
 Public invocation is enabled for students without Google accounts. Both the
 project-number URL above and the legacy default address
@@ -22,7 +30,7 @@ project-number URL above and the legacy default address
 The service and revision both cap scaling at two instances; minimum instances
 remain zero. The runtime account has no project roles.
 
-The private real-photo check produced an animal detection score of 0.962498
+The initial private real-photo check produced an animal detection score of 0.962498
 and a genuine SpeciesNet top suggestion of white-tailed deer, score 0.997096.
 Detector request time was 1.92 seconds; the first classifier request took
 77.73 seconds while its process/model loaded. Allow roughly one to two minutes

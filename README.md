@@ -44,17 +44,28 @@ browser. All images, boxes, crops, classifier
 results, explanations, and student Q&A are embedded. No Python, account,
 network, API key, server, or model download is required for this mode.
 
-1. **How computer vision works:** start with wildlife conservation, how camera
-   traps gather evidence, and how AI helps people review large photo collections.
-   Explore credited day, night, and winter camera-trap photos, then open the same
-   images in the detective lab to inspect genuine model results.
+1. **How computer vision works:** start with biodiversity, ecosystem connections,
+   habitat protection, and how camera-trap evidence informs conservation.
+   Explore five credited day, night, and winter camera-trap photographs, then
+   open the same images in the detective lab to inspect genuine model results.
+   Learn how AI speeds up large photo reviews while people check mistakes,
+   survey effort, repeated visits, and the limits of ecological conclusions.
    See a real tree-mounted camera and try its illustrated day/night trigger.
-   Then change a small pixel grid, move a 3 × 3 filter, and train a small
-   classroom classifier on six real deer, raccoon, and coyote photographs.
-   Follow prediction bars, cross-entropy loss, color-cell weights, and their
-   numerical gradient updates. Three held-out photos supply no gradients.
+   Section 02 explains why images become numeric tensors during both training
+   and inference. Change a pixel grid and move a fixed 3 × 3 filter to understand
+   a forward calculation; those controls do not train its weights.
+   Then train a real compact convolutional neural network (CNN) from scratch
+   on 12 deer, raccoon, and coyote photos. Its 5,083 adjustable parameters include
+   two convolutional layers with four and eight filters, mean pooling, and dense
+   layers with 16 hidden units and three outputs. Inspect the actual prepared
+   24 × 24 RGB input, learned filters, feature maps, cross-entropy loss,
+   backpropagation signals, and numerical parameter updates. Train one, ten,
+   or fifty full-batch steps; inspect recorded updates or stop after a step.
+   Nine validation photos supply no gradients. Reset restores the same seeded
+   random weight initialization, rather than setting every weight to zero.
    This browser lesson leaves MegaDetector and SpeciesNet weights unchanged.
-   Read the separate Python model, training, and inference examples too.
+   Its small teaching split does not establish field accuracy or independence
+   between camera sites. Read the Python model, training, and inference examples too.
    Section 06 follows a real deer, raccoon, or coyote photograph through exact
    detector resizing, a labeled edge illustration, genuine saved boxes, an
    adjustable cutoff, an exact animal crop, SpeciesNet labels, and human review.
@@ -339,10 +350,13 @@ a perfectly descending score curve.
   inputs during rendering; recorded inputs and model results remain unchanged.
 - `photo_training_content.html`, `photo_training_styles.css`,
   `photo_training_interactions.js`, `photo_training_math.js`: Section 04's real
-  photo classroom classifier. It averages RGB pixels within a 4 × 4 grid and
-  trains 144 softmax weights plus three biases with six-photo batch gradients.
-  The model lives only in browser memory. Its outputs are separate from the
-  genuine saved MegaDetector and SpeciesNet outputs in the detective lab.
+  photo classroom CNN. It trains 5,083 parameters on 24 × 24 RGB tensors using
+  two convolutional layers (four and eight 3 × 3 filters), ReLU, two mean-pooling
+  stages, and dense layers with 16 hidden units and three outputs. Twelve
+  training photos supply full-batch gradients; nine validation photos are checks
+  only. Actual feature maps, gradients, parameter updates, and update history
+  are inspectable. The model lives only in browser memory. Its outputs are
+  separate from genuine saved MegaDetector and SpeciesNet output in the lab.
 - `assets/camera_trap_equipment.json`: credit, CC BY 2.0 license, source, and
   exact hash for the equipment photograph. It is a teaching asset, not another
   inference source.

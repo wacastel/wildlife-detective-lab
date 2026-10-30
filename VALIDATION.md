@@ -1,5 +1,40 @@
 # Validation performed — expanded two-model edition
 
+## Convolutional training and conservation lesson - October 30, 2026
+
+- Expanded the conservation introduction and added two existing licensed
+  camera-trap frames with their credits. Section 02 distinguishes pixel encoding
+  and forward filtering (both training and inference) from labels, loss,
+  gradients, and optimizer updates (training).
+- The real browser CNN takes 24 x 24 RGB through two learned convolutions
+  (four/eight filters), ReLU and mean pooling, a 288-to-16 dense hidden layer,
+  and three class scores. All 5,083 parameters are trainable. Twelve photos
+  supply full-batch gradients; nine validation photos supply none. These
+  curated sets are a classroom experiment, not an independent field benchmark.
+- Nine Node tests passed: exhaustive numerical gradients on a small CNN,
+  known intermediates, batch averaging, updates in all layers, loss reduction,
+  immutable snapshots, stable extreme logits, and invalid inputs. An independent
+  float64 PyTorch comparison matched all intermediates, logits, loss, and every
+  weight/bias gradient; the largest absolute difference was 4.44e-16.
+- All 23 Python tests passed. Section 03's Python classifier parses and now
+  uses the same layer sizes. The offline page reuses hash-verified saved inputs
+  and crop results; the wildlife models and their predictions are unchanged.
+- Browser training began at loss 1.09259 (training) and 1.11450 (validation).
+  After 51 updates at rate 0.05, losses were 0.47074 and 1.48405, with accuracies
+  83.3% and 44.4%. These are classroom calculations, not wildlife performance.
+  Viewing step zero and a validation photo changed no current weights; training
+  then correctly continued from step 51 to 52. Stop interrupted a requested
+  group, and Reset reproduced the seeded initial network.
+- Checked both convolution layers, zero-padded corner arithmetic, prediction
+  bars, loss, before/after maps, gradient summaries, and exact parameter updates.
+  At 390 px there was no horizontal overflow. Browser warnings/errors: none.
+- Published revision `wildlife-detective-lab-00006-cx5` after authenticated page
+  and model-availability checks. Both default service addresses return public
+  status successfully. On the public site, ten actual CNN updates produced
+  training loss 1.02142 and validation loss 1.09813. History returned to step
+  zero without changing the current step ten. Five gallery photos and the
+  revised Section 02 were present; browser warnings/errors remained absent.
+
 ## Public Google Cloud student edition — October 29, 2026
 
 - Deployed the live CPU edition in a new dedicated personal project,
