@@ -23,6 +23,13 @@
   metrics with empty counts, genuine question-linked experiments, the direct
   CNN jump, and accessible section navigation without disrupting the tab hash.
   At 390 px there was no horizontal overflow; no console warnings/errors.
+- Published revision `wildlife-detective-lab-00008-j5d`, build
+  `f2c8e9ed-ea20-484d-b10d-fb82e9376039`. The public calculator returned
+  accuracy 99%, recall 0%, and undefined precision for the all-empty preset;
+  the stricter preset returned precision 75% and recall 60%. Seven learning
+  cards and five dataset cards rendered. Both model-availability checks passed;
+  two-instance limits and CPU/RAM settings were preserved. No HTTP 5xx responses
+  or browser warnings/errors were observed during release verification.
 
 ## Convolutional training and conservation lesson - October 30, 2026
 

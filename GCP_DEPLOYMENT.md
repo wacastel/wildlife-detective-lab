@@ -12,9 +12,19 @@ The local app and its private `user_photos/` folder keep their original behavior
 
 - [Student website](https://wildlife-detective-lab-882550979615.us-central1.run.app/)
 - Project: `wildlife-lab-wc246`; region: `us-central1`.
-- Service: `wildlife-detective-lab`; verified revision: `wildlife-detective-lab-00007-vlh`.
-- Image digest: `sha256:bda6bb3b9d18f4b909f6111c4beac2b23cb373809275c00da7693988156828e0`.
-- Build: `6106f42f-d1c5-4666-b088-0f2691bfb9a9`.
+- Service: `wildlife-detective-lab`; verified revision: `wildlife-detective-lab-00008-j5d`.
+- Image digest: `sha256:24a0841e7e821fe0f6f78df1f5cbaf5c3474ecc99fa985fc52208f397087d63e`.
+- Build: `f2c8e9ed-ea20-484d-b10d-fb82e9376039`.
+
+Tab 3 now includes practical ML success habits, failure modes, limitations,
+when to use another approach, and a browser-only illustrative confusion-matrix
+calculator. Seven primary learning resources and five LILA dataset collections
+link to photos, human annotations, and separate versioned MegaDetector outputs.
+The guide explains licenses, RDE, training overlap, and small-subset downloads;
+it downloads no external collection automatically. Its four source fragments
+are part of the approved 549-file build package. Public browser checks verified
+the calculator, section navigation, source cards, and genuine investigation
+links; both wildlife models remain available with the existing capacity limits.
 
 The October 30 update expands the conservation introduction, adds two more
 existing camera-trap photos to its gallery, clarifies pixel preparation during
