@@ -16,7 +16,8 @@
   immutable snapshots, stable extreme logits, and invalid inputs. An independent
   float64 PyTorch comparison matched all intermediates, logits, loss, and every
   weight/bias gradient; the largest absolute difference was 4.44e-16.
-- All 23 Python tests passed. Section 03's Python classifier parses and now
+- All 31 Python tests passed after merging the current phone-upload fixes.
+  Section 03's Python classifier parses and now
   uses the same layer sizes. The offline page reuses hash-verified saved inputs
   and crop results; the wildlife models and their predictions are unchanged.
 - Browser training began at loss 1.09259 (training) and 1.11450 (validation).
@@ -28,12 +29,18 @@
 - Checked both convolution layers, zero-padded corner arithmetic, prediction
   bars, loss, before/after maps, gradient summaries, and exact parameter updates.
   At 390 px there was no horizontal overflow. Browser warnings/errors: none.
-- Published revision `wildlife-detective-lab-00006-cx5` after authenticated page
+- Published final combined revision `wildlife-detective-lab-00007-vlh` after page
   and model-availability checks. Both default service addresses return public
   status successfully. On the public site, ten actual CNN updates produced
   training loss 1.02142 and validation loss 1.09813. History returned to step
   zero without changing the current step ten. Five gallery photos and the
   revised Section 02 were present; browser warnings/errors remained absent.
+- Preserved the phone-photo fixes merged from current GitHub main. A 48.77 MP
+  synthetic gray upload was accepted by the final public detector endpoint,
+  reduced to 1280 x 960, and its returned exact-input hash verified. No personal
+  photographs were uploaded for this check. The final image-only deployment
+  retained public access, two-instance limits, zero minimum instances, and
+  two CPUs/4 GiB per instance.
 
 ## High-resolution phone uploads — October 29, 2026
 

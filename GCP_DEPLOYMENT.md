@@ -12,9 +12,9 @@ The local app and its private `user_photos/` folder keep their original behavior
 
 - [Student website](https://wildlife-detective-lab-882550979615.us-central1.run.app/)
 - Project: `wildlife-lab-wc246`; region: `us-central1`.
-- Service: `wildlife-detective-lab`; verified revision: `wildlife-detective-lab-00006-cx5`.
-- Image digest: `sha256:6003513bb6c6badbf9e051f9defe7a9ca438f76a9e3936592c9968c930bbe071`.
-- Build: `7218493f-36ab-41b6-8bf0-152d688a48aa`.
+- Service: `wildlife-detective-lab`; verified revision: `wildlife-detective-lab-00007-vlh`.
+- Image digest: `sha256:bda6bb3b9d18f4b909f6111c4beac2b23cb373809275c00da7693988156828e0`.
+- Build: `6106f42f-d1c5-4666-b088-0f2691bfb9a9`.
 
 The October 30 update expands the conservation introduction, adds two more
 existing camera-trap photos to its gallery, clarifies pixel preparation during
@@ -23,6 +23,11 @@ training and inference, and replaces the color-feature trainer with a genuine
 gradients, history, and weight updates are processed in the student's browser.
 This training exercise creates no server-side training job and leaves the two
 pretrained wildlife models unchanged.
+The combined release preserves the newer 100-megapixel, 20 MiB upload support.
+A 48.77 MP synthetic gray upload was accepted on the public service, reduced
+to 1280 x 960 for genuine detection, and checked against the returned exact-input
+hash. No personal photo was uploaded for this verification. The final image
+update preserved public access, both hostnames, and all capacity settings.
 
 Public invocation is enabled for students without Google accounts. Both the
 project-number URL above and the legacy default address
