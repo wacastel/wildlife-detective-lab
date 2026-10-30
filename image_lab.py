@@ -7,7 +7,12 @@ import math
 
 from PIL import Image, ImageDraw, ImageEnhance, ImageFilter, ImageOps
 
-Image.MAX_IMAGE_PIXELS = 24_000_000
+MAX_PHOTO_BYTES = 20 * 1024 * 1024
+MAX_PHOTO_PIXELS = 100_000_000
+# Allow the base64 image plus its small JSON envelope, below Cloud Run's
+# 32 MiB HTTP/1 request limit. The decoded photo has its own byte limit.
+MAX_UPLOAD_BODY_BYTES = 4 * ((MAX_PHOTO_BYTES + 2) // 3) + 64 * 1024
+Image.MAX_IMAGE_PIXELS = MAX_PHOTO_PIXELS
 
 DEFAULTS = dict(brightness=1.0, blur=0.0, resolution=1280,
                 scale=1.0, occlusion=0.0, grayscale=False)
@@ -46,6 +51,13 @@ def load_photo(path_or_file) -> Image.Image:
         # Some phone JPEGs include auxiliary frames and are identified as MPO.
         # Analyze the primary photograph, with its normal EXIF orientation.
         im.seek(0)
+        if im.width * im.height > MAX_PHOTO_PIXELS:
+            raise ValueError("Choose a photo with at most 100 megapixels.")
+        # Shrink newly supported JPEG/MPO inputs before EXIF/RGB copies. Keep
+        # the original decoding path for photos within the former 24 MP cap
+        # so existing saved examples retain their exact inference pixels.
+        if im.width * im.height > 24_000_000:
+            im.draft("RGB", (1280, 1280))
         im = ImageOps.exif_transpose(im).convert("RGB")
         im.thumbnail((1280, 1280), Image.Resampling.LANCZOS)
         return im.copy()

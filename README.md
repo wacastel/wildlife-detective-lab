@@ -190,7 +190,7 @@ The detector can run with only `requirements.txt`; SpeciesNet needs its
 additional requirements. Both status messages are separate. Missing classifier
 dependencies do not turn a saved classification into a live claim. The server
 listens only on the laptop loopback interface; images are not sent to an online
-AI service. Upload limit is 8 MiB and 24 megapixels.
+AI service. Upload limit is 20 MiB and 100 megapixels.
 
 The local app loads saved images as needed from verified local files, keeping
 the initial page small. `offline_demo.html` remains the larger, fully embedded
@@ -215,7 +215,7 @@ one live SpeciesNet classification on the actual laptop you will bring.
 
 1. Put copies of JPEG (`.jpg` or `.jpeg`), PNG, or WebP photos directly in the
    project's **user_photos/** folder. Phone JPEGs with auxiliary MPO frames
-   work too. Each file may be up to **8 MiB and 24 megapixels**. Subfolders
+   work too. Each file may be up to **20 MiB and 100 megapixels**. Subfolders
    and symbolic links are not followed.
 2. Start the existing local app with `.venv/bin/python app.py` and open the
    **Detective lab** tab. Your files appear under **Your photos · user_photos/**

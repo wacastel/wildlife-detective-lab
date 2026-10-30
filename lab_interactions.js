@@ -178,12 +178,12 @@ function liveMessage(message,error=false){$('liveMessage').textContent=message;$
 for(const id of ['brightness','blur','resolution'])$(id).addEventListener('input',()=>{$(id+'Value').textContent=id==='brightness'?`${Number($(id).value).toFixed(2)}×`:`${$(id).value} px`;});
 $('upload').addEventListener('change',async e=>{
  const file=e.target.files[0];if(!file)return;const thisUpload=++uploadRevision;sourceRevision++;uploaded=null;
- if(file.size>8*1024*1024){uploadReading=false;liveMessage('Please choose a photo smaller than 8 MB.',true);e.target.value='';$('uploadName').textContent='Using selected source photo';$('runLive').disabled=!liveAvailable||$('runLive').dataset.busy==='true';return;}
+ if(file.size>20*1024*1024){uploadReading=false;liveMessage('Please choose a photo up to 20 MiB.',true);e.target.value='';$('uploadName').textContent='Using selected source photo';$('runLive').disabled=!liveAvailable||$('runLive').dataset.busy==='true';return;}
  uploadReading=true;$('runLive').disabled=true;
  try{
   const data=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=reject;reader.readAsDataURL(file);});
   const dims=await new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>resolve({width:im.naturalWidth,height:im.naturalHeight});im.onerror=reject;im.src=data;});
-  if(thisUpload!==uploadRevision)return;if(dims.width*dims.height>24000000)throw new Error('Choose a photo with at most 24 megapixels.');uploaded={name:file.name,data,...dims};sourceRevision++;$('uploadName').textContent=`Selected: ${file.name}`;liveMessage(hostingCopy('Upload selected. Run the detector to analyze it; the previous result keeps its original input.','Photo selected in your browser. Run detector sends it to Google Cloud for processing; this app does not save the photo file.'));
+  if(thisUpload!==uploadRevision)return;if(dims.width*dims.height>100000000)throw new Error('Choose a photo with at most 100 megapixels.');uploaded={name:file.name,data,...dims};sourceRevision++;$('uploadName').textContent=`Selected: ${file.name}`;liveMessage(hostingCopy('Upload selected. Run the detector to analyze it; the previous result keeps its original input.','Photo selected in your browser. Run detector sends it to Google Cloud for processing; this app does not save the photo file.'));
  }catch(e){if(thisUpload===uploadRevision){$('uploadName').textContent='Using selected source photo';liveMessage(e.message||'This browser could not read that image. Try JPEG, PNG, or WebP.',true);}}
  finally{if(thisUpload===uploadRevision){uploadReading=false;$('runLive').disabled=!liveAvailable||$('runLive').dataset.busy==='true';}}
 });

@@ -47,7 +47,7 @@
 
 For personal examples, copy JPEG (`.jpg`/`.jpeg`), PNG, or WebP files directly
 into `user_photos/` and run `.venv/bin/python app.py`. Each file may be up to
-8 MiB and 24 megapixels; phone JPEGs with auxiliary MPO frames are supported.
+20 MiB and 100 megapixels; phone JPEGs with auxiliary MPO frames are supported.
 The local app adds them to the photo chooser, checking every 15 seconds while
 the Detective lab tab is visible and when the browser regains focus. Use
 **Refresh photos** for an immediate update without restarting. Selecting a

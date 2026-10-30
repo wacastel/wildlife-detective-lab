@@ -76,6 +76,33 @@ and configures their exact hostnames before the app pages and APIs can be served
 JSON POSTs must come from one of those HTTPS origins. Private folder APIs and local photo
 IDs are unavailable. Public access is enabled separately after verification.
 
+## Update the existing student website
+
+For a code update to the existing service, preserve its current public access,
+approved hostnames, environment variables, runtime account, and capacity limits:
+
+```sh
+WILDLIFE_UPDATE_EXISTING=1 ./deploy_gcp.sh wildlife-lab-wc246 us-central1 wildlife-detective-lab live
+```
+
+This opt-in path checks that the service already exists with the requested
+inference mode and configured hostnames, builds from the same curated source
+tree, and updates only its container image. It does not create service accounts,
+change IAM policies, reset the environment, or rerun the private-first setup.
+Use explicit project and region arguments; this computer's default gcloud
+project may refer to another app. Changing the inference mode requires a
+separate configuration change rather than this image-only update.
+
+Check the approved upload contents without building or changing cloud resources:
+
+```sh
+WILDLIFE_VALIDATE_ONLY=1 WILDLIFE_UPDATE_EXISTING=1 ./deploy_gcp.sh wildlife-lab-wc246 us-central1 wildlife-detective-lab live
+```
+
+After deploying, verify the public photo controls and both real models, then
+record the new build, image digest, and ready revision. The previous verified
+revision remains available for rollback.
+
 ## Verify, then share
 
 With an authenticated token, test `/api/status`, the three tabs,

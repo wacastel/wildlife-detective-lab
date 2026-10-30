@@ -2,7 +2,7 @@
 
 Drop copies of your JPEG (`.jpg` or `.jpeg`), PNG, or WebP photos directly
 inside this folder. Phone JPEGs with an auxiliary image are supported too.
-Each file may be up to 8 MiB and 24 megapixels.
+Each file may be up to 20 MiB and 100 megapixels.
 
 Start the local lab with `.venv/bin/python app.py`, then use the photo-folder
 refresh control in the app. Your photos appear alongside the included

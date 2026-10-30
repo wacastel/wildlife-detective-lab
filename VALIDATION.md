@@ -35,6 +35,26 @@
   zero without changing the current step ten. Five gallery photos and the
   revised Section 02 were present; browser warnings/errors remained absent.
 
+## High-resolution phone uploads — October 29, 2026
+
+- Raised browser, local-folder, and server source-photo limits to 100 megapixels
+  and 20 MiB. The JSON request allowance includes base64 overhead and remains
+  below Cloud Run's 32 MiB HTTP/1 request limit.
+- JPEG/MPO photos above the former 24 MP limit use decoder shrinking before
+  EXIF rotation and RGB copies. Analysis still uses images at most 1280 pixels
+  on the long edge; photos already within the former limit keep their existing
+  decoding path and exact saved-example pixels.
+- Tested all four supplied phone originals locally: three are 5712 × 4284
+  (24,470,208 pixels), explaining the previous rejection. All four detect an
+  animal and produce a genuine SpeciesNet domestic dog result. These private
+  photographs were not added to Git or the deployment build.
+- Added regressions for a 24.47 MP MPO with EXIF rotation, a 48.77 MP upload,
+  files above the former 8 MiB cap, early rejection above the new limits,
+  malformed images, and unchanged bundled-raccoon inference pixels.
+- The full Python suite and six Node training-math checks pass. A full rebuild
+  in a temporary folder verifies all saved detector inputs and crop hashes
+  remain unchanged; the existing saved results and models were preserved.
+
 ## Public Google Cloud student edition — October 29, 2026
 
 - Deployed the live CPU edition in a new dedicated personal project,

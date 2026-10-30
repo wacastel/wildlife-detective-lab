@@ -9,7 +9,9 @@ project=$1
 region=${2:-us-central1}
 service=${3:-wildlife-detective-lab}
 mode=${4:-live}
+update_existing=${WILDLIFE_UPDATE_EXISTING:-0}
 case "$mode" in live|recorded) ;; *) echo "Mode must be live or recorded" >&2; exit 2;; esac
+case "$update_existing" in 0|1) ;; *) echo "WILDLIFE_UPDATE_EXISTING must be 0 or 1" >&2; exit 2;; esac
 case "$project/$region/$service" in *[!a-z0-9/-]*) echo "Use lowercase project, region and service IDs" >&2; exit 2;; esac
 cd "$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
 task_python=${WILDLIFE_PYTHON:-.venv/bin/python}
@@ -89,6 +91,25 @@ PY
 fi
 runtime="wildlife-runtime@$project.iam.gserviceaccount.com"
 builder="wildlife-build@$project.iam.gserviceaccount.com"
+if [ "$update_existing" = 1 ]; then
+  # Refuse an accidental first deployment or an inference-mode change. The
+  # update below replaces only the image and preserves the service's settings.
+  gcloud run services describe "$service" --project "$project" --region "$region" \
+    --format=json --quiet > "$stage/existing-service.json"
+  "$task_python" -B - "$stage/existing-service.json" "$mode" <<'PYUPDATE'
+import json,sys
+service=json.load(open(sys.argv[1]))
+containers=service['spec']['template']['spec']['containers']
+if len(containers)!=1:
+    raise SystemExit('Existing-service updates require one application container.')
+env={item['name']:item.get('value') for item in containers[0].get('env',[])}
+if env.get('WILDLIFE_MODE')!=sys.argv[2]:
+    raise SystemExit('Existing-service updates must preserve WILDLIFE_MODE; choose the current mode.')
+if not env.get('WILDLIFE_PUBLIC_HOST'):
+    raise SystemExit('Existing-service updates require configured WILDLIFE_PUBLIC_HOST.')
+print('Existing service verified; its access policy, environment and capacity settings will be preserved.')
+PYUPDATE
+else
 retry_iam() {
   attempt=1
   delay=2
@@ -112,12 +133,22 @@ done
 if ! gcloud artifacts repositories describe wildlife-lab --project "$project" --location "$region" >/dev/null 2>&1; then
   gcloud artifacts repositories create wildlife-lab --project "$project" --location "$region" --repository-format docker --description "Wildlife Detective Lab container images"
 fi
+fi
 tag=$(date -u +%Y%m%d-%H%M%S)
 image="$region-docker.pkg.dev/$project/wildlife-lab/$service:$tag"
 gcloud builds submit "$stage" --project "$project" --region "$region" --config "$stage/cloudbuild.yaml" \
   --service-account "projects/$project/serviceAccounts/$builder" \
   --default-buckets-behavior regional-user-owned-bucket \
   --substitutions "_IMAGE=$image,_MODE=$mode" --quiet
+if [ "$update_existing" = 1 ]; then
+  gcloud run services update "$service" --project "$project" --region "$region" \
+    --image "$image" --quiet
+  url=$(gcloud run services describe "$service" --project "$project" --region "$region" --format='value(status.url)')
+  echo "Existing deployment updated: $url"
+  echo "Container image: $image"
+  echo "Verify the published page and both real models before announcing the update."
+  exit 0
+fi
 memory=4Gi
 cpu=2
 if [ "$mode" = recorded ]; then memory=1Gi;cpu=1;fi
